@@ -7,16 +7,19 @@ import {
   TextCus,
   TextInputs,
   ViewCus,
+  IconApp,
 } from 'components';
 import { BottomSheetRef } from 'components/BottomSheetAlert/BottomSheetAlert';
 import { useAuth } from 'hooks';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, { useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { InteractionManager } from 'react-native';
-import { BaseStyle } from 'theme';
+import { InteractionManager, Image, View } from 'react-native';
+import { BaseStyle, Colors } from 'theme';
 import { EnumOTP } from 'types';
 import { yupSchemaRegisterPassword } from 'utils';
+import { Images } from 'assets';
+import styles from './styles';
 
 type TFormPassword = {
   password: string;
@@ -78,13 +81,25 @@ export default function ResetPassword() {
   return (
     <HomeLayout
       isForForm
-      textBtn="auth.login"
+      textBtn="auth.continue"
       onPress={handleSubmit(onHandleRegister)}
       styleContent={[BaseStyle.wrapperContentAuth]}
       disabled={!isDirty && !isValid}
       loading={false}
+      iconRight={
+        <View>
+          <IconApp
+            name={IconName.ChevronRight}
+            size={15}
+            color={Colors.white}
+          />
+        </View>
+      }
       isDark>
       <ViewCus mt-30 mx-30>
+        <View style={styles.wrapLock}>
+          <Image source={Images.lock} />
+        </View>
         <TextCus heading1 mt-12 mb-8 useI18n textAlign="center">
           auth.create_password
         </TextCus>

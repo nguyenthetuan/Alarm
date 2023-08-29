@@ -42,7 +42,7 @@ export const Images = {
   carDriverAvatar: require('./images/carDriverAvatar.png'),
   bikeDriverAvatar: require('./images/bikeDriverAvatar.png'),
   arrowUp: require('./images/arrowUp.png'),
-
+  lock: require('./images/lock.png'),
   //
 };
 export const IconName = {

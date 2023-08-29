@@ -31,6 +31,7 @@ export default {
     resend: 'Gửi lại',
     create_account_success: ' Đăng ký thành công',
     wellcome: ' Chào mừng bạn đã đến và trải nghiệm cùng',
+    continue: 'Tiếp tục',
   },
   phone_number: 'Nhập số điện thoại',
   continue: 'Tiếp tục',
@@ -177,15 +178,13 @@ export default {
     choose_gender: 'Chọn giới tính',
   },
   intro: {
-    title_1: 'Đặt hàng trực tiếp từ nhà hàng của chúng tôi',
-    subtitle_1:
-      'Đơn hàng của bạn được chuẩn bị tốt nhất đảm bảo chất lượng sử dụng tại nhà hay tại nhà hàng đều đảm bảo chất lượng',
-    title_2: 'Thanh toán tiện loại nhanh chóng đa dạng',
-    subtitle_2:
-      'Mọi hình thức thanh toán được áp dụng với đơn hàng của bạn, dễ dàng trong quá trình đặt hàng',
-    title_3: 'Giao nhận nhanh chóng từ đội ngũ shipper',
+    title_1: 'Dễ dàng tìm tài xế lái xe',
+    subtitle_1: 'Tài xế đến điểm bắt đầu mà bạn chọn dù ở bất cứ đâu.',
+    title_2: 'Đồng Hành',
+    subtitle_2: 'Là người đồng hành với bạn trên mọi nẻo đường.',
+    title_3: 'Tài xế có hồ sơ minh bạch và nhiều năm kinh nghiệm',
     subtitle_3:
-      'Đội ngũ shipper của nhà hàng được đào tạo chuyên nghiệp, mang đến sự trãi nghiệm tuyệt vời dành cho bạn',
+      'Các tài xế được chọn lọc kỹ lưỡng, nên bạn có thể hoàn toàn yên tâm, tin tưởng.',
   },
   home: {
     title_promotion: 'Ưu đãi hấp dẫn',

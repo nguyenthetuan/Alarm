@@ -212,12 +212,12 @@ export const Navigator = () => {
   useLayoutEffect(() => {
     (async () => {
       const isCheckIntro = await getKeyStore(KEY_CONTEXT.CHECKINTRO);
-      if (isCheckIntro === 'Y') {
-        setInititalRoute(
-          user?.accessToken ? Routes.HomeTabs : Routes.InputPhone,
-        );
-        return true;
-      }
+      // if (isCheckIntro === 'Y') {
+      //   setInititalRoute(
+      //     user?.accessToken ? Routes.HomeTabs : Routes.InputPhone,
+      //   );
+      //   return true;
+      // }
       setInititalRoute(Routes.Intro);
     })();
   }, [user?.accessToken]);

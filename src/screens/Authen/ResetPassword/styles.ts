@@ -214,4 +214,13 @@ export default StyleSheet.create({
   underline: {
     textDecorationLine: 'underline',
   },
+  wrapLock: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.main,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
 });

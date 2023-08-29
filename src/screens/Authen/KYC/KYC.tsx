@@ -283,21 +283,21 @@ export default function KYC() {
       </BottomSheetCommon>
       <BottomSheetCommon ref={refCreateAccount} hideBackdrop={false}>
         <ViewCus style={styles.bgWhite} pb-10>
-          <Icon.ICON_SUCCESS color={Colors.main} />
+          <Icon.ICON_SUCCESS color={Colors.emerald} />
           <ViewCus style={[styles.pdHorzi50, styles.mgVertzi20]}>
             <TextCus
               useI18n
               mb-8
               heading1
               textAlign="center"
-              color={Colors.main}>
+              color={Colors.emerald}>
               auth.create_account_success
             </TextCus>
             <TextCus useI18n textAlign="center" color={Colors.grey85}>
               auth.wellcome
             </TextCus>
             <TextCus textAlign="center" heading4 bold color-black3A>
-              Go Fast
+              Go Ber
             </TextCus>
           </ViewCus>
           <ViewCus style={styles.bottomAction}>

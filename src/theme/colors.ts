@@ -59,10 +59,11 @@ export interface IColors {
   color_bgTab: string;
   stroke: string;
   grey8D: string;
+  emerald: string;
 }
 
 export const Colors: IColors = {
-  main: '#AF0D0E',
+  main: '#F3602B',
   white: '#FFFFFF',
   black: '#000000',
   grey84: '#848589',
@@ -118,4 +119,5 @@ export const Colors: IColors = {
   color_bgTab: '#FFCECE',
   stroke: '#29CB90',
   grey8D: '#838D8D',
+  emerald: '#47CB7F',
 };
