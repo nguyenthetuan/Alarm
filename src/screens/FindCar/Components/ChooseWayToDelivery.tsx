@@ -1,11 +1,11 @@
-import React from 'react';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { Images } from 'assets';
 import Icon from 'assets/svg/Icon';
-import { IconApp, ImageCus, TextCus, TouchCus, ViewCus } from 'components';
+import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
+import React from 'react';
+import { BaseStyle, Colors } from 'theme';
 import { formatMoney } from 'utils';
 import styles from './styles';
-import { BaseStyle, Colors } from 'theme';
-import { IconName, Images } from 'assets';
 
 interface Option {
   id: number;

@@ -1,23 +1,7 @@
-import React, {
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
-import Icon from 'assets/svg/Icon';
-import { Divider, TextCus, TextInputs, TouchCus, ViewCus } from 'components';
-import { BaseStyle, Colors } from 'theme';
-import { useGeo, useLocation } from 'hooks';
+import { TouchCus } from 'components';
+import React, { useImperativeHandle, useState } from 'react';
 
-import {
-  FlatList,
-  FlatListProps,
-  Platform,
-  StyleProp,
-  TextInput,
-  ViewStyle,
-} from 'react-native';
+import { FlatListProps, StyleProp, ViewStyle } from 'react-native';
 
 interface IProps<T = any> {
   initValue?: T;
@@ -54,21 +38,21 @@ const SelectedGroupItems = React.forwardRef<IRef, IProps>((props, ref) => {
   //#endregion
 
   //#region Render
-  const renderItem = useCallback(
-    ({ item, index }) => {
-      const isSelected = item === selected;
-      return (
-        <TouchCus
-          style={[props.wrapperStyle]}
-          onPress={() => {
-            setSelected(item);
-          }}>
-          {props.renderItemFunc(item, index, isSelected)}
-        </TouchCus>
-      );
-    },
-    [props.renderItemFunc, selected],
-  );
+  // const renderItem = useCallback(
+  //   ({ item, index }) => {
+  //     const isSelected = item === selected;
+  //     return (
+  //       <TouchCus
+  //         style={[props.wrapperStyle]}
+  //         onPress={() => {
+  //           setSelected(item);
+  //         }}>
+  //         {props.renderItemFunc(item, index, isSelected)}
+  //       </TouchCus>
+  //     );
+  //   },
+  //   [props.renderItemFunc, selected],
+  // );
   //#endregion
 
   //#region Export func
@@ -95,13 +79,13 @@ const SelectedGroupItems = React.forwardRef<IRef, IProps>((props, ref) => {
     </>
   );
 
-  return (
-    <FlatList
-      data={props.items}
-      renderItem={renderItem}
-      {...props.flatListProps}
-    />
-  );
+  // return (
+  //   <FlatList
+  //     data={props.items}
+  //     renderItem={renderItem}
+  //     {...props.flatListProps}
+  //   />
+  // );
 });
 
 export default SelectedGroupItems;

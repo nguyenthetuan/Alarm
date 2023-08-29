@@ -6,6 +6,7 @@ export default {
   grp_driver: 'Chào bạn',
   khong_co_du_lieu: 'Không có dữ liệu',
   error: 'Thất bại',
+  loginContinue: 'Đăng nhập ngay',
   auth: {
     login_title: 'Chào mừng bạn',
     login_subtitle: 'Nhập số điện thoại để bắt đầu',

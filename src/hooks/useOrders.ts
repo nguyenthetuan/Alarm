@@ -15,6 +15,7 @@ import { useLocation } from './useLocation';
 export const useOrders = () => {
   const [fetchCreateOrder, { isLoading: isLoadingCreateOrder }] =
     OrdersActions.OrderQuery.useCreateOrderMutation();
+  console.log('isLoadingCreateOrder', isLoadingCreateOrder);
   const dispatch = useDispatch();
   const { locationUser } = useLocation();
   const loading = useSelector(OrdersSelectors.getLoading);

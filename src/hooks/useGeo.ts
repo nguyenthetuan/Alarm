@@ -113,7 +113,9 @@ export const useGeo = () => {
         .then(res => {
           callback?.(res);
         })
-        .catch(error => {});
+        .catch(error => {
+          console.log('error', error);
+        });
     },
     [],
   );

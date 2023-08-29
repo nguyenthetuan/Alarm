@@ -1,21 +1,19 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { IconName } from 'assets';
 import {
   Divider,
   HomeLayout,
   IconApp,
-  RNFlatList,
   ScrollViewCus,
   TextCus,
   TouchCus,
   ViewCus,
 } from 'components';
+import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, { useMemo, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
 import { ContentRating } from '../components';
-import { NavigationService, RootStackParamList, Routes } from 'navigation';
-import { StyleSheet } from 'react-native';
-import { formatMoney } from 'utils';
-import { IconName } from 'assets';
-import { RouteProp, useRoute } from '@react-navigation/native';
 const Rating: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'Rating'>>();
   const [point, setpoint] = useState<Number>(5);

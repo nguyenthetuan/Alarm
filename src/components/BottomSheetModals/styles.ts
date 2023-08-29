@@ -261,4 +261,8 @@ export default StyleSheet.create({
     width: 32,
     height: 4,
   },
+  imageSplash: {
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
 });

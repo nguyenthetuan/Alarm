@@ -1,14 +1,10 @@
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { Images } from 'assets';
-import Icon from 'assets/svg/Icon';
-import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
-import { NavigationService, Routes } from 'navigation';
+import { TextCus, TouchCus, ViewCus } from 'components';
 import React, { useState } from 'react';
-import { Colors } from 'theme';
-import { formatMoney } from 'utils';
-import styles from './styles';
-import ToggleSwitch from 'toggle-switch-react-native';
 import { View } from 'react-native';
+import { Colors } from 'theme';
+import ToggleSwitch from 'toggle-switch-react-native';
+import styles from './styles';
 
 // import { useIsFocused } from '@react-navigation/native';
 
@@ -53,7 +49,7 @@ const moreOption = [
   },
 ];
 const MoreOption: React.FC<IProps> = props => {
-  const [data, setData] = useState(moreOption);
+  const [data] = useState(moreOption);
   const [ArrOn, setArrOn] = useState([]);
 
   const getStatus = id => {

@@ -1,17 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Buttons, TextCus, TextInputs, ViewCus, IconApp } from 'components';
+import { Buttons, IconApp, TextCus, TextInputs, ViewCus } from 'components';
 import React, { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { IconName, Images } from 'assets';
-import Icon from 'assets/svg/Icon';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { IconName } from 'assets';
 import { useAuth } from 'hooks';
-import { ImageBackground, ScrollView, StatusBar, View } from 'react-native';
+import { NavigationService, RootStackParamList, Routes } from 'navigation';
+import { ScrollView, StatusBar, View } from 'react-native';
+import { Colors } from 'theme';
 import { yupSchemaInputPhone } from 'utils';
 import styles from './styles';
-import { NavigationService, RootStackParamList, Routes } from 'navigation';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { Colors } from 'theme';
 
 type TFormInputPhone = {
   phoneNumber: string;

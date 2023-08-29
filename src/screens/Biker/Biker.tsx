@@ -24,6 +24,7 @@ const Biker: React.FC = () => {
     },
   });
   const onSendRequest = useCallback((value: IFormBiker) => {
+    console.log('value', value);
     NavigationService.navigate(Routes.FindCar, {
       type: 'bike',
     });

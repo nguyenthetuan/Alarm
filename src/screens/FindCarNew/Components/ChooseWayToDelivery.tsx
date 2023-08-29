@@ -1,14 +1,13 @@
-import React, { useCallback } from 'react';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { Images } from 'assets';
 import Icon from 'assets/svg/Icon';
-import { IconApp, ImageCus, TextCus, TouchCus, ViewCus } from 'components';
+import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
+import { NavigationService, Routes } from 'navigation';
+import React from 'react';
+import { View } from 'react-native';
+import { Colors } from 'theme';
 import { formatMoney, height } from 'utils';
 import styles from './styles';
-import { BaseStyle, Colors } from 'theme';
-import { IconName, Images } from 'assets';
-import { useOrders } from 'hooks';
-import { NavigationService, Routes } from 'navigation';
-import { View } from 'react-native';
 interface Option {
   id: number;
   fast: boolean;

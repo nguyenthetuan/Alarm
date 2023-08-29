@@ -1,20 +1,14 @@
-import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
-import Icon from 'assets/svg/Icon';
-import {
-  ImageCus,
-  RoutineLocaltion,
-  TextCus,
-  TouchCus,
-  ViewCus,
-} from 'components';
-import styles from './styles';
-import { BaseStyle, Colors } from 'theme';
-import { formatMoney, getImage, height, openLink, width } from 'utils';
-import { FindCarType, IDriver_OrderDetail, IOrderDetail } from 'types';
-import React, { useEffect, useState } from 'react';
-import { useOrders } from 'hooks';
+import { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Images } from 'assets';
+import Icon from 'assets/svg/Icon';
+import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
+import { useOrders } from 'hooks';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import { BaseStyle, Colors } from 'theme';
+import { FindCarType, IDriver_OrderDetail, IOrderDetail } from 'types';
+import { formatMoney, getImage, height, openLink, width } from 'utils';
+import styles from './styles';
 
 interface IProps {
   type: FindCarType;
@@ -42,13 +36,13 @@ const DriverAreComing: React.FC<IProps> = props => {
   //#endregion
 
   //#region ScreenState
-  const [listItemDetail, setListItemDetail] = useState({});
+  // const [listItemDetail, setListItemDetail] = useState({});
   const [isShowDetail, setisShowDetail] = useState(false);
   //#endregion
   //#region handle event
-  const callCenter = () => {
-    openLink('telephone', '19008079');
-  };
+  // const callCenter = () => {
+  //   openLink('telephone', '19008079');
+  // };
   //#endregion
 
   useEffect(() => {
@@ -89,6 +83,7 @@ const DriverAreComing: React.FC<IProps> = props => {
     driverInfo: IDriver_OrderDetail | null | undefined,
     onPress: () => void,
   ) => {
+    console.log('onPress', onPress);
     const callDriver = () => {
       if (driverInfo?.phone_number) {
         openLink('telephone', driverInfo.phone_number);

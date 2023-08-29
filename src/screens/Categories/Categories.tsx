@@ -1,27 +1,26 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { IconName } from 'assets';
 import {
-  RNFlatList,
   HomeLayout,
   IconApp,
+  Nodata,
+  RNFlatList,
   TextCus,
   TextInputs,
   TouchCus,
   ViewCus,
-  Nodata,
 } from 'components';
+import { useCart } from 'context/CartContext';
+import { useCategories } from 'hooks';
+import { useListRestaurant } from 'hooks/useListRestaurant';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, RefreshControl, StyleSheet } from 'react-native';
+import { SkeletonLoadingItem } from 'screens/MainTab/Home/Components';
 import { Colors } from 'theme';
 import { ENodata, IRestaurantDetail } from 'types';
-import { width } from 'utils';
 import { CategoryItem } from './components';
-import { useCart } from 'context/CartContext';
-import { useTranslation } from 'react-i18next';
-import { useListRestaurant } from 'hooks/useListRestaurant';
-import { useCategories } from 'hooks';
-import { SkeletonLoadingItem } from 'screens/MainTab/Home/Components';
 
 const Categories: React.FC = () => {
   const { setSelectedPromos } = useCategories();

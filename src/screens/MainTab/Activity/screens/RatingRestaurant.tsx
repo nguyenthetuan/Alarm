@@ -21,11 +21,14 @@ const RatingRestaurant: React.FC = () => {
     },
   });
   const onRating = useCallback((value: TFormRating) => {
+    console.log('value', value);
     NavigationService.navigate(Routes.HomeTabs, {
       screen: Routes.Activity,
     });
   }, []);
-  const onChooseItem = useCallback(item => {}, []);
+  const onChooseItem = useCallback(item => {
+    log('item', item);
+  }, []);
   const renderSuggestItem = useCallback(
     (item, index) => {
       return (

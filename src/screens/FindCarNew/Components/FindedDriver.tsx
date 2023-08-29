@@ -1,20 +1,7 @@
-import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import Icon from 'assets/svg/Icon';
-import {
-  ImageCus,
-  RoutineLocaltion,
-  TextCus,
-  TouchCus,
-  ViewCus,
-} from 'components';
-import styles from './styles';
-import { StyleSheet } from 'react-native';
-import { Colors } from 'theme';
-import { getWidthBySpace } from 'utils';
-import { useGeo } from 'hooks';
-import { useEffect, useState } from 'react';
 import { Images } from 'assets';
-import { View } from 'react-native-reanimated/lib/typescript/Animated';
+import { ImageCus, TextCus, ViewCus } from 'components';
+// import { StyleSheet } from 'react-native';
+import styles from './styles';
 
 interface IProps {
   onCancel: () => void;
@@ -105,11 +92,11 @@ const FindedDriver: React.FC<IProps> = props => {
   );
 };
 
-const styleCus = StyleSheet.create({
-  containerButtonCancel: {
-    position: 'absolute',
-    zIndex: 1,
-  },
-});
+// const styleCus = StyleSheet.create({
+//   containerButtonCancel: {
+//     position: 'absolute',
+//     zIndex: 1,
+//   },
+// });
 
 export default FindedDriver;

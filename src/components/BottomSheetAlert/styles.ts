@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   flex1: {
     flex: 1,
     borderRadius: 6,
+    backgroundColor: Colors.emerald,
   },
 });
 export default styles;

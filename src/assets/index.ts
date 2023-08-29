@@ -1,4 +1,5 @@
 export const Images = {
+  splashImage: require('./images/splash.png'),
   splash: require('./splash.json'),
   default_image: require('./images/default-image.png'),
   Orders: require('./images/order.png'),

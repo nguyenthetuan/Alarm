@@ -1,5 +1,5 @@
 import { IconName } from 'assets';
-import { IconApp, ImageCus, TextCus, TouchCus } from 'components';
+import { IconApp, ImageCus, TextCus, TouchCus, Buttons } from 'components';
 import { useAuth } from 'hooks';
 import { NavigationService, Routes } from 'navigation';
 import React, { useRef, useState } from 'react';
@@ -63,28 +63,39 @@ const Intro = () => {
                 );
               })}
             </View>
-            <TouchCus
-              activeOpacity={0.8}
-              bg-main
-              w-40
-              h-40
-              items-center
-              justify-center
-              br-20
-              onPress={() => {
-                if (activeDot < slidesIntro.length - 1) {
-                  sliderIntro.current?.goToSlide(activeDot + 1, true);
-                  return;
-                }
-                onShowFirstIntro();
-                NavigationService.navigate(Routes.InputPhone);
-              }}>
-              <IconApp
-                name={IconName.ChevronRight}
-                size={16}
-                color={Colors.white}
-              />
-            </TouchCus>
+
+            {activeDot === slidesIntro.length - 1 ? (
+              <Buttons mx-16 style={styles.btn}>
+                <TextCus useI18n color={Colors.white}>
+                  loginContinue
+                </TextCus>
+              </Buttons>
+            ) : (
+              <>
+                <TouchCus
+                  activeOpacity={0.8}
+                  bg-main
+                  w-40
+                  h-40
+                  items-center
+                  justify-center
+                  br-20
+                  onPress={() => {
+                    if (activeDot < slidesIntro.length - 1) {
+                      sliderIntro.current?.goToSlide(activeDot + 1, true);
+                      return;
+                    }
+                    onShowFirstIntro();
+                    NavigationService.navigate(Routes.InputPhone);
+                  }}>
+                  <IconApp
+                    name={IconName.ChevronRight}
+                    size={16}
+                    color={Colors.white}
+                  />
+                </TouchCus>
+              </>
+            )}
           </View>
         );
       }}

@@ -993,7 +993,7 @@ const Icon = {
       />
     </Svg>
   ),
-  IconLocationActive: ({ width = 18, height = 22 }) => (
+  IconLocationActive: () => (
     <Svg
       width="13"
       height="16"

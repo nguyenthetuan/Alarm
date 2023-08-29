@@ -89,6 +89,7 @@ export const BaseStyle = StyleSheet.create({
   },
   flex1: {
     flex: 1,
+    justifyContent: 'center',
   },
   flexGrow1: {
     flexGrow: 1,
