@@ -52,4 +52,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  btn: {
+    paddingHorizontal: 10,
+  },
 });

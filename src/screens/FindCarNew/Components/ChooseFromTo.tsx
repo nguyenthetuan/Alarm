@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BottomSheetFlatList, BottomSheetView } from '@gorhom/bottom-sheet';
+import Geolocation from '@react-native-community/geolocation';
 import Icon from 'assets/svg/Icon';
 import {
   Buttons,
@@ -11,14 +11,12 @@ import {
   TouchCus,
   ViewCus,
 } from 'components';
-import { BaseStyle, Colors } from 'theme';
 import { useGeo } from 'hooks';
-import { FindCarScreenStepView } from '../FindCar';
-import Geolocation from '@react-native-community/geolocation';
-import { debounce } from 'lodash';
-import styles from '../../RequestDelivery/styles';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native';
+import { BaseStyle, Colors } from 'theme';
 import { width } from 'utils';
+import { FindCarScreenStepView } from '../FindCar';
 
 let typingTimeout = null;
 interface IProps {
@@ -43,6 +41,7 @@ type LocationFind = {
   place_id?: string;
 };
 const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
+  console.log('ref', ref);
   const { searchDetail, searchAutoComplete, onNameByLatLng } = useGeo();
 
   const [fromLocation, setFromLocation] = useState<LocationFind | null>({

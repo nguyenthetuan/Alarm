@@ -24,6 +24,7 @@ const HomeLayout = (props: IMainLayoutProps) => {
     isForForm,
     textBtn,
     isDark,
+    iconRight,
     ...rest
   } = props;
 
@@ -72,7 +73,7 @@ const HomeLayout = (props: IMainLayoutProps) => {
       <SafeAreaStatusBar modeContent={modeContent as TmodeContent} />
       {headerCustom()}
       {isForForm ? (
-        <KeyboardScrollView textBtn={textBtn} {...rest}>
+        <KeyboardScrollView textBtn={textBtn} {...rest} iconRight={iconRight}>
           {children}
         </KeyboardScrollView>
       ) : (

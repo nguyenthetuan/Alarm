@@ -1,11 +1,9 @@
-import { View, Text } from 'react-native';
-import React from 'react';
-import { HomeLayout, TextCus, TouchCus, ViewCus } from 'components';
-import { array } from 'yup';
 import Icon from 'assets/svg/Icon';
-import styles from './styles';
+import { HomeLayout, TextCus, TouchCus, ViewCus } from 'components';
+import React from 'react';
 import { Colors } from 'theme';
 import { NavigationService } from '../../navigation/NavigationService';
+import styles from './styles';
 type IProps = {
   navigation: any;
 };

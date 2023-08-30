@@ -254,6 +254,7 @@ export interface IMainLayoutProps {
   loading?: boolean;
   btnStyle?: StyleProp<ViewStyle>;
   styleBtnCover?: StyleProp<ViewStyle>;
+  iconRight?: React.ReactNode;
 }
 
 export interface IHeader {

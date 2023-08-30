@@ -4,7 +4,8 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { IconName, Images } from 'assets';
+import { IconName } from 'assets';
+// import { Images } from 'assets';
 import { useAuth, useKey, useLocation } from 'hooks';
 import React, {
   useCallback,
@@ -14,16 +15,18 @@ import React, {
   useState,
 } from 'react';
 import * as Screens from 'screens';
-import { BaseStyle, Colors } from 'theme';
+import { Colors } from 'theme';
+// import { BaseStyle } from 'theme';
 import { KEY_CONTEXT, isIos } from 'utils';
 import ButtonBottomStack from './ButtonBottomStack';
 import { navigationRef } from './NavigationService';
 import { Routes } from './Routes';
 import { RootStackParamList } from './types';
 import Geolocation from '@react-native-community/geolocation';
-import { BottomSheetAlert, ViewCus } from 'components';
-import LottieView from 'lottie-react-native';
-import { StatusBar } from 'react-native';
+import { BottomSheetAlert } from 'components';
+// import {  ViewCus } from 'components';
+// import LottieView from 'lottie-react-native';
+// import { StatusBar } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const TABAR_SCREEN = [
@@ -205,7 +208,7 @@ export const Navigator = () => {
   const { getKeyStore } = useKey();
   const { saveCurrentLocation } = useLocation();
   const [inititalRoute, setInititalRoute] = useState('');
-  const [isWaiting, setIsWaiting] = useState(true);
+  // const [isWaiting, setIsWaiting] = useState(true);
   const watchPositionRef = useRef<ReturnType<
     typeof Geolocation.watchPosition
   > | null>(null);
@@ -276,21 +279,21 @@ export const Navigator = () => {
       clearWatchPosition();
     };
   }, []);
-  if (isWaiting) {
-    return (
-      <ViewCus style={[BaseStyle.flex1]}>
-        <StatusBar barStyle={'dark-content'} />
-        <LottieView
-          source={Images.splash}
-          autoPlay
-          loop={false}
-          speed={1}
-          duration={2000}
-          onAnimationFinish={() => setIsWaiting(false)}
-        />
-      </ViewCus>
-    );
-  }
+  // if (isWaiting) {
+  //   return (
+  //     <ViewCus style={[BaseStyle.flex1]}>
+  //       <StatusBar barStyle={'dark-content'} />
+  //       <LottieView
+  //         source={Images.splash}
+  //         autoPlay
+  //         loop={false}
+  //         speed={1}
+  //         duration={2000}
+  //         onAnimationFinish={() => setIsWaiting(false)}
+  //       />
+  //     </ViewCus>
+  //   );
+  // }
   return (
     <>
       <NavigationContainer ref={navigationRef}>

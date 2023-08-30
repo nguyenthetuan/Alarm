@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { IconName } from 'assets';
 import {
   Buttons,
   IconApp,
@@ -7,13 +8,14 @@ import {
   TouchCus,
   ViewCus,
 } from 'components';
+import { useCart } from 'context/CartContext';
 import { useCategories, useHome } from 'hooks';
+import { useListFood } from 'hooks/useListFood';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
 import Animated, {
   interpolate,
-  interpolateColor,
   runOnJS,
   useAnimatedRef,
   useAnimatedScrollHandler,
@@ -30,9 +32,6 @@ import {
   FoodInfo,
   FoodPromotion,
 } from '../components';
-import { IconName } from 'assets';
-import { useCart } from 'context/CartContext';
-import { useListFood } from 'hooks/useListFood';
 const AnimatedTouch = Animated.createAnimatedComponent(TouchCus);
 const HEIGHT_IMAGE = 220;
 const RestaurantDetail: React.FC = () => {
@@ -82,16 +81,16 @@ const RestaurantDetail: React.FC = () => {
 
   const aref = useAnimatedRef<Animated.ScrollView>();
   const scrollHandle = useScrollViewOffset(aref);
-  const backgroundColor = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      scrollHandle.value,
-      [0, HEIGHT_IMAGE / 3],
-      [Colors.transparent, Colors.white],
-    );
-    return {
-      backgroundColor: color,
-    };
-  });
+  // const backgroundColor = useAnimatedStyle(() => {
+  //   const color = interpolateColor(
+  //     scrollHandle.value,
+  //     [0, HEIGHT_IMAGE / 3],
+  //     [Colors.transparent, Colors.white],
+  //   );
+  //   return {
+  //     backgroundColor: color,
+  //   };
+  // });
   const headerOpacity = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollHandle.value,

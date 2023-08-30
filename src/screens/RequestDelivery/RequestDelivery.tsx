@@ -1,26 +1,19 @@
 import { Buttons, HomeLayout, TextCus, ViewCus } from 'components';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Colors } from 'theme';
 // import styles from './styles';
-import ChooseFromTo from './components/ChooseFromTo';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useBackHandler } from '@react-native-community/hooks';
+import { NavigationService } from 'navigation';
 import {
-  BackHandler,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import { NavigationService } from 'navigation';
-import SetUpOrder from './screens/SetUpOrder';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import ChooseFromTo from './components/ChooseFromTo';
 import EnterReceiver from './screens/EnterReceiver';
+import SetUpOrder from './screens/SetUpOrder';
 
 enum RequestDeliveryStep {
   CHOOSE_FROM_TO,

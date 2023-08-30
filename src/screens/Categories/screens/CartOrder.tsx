@@ -36,8 +36,7 @@ const CartOrder: React.FC = () => {
   } = useCart();
   const [address, setAddress] = useState('');
   const { onNameByLatLng, searchDetail } = useGeo();
-  const { selectedPromos, detailRestaurant, estimatedPrice, estimatePrices } =
-    useCategories();
+  const { selectedPromos, detailRestaurant, estimatePrices } = useCategories();
   const { locationUser } = useLocation();
   const { user, userInfo } = useAuth();
   const refBottom = useRef<IRefBottom>(null);
@@ -104,6 +103,7 @@ const CartOrder: React.FC = () => {
           searchDetail({ place_id: ads?.place_id }, rs => {
             if (rs.result) {
               const { formatted_address, geometry } = rs.result;
+              console.log('formatted_address', formatted_address);
               if (geometry.location) {
                 updateLocation({
                   lat: geometry.location.lat,

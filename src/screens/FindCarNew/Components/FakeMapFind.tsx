@@ -1,17 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
-import { useGeo, useLocation } from 'hooks';
-import { MapViewCus } from 'components';
+import { GGAPI_KEY } from '@env';
+import { usePrevious } from '@uidotdev/usehooks';
 import Icon from 'assets/svg/Icon';
+import { MapViewCus } from 'components';
+import { getGreatCircleBearing } from 'geolib';
+import { useLocation } from 'hooks';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
+import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import { BaseStyle, Colors } from 'theme';
 import { MarkerBiker, MarkerBikerRandom, MarkerRadar } from '../Components';
 import { FindCarScreenStepView } from '../FindCar';
-import { ILongLocation } from 'types';
-import { usePrevious } from '@uidotdev/usehooks';
-import { getGreatCircleBearing } from 'geolib';
-import MapViewDirections from 'react-native-maps-directions';
-import { GGAPI_KEY } from '@env';
 
 export const FakeMapFind = ({
   startFind,
@@ -51,7 +50,7 @@ export const FakeMapFind = ({
 
   const { locationUser: locationInit } = useLocation();
 
-  const [polylineData, setPolylineData] = useState([]);
+  // const [polylineData, setPolylineData] = useState([]);
   const prevertDriverLocation = usePrevious(driverLocation);
   const [rotationDriverIcon, setRotationDriverIcon] = useState(0);
   const GOOGLE_MAPS_API_KEY = GGAPI_KEY;
@@ -100,45 +99,45 @@ export const FakeMapFind = ({
     return <></>;
   }, [locationUser, type, stepView, locationInit]);
 
-  const renderBikerLocation = useMemo(() => {
-    if (
-      polylineData.length > 0 &&
-      ![
-        FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO,
-        FindCarScreenStepView.CHOOSE_FROM_TO,
-        FindCarScreenStepView.CHOOSE_DELIVERY_OPTION,
-        FindCarScreenStepView.FIND_DRIVER,
-      ].includes(stepView)
-    ) {
-      if (
-        ![
-          FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO,
-          FindCarScreenStepView.CHOOSE_FROM_TO,
-          FindCarScreenStepView.CHOOSE_DELIVERY_OPTION,
-          FindCarScreenStepView.FIND_DRIVER,
-          FindCarScreenStepView.ORDER_IS_SUCCESS,
-        ].includes(stepView)
-      ) {
-        return (
-          <MarkerBiker
-            latitude={polylineData[0].latitude}
-            longitude={polylineData[0].longitude}
-            type={type}
-          />
-        );
-      } else {
-        return (
-          <MarkerBiker
-            latitude={polylineData[polylineData.length - 1].latitude}
-            longitude={polylineData[polylineData.length - 1].longitude}
-            durationAnimation={1000}
-            type={type}
-          />
-        );
-      }
-    }
-    return <></>;
-  }, [locationUser, type, polylineData, stepView, locationInit]);
+  // const renderBikerLocation = useMemo(() => {
+  //   if (
+  //     polylineData.length > 0 &&
+  //     ![
+  //       FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO,
+  //       FindCarScreenStepView.CHOOSE_FROM_TO,
+  //       FindCarScreenStepView.CHOOSE_DELIVERY_OPTION,
+  //       FindCarScreenStepView.FIND_DRIVER,
+  //     ].includes(stepView)
+  //   ) {
+  //     if (
+  //       ![
+  //         FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO,
+  //         FindCarScreenStepView.CHOOSE_FROM_TO,
+  //         FindCarScreenStepView.CHOOSE_DELIVERY_OPTION,
+  //         FindCarScreenStepView.FIND_DRIVER,
+  //         FindCarScreenStepView.ORDER_IS_SUCCESS,
+  //       ].includes(stepView)
+  //     ) {
+  //       return (
+  //         <MarkerBiker
+  //           latitude={polylineData[0].latitude}
+  //           longitude={polylineData[0].longitude}
+  //           type={type}
+  //         />
+  //       );
+  //     } else {
+  //       return (
+  //         <MarkerBiker
+  //           latitude={polylineData[polylineData.length - 1].latitude}
+  //           longitude={polylineData[polylineData.length - 1].longitude}
+  //           durationAnimation={1000}
+  //           type={type}
+  //         />
+  //       );
+  //     }
+  //   }
+  //   return <></>;
+  // }, [locationUser, type, polylineData, stepView, locationInit]);
 
   const renderDriverLocation = useMemo(() => {
     if (driverLocation?.lat && driverLocation?.long) {

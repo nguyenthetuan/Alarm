@@ -1,19 +1,13 @@
 import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
-import Icon from 'assets/svg/Icon';
-import {
-  ImageCus,
-  RoutineLocaltion,
-  TextCus,
-  TouchCus,
-  ViewCus,
-} from 'components';
-import styles from './styles';
-import { BaseStyle, Colors } from 'theme';
-import { formatMoney, getImage, getWidthBySpace, openLink } from 'utils';
-import { IDriver_OrderDetail, IOrderDetail } from 'types';
-import React, { useEffect, useState } from 'react';
-import { useOrders } from 'hooks';
 import { Images } from 'assets';
+import Icon from 'assets/svg/Icon';
+import { ImageCus, RoutineLocaltion, TextCus, ViewCus } from 'components';
+import { useOrders } from 'hooks';
+import React, { useEffect } from 'react';
+import { BaseStyle } from 'theme';
+import { IDriver_OrderDetail, IOrderDetail } from 'types';
+import { getImage, getWidthBySpace } from 'utils';
+import styles from './styles';
 
 interface IProps {
   orderDetailData?: IOrderDetail | null;
@@ -23,11 +17,11 @@ interface IProps {
 const driverInfomation = (
   driverInfo: IDriver_OrderDetail | null | undefined,
 ) => {
-  const callDriver = () => {
-    if (driverInfo?.phone_number) {
-      openLink('telephone', driverInfo.phone_number);
-    }
-  };
+  // const callDriver = () => {
+  //   if (driverInfo?.phone_number) {
+  //     openLink('telephone', driverInfo.phone_number);
+  //   }
+  // };
   return (
     <ViewCus>
       <ViewCus style={styles.w100} px-16>
@@ -96,12 +90,12 @@ const DriverAreComing: React.FC<IProps> = props => {
   //#endregion
 
   //#region ScreenState
-  const [listItemDetail, setListItemDetail] = useState({});
+  // const [listItemDetail, setListItemDetail] = useState({});
   //#endregion
   //#region handle event
-  const callCenter = () => {
-    openLink('telephone', '19008079');
-  };
+  // const callCenter = () => {
+  //   openLink('telephone', '19008079');
+  // };
   //#endregion
 
   useEffect(() => {

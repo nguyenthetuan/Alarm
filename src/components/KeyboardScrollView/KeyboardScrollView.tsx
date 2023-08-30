@@ -19,6 +19,7 @@ interface Props {
   styleContent?: StyleProp<ViewStyle>;
   btnStyle?: StyleProp<ViewStyle>;
   styleBtnCover?: StyleProp<ViewStyle>;
+  iconRight?: React.ReactNode;
 }
 const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 const KeyboardScrollView: React.FC<Props> = ({
@@ -30,6 +31,7 @@ const KeyboardScrollView: React.FC<Props> = ({
   styleContent,
   btnStyle,
   styleBtnCover,
+  iconRight,
 }) => {
   return (
     <KeyboardAvoidingView behavior={behavior} enabled style={styles.flex1}>
@@ -46,9 +48,15 @@ const KeyboardScrollView: React.FC<Props> = ({
             disabled={disabled}
             loading={loading}
             style={[btnStyle]}>
-            <TextCus useI18n bold heading5 color={Colors.white}>
+            <TextCus
+              useI18n
+              bold
+              heading5
+              color={Colors.white}
+              style={styles.txtCus}>
               {textBtn}
             </TextCus>
+            {iconRight}
           </Buttons>
         </ViewCus>
       )}
@@ -74,6 +82,9 @@ const styles = StyleSheet.create({
       },
     }),
     paddingTop: 10,
+  },
+  txtCus: {
+    marginRight: 10,
   },
 });
 export default KeyboardScrollView;

@@ -1,9 +1,9 @@
 import React, { useImperativeHandle } from 'react';
 import { TextInputs, ViewCus } from 'components';
-import { Colors } from 'theme';
+// import { Colors } from 'theme';
 import * as Yup from 'yup';
 
-import { StyleSheet } from 'react-native';
+// import { StyleSheet } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -182,13 +182,13 @@ const EnterReceiver = React.forwardRef<IRefs, IProps>((props, ref) => {
   );
 });
 
-const styles = StyleSheet.create({
-  selectedDelivery: {
-    backgroundColor: Colors.redFFa,
-    borderColor: Colors.redEB,
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
-  },
-});
+// const styles = StyleSheet.create({
+//   selectedDelivery: {
+//     backgroundColor: Colors.redFFa,
+//     borderColor: Colors.redEB,
+//     borderTopWidth: 0.5,
+//     borderBottomWidth: 0.5,
+//   },
+// });
 
 export default EnterReceiver;

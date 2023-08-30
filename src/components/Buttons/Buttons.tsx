@@ -25,6 +25,7 @@ const Buttons: React.FC<IButtons> = props => {
   return (
     <TouchableOpacity
       {...rest}
+      disabled={disabled}
       style={[
         [styles.default, { backgroundColor: Colors.main }],
         outline && [styles.outline],

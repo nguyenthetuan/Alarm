@@ -1,15 +1,8 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useIsFocused, useRoute } from '@react-navigation/native';
 import { IconName } from 'assets';
-import {
-  Buttons,
-  IconCus,
-  TextCus,
-  TouchCus,
-  ViewCus,
-  LocationPermission,
-} from 'components';
+import { Buttons, IconCus, TextCus, TouchCus, ViewCus } from 'components';
 import { BottomSheetModalContainer } from 'components/BottomSheetModals';
-import { useAuth, useCustomerSocket, useLocation, useOrders } from 'hooks';
+import { useCustomerSocket, useLocation, useOrders } from 'hooks';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, {
   useCallback,
@@ -18,9 +11,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Alert, BackHandler, View } from 'react-native';
+import { BackHandler, View } from 'react-native';
 import { Colors } from 'theme';
 import { FindCarType, ILongLocation, IRefBottom } from 'types';
+import { height } from 'utils';
 import {
   ChooseFromTo,
   ChooseWayToDelivery,
@@ -28,19 +22,15 @@ import {
   FindDriver,
 } from './Components';
 import CannotFoundDriver from './Components/CannotFoundDriver';
+import DriverArrived from './Components/DriverArrived';
 import { FakeMapFind } from './Components/FakeMapFind';
+import FindedDriver from './Components/FindedDriver';
+import FullWayToDelivery from './Components/FullWayToDelivery';
+import MoreOption from './Components/MoreOption';
 import OrderIsCancel from './Components/OrderIsCancel';
 import OrderIsSuccess from './Components/OrderIsSuccess';
 import QuestionFromTo from './Components/QuestionFromTo';
 import styles from './styles';
-import { useIsFocused } from '@react-navigation/native';
-import MoreOption from './Components/MoreOption';
-import FullWayToDelivery from './Components/FullWayToDelivery';
-import { height } from 'utils';
-import { number } from 'yup';
-import DriverArrived from './Components/DriverArrived';
-import FindedDriver from './Components/FindedDriver';
-import languageDetectorPlugin from '../../utils/languageDetectorPlugin';
 
 export enum FindCarScreenStepView {
   QUESTION_CHOOSE_FROM_TO,
@@ -64,10 +54,9 @@ const FindCar = () => {
   //#region Static
   const route = useRoute<RouteProp<RootStackParamList, 'FindCar'>>();
   const { locationUser } = useLocation();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const isFocused = useIsFocused();
   const {
-    onConnect,
     connect,
     onConnectError,
     socket: customerSocket,
@@ -91,7 +80,7 @@ const FindCar = () => {
     },
   });
   const [tripInfo, setTripInfo] = useState({});
-  const currentOrderCodeRef = useRef<string | null>(null);
+  // const currentOrderCodeRef = useRef<string | null>(null);
   const [heightChooseWayDelivery, setheightChooseWayDelivery] = useState(0);
   const [heightOption, setHeightOption] = useState(0);
   const [heightSheet, setHeightSheet] = useState(0);
@@ -99,8 +88,7 @@ const FindCar = () => {
   const [driverLocation, setDriverLocation] = useState<ILongLocation | null>(
     null,
   );
-  const { getInfoTaxiService, findCarAction, loading, cancleFindDriver } =
-    useOrders();
+  const { getInfoTaxiService, findCarAction, cancleFindDriver } = useOrders();
   const deliveryDriverOptions = useMemo(() => {
     const { from, to } = fromToData;
     const rs = [
@@ -297,33 +285,33 @@ const FindCar = () => {
     switch (stepView) {
       case FindCarScreenStepView.CHOOSE_FROM_TO:
         return <></>;
-        return (
-          <ViewCus flex-row p-16>
-            <ViewCus f-1>
-              <Buttons
-                h-48
-                round={false}
-                style={[styles.bo8]}
-                onPress={() => {
-                  const isValidFrom =
-                    fromToData.from?.address &&
-                    fromToData.from?.lat &&
-                    fromToData.from?.long;
-                  const isValidTo =
-                    fromToData.to?.address &&
-                    fromToData.to?.lat &&
-                    fromToData.to?.long;
-                  if (isValidFrom && isValidTo) {
-                    setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
-                  }
-                }}>
-                <TextCus useI18n bold semiBold color={Colors.white}>
-                  Xác nhận
-                </TextCus>
-              </Buttons>
-            </ViewCus>
-          </ViewCus>
-        );
+      // return (
+      //   <ViewCus flex-row p-16>
+      //     <ViewCus f-1>
+      //       <Buttons
+      //         h-48
+      //         round={false}
+      //         style={[styles.bo8]}
+      //         onPress={() => {
+      //           const isValidFrom =
+      //             fromToData.from?.address &&
+      //             fromToData.from?.lat &&
+      //             fromToData.from?.long;
+      //           const isValidTo =
+      //             fromToData.to?.address &&
+      //             fromToData.to?.lat &&
+      //             fromToData.to?.long;
+      //           if (isValidFrom && isValidTo) {
+      //             setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
+      //           }
+      //         }}>
+      //         <TextCus useI18n bold semiBold color={Colors.white}>
+      //           Xác nhận
+      //         </TextCus>
+      //       </Buttons>
+      //     </ViewCus>
+      //   </ViewCus>
+      // );
       case FindCarScreenStepView.CHOOSE_DELIVERY_OPTION:
         return (
           <ViewCus flex-row p-16>
@@ -525,7 +513,7 @@ const FindCar = () => {
       case FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO:
         return (
           <QuestionFromTo
-            onLayout={(height: number) => setHeightSheet(height)}
+            onLayout={(Height: number) => setHeightSheet(Height)}
             setStepView={setStepView}
           />
         );
@@ -551,7 +539,7 @@ const FindCar = () => {
               onShowFullWayToDelivery={() => {
                 setStepView(FindCarScreenStepView.FULL_WAY_TO_DELIVERY);
               }}
-              onLayout={height => setheightChooseWayDelivery(height)}
+              onLayout={Height => setheightChooseWayDelivery(Height)}
               onCancel={() => {
                 refContentBottom.current?.close();
                 handleBackOrCancel();
@@ -583,7 +571,7 @@ const FindCar = () => {
             onCancel={() => {
               setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
             }}
-            onLayout={(height: number) => setHeightSheet(height)}
+            onLayout={(Height: number) => setHeightSheet(Height)}
             fromToData={fromToData}
             DeliveryInfo={DeliveryInfo}
             type={deliveryDriverSelected.type}
@@ -596,7 +584,7 @@ const FindCar = () => {
             onCancel={() => {
               setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
             }}
-            onLayout={(height: number) => setHeightSheet(height)}
+            onLayout={(Height: number) => setHeightSheet(Height)}
             fromToData={fromToData}
             DeliveryInfo={DeliveryInfo}
             type={deliveryDriverSelected.type}
@@ -612,12 +600,12 @@ const FindCar = () => {
       case FindCarScreenStepView.ORDER_IS_SUCCESS:
         return <OrderIsSuccess />;
       case FindCarScreenStepView.MORE_OPTIONS:
-        return <MoreOption onLayout={height => setHeightOption(height)} />;
+        return <MoreOption onLayout={Height => setHeightOption(Height)} />;
       case FindCarScreenStepView.FULL_WAY_TO_DELIVERY:
         return (
           <FullWayToDelivery
             option={deliveryDriverOptions}
-            onLayout={height => setHeightSheet(height)}
+            onLayout={Height => setHeightSheet(Height)}
             onSubmit={data => {
               setDeliveryDriverSelected(data);
               setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
@@ -673,6 +661,7 @@ const FindCar = () => {
     if (data && Array.isArray(data?.result) && data?.result.length > 0) {
       const sockerData = data?.result[0];
       const { lat, long, motorcycleTaxiId } = sockerData;
+      console.log('motorcycleTaxiId', motorcycleTaxiId);
       setDriverLocation({
         lat,
         long,
@@ -681,14 +670,17 @@ const FindCar = () => {
   };
 
   const handelOnCompleteMotoTaxi = data => {
+    console.log('data', data);
     setStepView(FindCarScreenStepView.ORDER_IS_SUCCESS);
   };
 
   const handleCustomerSocketNotFoundDriver = data => {
+    console.log('data', data);
     clearTimeout(TimeOutCancel);
   };
 
   const handleOnDriverArrived = data => {
+    console.log('data', data);
     setStepView(FindCarScreenStepView.DRIVER_ARRIVED);
   };
   //#endregion

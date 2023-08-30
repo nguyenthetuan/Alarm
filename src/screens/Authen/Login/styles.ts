@@ -27,4 +27,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.white,
     paddingHorizontal: 16,
   },
+  btnContinue: {
+    borderRadius: 8,
+  },
 });

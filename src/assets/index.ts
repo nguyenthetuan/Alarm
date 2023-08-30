@@ -1,4 +1,5 @@
 export const Images = {
+  splashImage: require('./images/splash.png'),
   splash: require('./splash.json'),
   default_image: require('./images/default-image.png'),
   Orders: require('./images/order.png'),
@@ -42,7 +43,7 @@ export const Images = {
   carDriverAvatar: require('./images/carDriverAvatar.png'),
   bikeDriverAvatar: require('./images/bikeDriverAvatar.png'),
   arrowUp: require('./images/arrowUp.png'),
-
+  lock: require('./images/lock.png'),
   //
 };
 export const IconName = {

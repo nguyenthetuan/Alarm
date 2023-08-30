@@ -1,44 +1,27 @@
-import React, {
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
 import Icon from 'assets/svg/Icon';
 import {
   Buttons,
-  Divider,
   IconApp,
   ImageCus,
-  ModalCus,
   TextCus,
-  TextInputs,
   TouchCus,
   ViewCus,
 } from 'components';
+import React, { useImperativeHandle, useRef, useState } from 'react';
 import { BaseStyle, Colors } from 'theme';
-import { useGeo, useLocation } from 'hooks';
 
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { IconName, Images } from 'assets';
 import {
-  FlatList,
   Modal,
-  Platform,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
 } from 'react-native';
-import ChooseFromTo from '../components/ChooseFromTo';
-import { IconName, Images } from 'assets';
 import { RadioButton } from 'react-native-paper';
 import { formatMoney } from 'utils';
+import ChooseFromTo from '../components/ChooseFromTo';
 import SelectedGroupItems from '../components/SelectedGroupItems';
-import BottomSheet, {
-  BottomSheetModal,
-  BottomSheetTextInput,
-} from '@gorhom/bottom-sheet';
 
 const dumpDataHinhThuc = [
   {
@@ -76,21 +59,21 @@ const dumpDataLoaiHinhThuc = [
   },
 ];
 
-const dumpDataLoaiHinhHangHoa = [
-  {
-    title: 'Cơ bản',
+// const dumpDataLoaiHinhHangHoa = [
+//   {
+//     title: 'Cơ bản',
 
-    subTitle: 'Mặc định',
-  },
-  {
-    title: 'Tiêu chuẩn',
-    subTitle: '4.000đ',
-  },
-  {
-    title: 'Nâng cao',
-    subTitle: '10.000đ',
-  },
-];
+//     subTitle: 'Mặc định',
+//   },
+//   {
+//     title: 'Tiêu chuẩn',
+//     subTitle: '4.000đ',
+//   },
+//   {
+//     title: 'Nâng cao',
+//     subTitle: '10.000đ',
+//   },
+// ];
 
 const dumpDataListOptions = [
   {
@@ -567,7 +550,8 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                 zIndex: 1,
                 backgroundColor: '#00000040',
                 position: 'absolute',
-              }}></ViewCus>
+              }}
+            />
           </TouchableWithoutFeedback>
         </ViewCus>
       </Modal>

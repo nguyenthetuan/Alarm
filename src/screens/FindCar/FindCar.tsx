@@ -1,5 +1,12 @@
+import { IP_HOST } from '@env';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { IconName } from 'assets';
 import { Buttons, IconCus, TextCus, TouchCus, ViewCus } from 'components';
 import { BottomSheetModalContainer } from 'components/BottomSheetModals';
+import { useCart } from 'context/CartContext';
+import { useLocation, useSocket } from 'hooks';
+import { useOrders } from 'hooks/useOrders';
+import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, {
   useCallback,
   useEffect,
@@ -7,35 +14,20 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  FindCarType,
-  IOrderDetail,
-  IOrderItem,
-  IOrderRequest,
-  IRefBottom,
-} from 'types';
-import styles from './styles';
-import { IconName } from 'assets';
 import { Colors } from 'theme';
-import { NavigationService, RootStackParamList, Routes } from 'navigation';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { FindCarType, IOrderDetail, IRefBottom } from 'types';
+import { getRandomFloat } from 'utils';
 import {
   ChooseWayToDelivery,
   DriverAreComing,
   FindDriver,
   OrderOnProcess,
 } from './Components';
-import { useCart } from 'context/CartContext';
-import { useAuth, useCategories, useLocation, useSocket } from 'hooks';
-import { useOrders } from 'hooks/useOrders';
-import { useDispatch } from 'react-redux';
-import { FakeMapFind } from './Components/FakeMapFind';
 import CannotFoundDriver from './Components/CannotFoundDriver';
-import { IP_HOST } from '@env';
-import OrderIsSuccess from './Components/OrderIsSuccess';
+import { FakeMapFind } from './Components/FakeMapFind';
 import OrderIsCancel from './Components/OrderIsCancel';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { getRandomFloat } from 'utils';
+import OrderIsSuccess from './Components/OrderIsSuccess';
+import styles from './styles';
 
 enum ScreenStepView {
   CHOOSE_DELIVERY_OPTION = 1,
@@ -106,10 +98,10 @@ const FindCar = () => {
     },
   });
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const { orderItems: carts, selectedRestaurant } = useCart();
-  const { userInfo } = useAuth();
+  // const { userInfo } = useAuth();
   const { locationUser } = useLocation();
   const { loading: isOrderLoading, getOrderDetailByCode } = useOrders();
   //#endregion
@@ -126,11 +118,11 @@ const FindCar = () => {
     null,
   );
 
-  const { selectedPromos } = useCategories();
+  // const { selectedPromos } = useCategories();
 
-  const setCurrentOrderCode = (code: string) => {
-    currentOrderCodeRef.current = code;
-  };
+  // const setCurrentOrderCode = (code: string) => {
+  //   currentOrderCodeRef.current = code;
+  // };
 
   const getCurrentOrderCode = () => {
     return currentOrderCodeRef.current;

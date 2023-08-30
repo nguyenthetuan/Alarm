@@ -1,16 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Buttons, TextCus, TextInputs, ViewCus } from 'components';
+import { Buttons, IconApp, TextCus, TextInputs, ViewCus } from 'components';
 import React, { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { IconName, Images } from 'assets';
-import Icon from 'assets/svg/Icon';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { IconName } from 'assets';
 import { useAuth } from 'hooks';
-import { ImageBackground, ScrollView, StatusBar } from 'react-native';
+import { NavigationService, RootStackParamList, Routes } from 'navigation';
+import { ScrollView, StatusBar, View } from 'react-native';
+import { Colors } from 'theme';
 import { yupSchemaInputPhone } from 'utils';
 import styles from './styles';
-import { NavigationService, RootStackParamList, Routes } from 'navigation';
-import { RouteProp, useRoute } from '@react-navigation/native';
+
 type TFormInputPhone = {
   phoneNumber: string;
 };
@@ -36,12 +37,10 @@ const InputPhone: React.FC = ({}) => {
     [onRequestOTP],
   );
   return (
-    <ImageBackground source={Images.bgLogin} style={styles.image}>
+    <View style={styles.image}>
       <StatusBar barStyle={'dark-content'} />
       <ScrollView contentContainerStyle={styles.wrapper}>
-        <ViewCus style={styles.flex04}>
-          <Icon.Logo />
-        </ViewCus>
+        <ViewCus style={styles.flex04}>{/* <Icon.Logo /> */}</ViewCus>
         <ViewCus px-24 style={styles.flex06}>
           <TextCus heading1 mb-8 useI18n textAlign="center">
             auth.login_title
@@ -83,6 +82,15 @@ const InputPhone: React.FC = ({}) => {
             onPress={handleSubmit(onSubmitInputPhone)}
             disabled={loading}
             loading={loading}
+            icon={
+              <View>
+                <IconApp
+                  name={IconName.ChevronRight}
+                  size={15}
+                  color={Colors.white}
+                />
+              </View>
+            }
           />
           <TextCus color-grey84>
             Tôi đồng ý những
@@ -96,7 +104,7 @@ const InputPhone: React.FC = ({}) => {
           </TextCus>
         </ViewCus>
       </ScrollView>
-    </ImageBackground>
+    </View>
   );
 };
 export default InputPhone;

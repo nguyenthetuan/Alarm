@@ -9,9 +9,9 @@ const confirmPasswordMessage = 'Mật khẩu không trùng khớp';
 const requiredErrorMessage = 'Trường này là bắt buộc';
 const validateOtp = 'Vui lòng nhập đủ số xác thực';
 const requireOtp = 'Vui lòng nhập mã xác thực';
-const regexPassword = /^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).*$/;
-const validPasswordMessage =
-  'Tối thiểu 6 ký tự.\n Ít nhất 1 chữ in hoa, 1 chữ số và 1 ký tự đặc biệt';
+// const regexPassword = /^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).*$/;
+// const validPasswordMessage =
+//   'Tối thiểu 6 ký tự.\n Ít nhất 1 chữ in hoa, 1 chữ số và 1 ký tự đặc biệt';
 const newPasswordMessage = 'Mật khẩu mới không được trùng mật khẩu cũ';
 const validationUsername = 'Vui lòng nhập họ và tên';
 const validationAddress = 'Vui lòng nhập địa chỉ';

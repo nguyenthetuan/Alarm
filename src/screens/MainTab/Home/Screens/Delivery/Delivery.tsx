@@ -1,5 +1,11 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { IconName } from 'assets';
 import { Buttons, IconCus, TextCus, TouchCus, ViewCus } from 'components';
 import { BottomSheetModalContainer } from 'components/BottomSheetModals';
+import { useCart } from 'context/CartContext';
+import { useCustomerSocket, useNotify, useShippingType } from 'hooks';
+import { useOrders } from 'hooks/useOrders';
+import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, {
   useCallback,
   useEffect,
@@ -7,37 +13,25 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  ILongLocation,
-  IMetaDataResponse,
-  IOrderDetail,
-  IRefBottom,
-  OrderStatus,
-} from 'types';
-import styles from './styles';
-import { IconName } from 'assets';
-import { Colors } from 'theme';
-import { NavigationService, RootStackParamList, Routes } from 'navigation';
+import { useTranslation } from 'react-i18next';
+import { BackHandler } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useDispatch } from 'react-redux';
+import { addOrderCode } from 'store/orders';
+import { Colors } from 'theme';
+import { ILongLocation, IOrderDetail, IRefBottom, OrderStatus } from 'types';
+import { formatDistanceKm } from 'utils';
 import {
   ChooseWayToDelivery,
   DriverAreComing,
   FindDriver,
   OrderOnProcess,
 } from './Components';
-import { useCart } from 'context/CartContext';
-import { useCustomerSocket, useNotify, useShippingType } from 'hooks';
-import { useOrders } from 'hooks/useOrders';
-import { useDispatch } from 'react-redux';
-import { addOrderCode } from 'store/orders';
 import CannotFoundDriver from './Components/CannotFoundDriver';
-import OrderIsSuccess from './Components/OrderIsSuccess';
-import OrderIsCancel from './Components/OrderIsCancel';
-import { RouteProp, useRoute } from '@react-navigation/native';
 import { DeliveryMapView } from './Components/DeliveryMapView';
-import { formatDistanceKm } from 'utils';
-import { useTranslation } from 'react-i18next';
-import { BackHandler } from 'react-native';
+import OrderIsCancel from './Components/OrderIsCancel';
+import OrderIsSuccess from './Components/OrderIsSuccess';
+import styles from './styles';
 
 export enum ScreenStepView {
   NOT_READY = 0,

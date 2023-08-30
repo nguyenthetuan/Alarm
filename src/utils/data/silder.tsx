@@ -42,16 +42,16 @@ export const STATUS_LIST = [
 export const NOTI_LIST = [
   {
     content:
-      'Cập nhật tính năng mới của Go Fast để quản lý nhà hàng dễ dàng hơn',
+      'Cập nhật tính năng mới của Go Ber để quản lý nhà hàng dễ dàng hơn',
     image: Images.Notification,
   },
   {
-    content: 'Tính năng mới của Go Fast để quản lý nhà hàng dễ dàng hơn',
+    content: 'Tính năng mới của Go Ber để quản lý nhà hàng dễ dàng hơn',
     image: Images.Notification,
   },
   {
     content:
-      'Cập nhật tính năng mới của Go Fast để quản lý nhà hàng dễ dàng hơn',
+      'Cập nhật tính năng mới của Go Ber để quản lý nhà hàng dễ dàng hơn',
     image: Images.Notification,
   },
 ];
