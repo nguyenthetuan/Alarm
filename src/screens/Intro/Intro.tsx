@@ -40,6 +40,16 @@ const Intro = () => {
       </View>
     );
   };
+
+  const nextIntro = () => {
+    if (activeDot < slidesIntro.length - 1) {
+      sliderIntro.current?.goToSlide(activeDot + 1, true);
+      return;
+    }
+    onShowFirstIntro();
+    NavigationService.navigate(Routes.InputPhone);
+  };
+
   return (
     <AppIntroSlider
       ref={sliderIntro}
@@ -65,7 +75,7 @@ const Intro = () => {
             </View>
 
             {activeDot === slidesIntro.length - 1 ? (
-              <Buttons mx-16 style={styles.btn}>
+              <Buttons mx-16 style={styles.btn} onPress={nextIntro}>
                 <TextCus useI18n color={Colors.white}>
                   loginContinue
                 </TextCus>
@@ -80,14 +90,7 @@ const Intro = () => {
                   items-center
                   justify-center
                   br-20
-                  onPress={() => {
-                    if (activeDot < slidesIntro.length - 1) {
-                      sliderIntro.current?.goToSlide(activeDot + 1, true);
-                      return;
-                    }
-                    onShowFirstIntro();
-                    NavigationService.navigate(Routes.InputPhone);
-                  }}>
+                  onPress={nextIntro}>
                   <IconApp
                     name={IconName.ChevronRight}
                     size={16}
