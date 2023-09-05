@@ -1,10 +1,15 @@
 import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
-import { IconApp, TextCus, ViewCus } from 'components';
+import { TextCus, ViewCus } from 'components';
 import React, { useMemo } from 'react';
-import { Platform, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { FontWeight, Colors } from 'theme';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import { Colors, FontWeight } from 'theme';
 interface IProps extends BottomTabBarButtonProps {
-  icon: string;
+  icon: Required;
   route: string;
   label: string;
 }
@@ -24,7 +29,8 @@ const ButtonBottomStack: React.FC<IProps> = ({
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <ViewCus style={styles.container}>
-        <IconApp name={icon} size={24} color={color} />
+        {/* <IconApp name={icon} size={24} color={color} /> */}
+        <Image source={icon} style={{ tintColor: color }} />
         <TextCus
           mt-5
           subhead

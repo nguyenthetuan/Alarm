@@ -60,6 +60,7 @@ export interface IColors {
   stroke: string;
   grey8D: string;
   emerald: string;
+  seashellPeach: string;
 }
 
 export const Colors: IColors = {
@@ -120,4 +121,5 @@ export const Colors: IColors = {
   stroke: '#29CB90',
   grey8D: '#838D8D',
   emerald: '#47CB7F',
+  seashellPeach: '#FFF6F2',
 };

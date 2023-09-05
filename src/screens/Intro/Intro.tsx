@@ -76,7 +76,7 @@ const Intro = () => {
 
             {activeDot === slidesIntro.length - 1 ? (
               <Buttons mx-16 style={styles.btn} onPress={nextIntro}>
-                <TextCus useI18n color={Colors.white}>
+                <TextCus useI18n color={Colors.white} bold>
                   loginContinue
                 </TextCus>
               </Buttons>

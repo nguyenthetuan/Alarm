@@ -2,6 +2,7 @@
  * @description define the navigation routes name by key
  */
 export enum Routes {
+  AllCategories = 'AllCategories',
   InputPhone = 'InputPhone',
   Register = 'Register',
   Intro = 'Intro',

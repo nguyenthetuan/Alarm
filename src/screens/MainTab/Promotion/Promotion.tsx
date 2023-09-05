@@ -80,7 +80,7 @@ const Promotion = () => {
       header={{
         onPressLeft: handleBack,
         notGoBack: !isBackable,
-        title: 'bottom.promotion',
+        title: 'bottom.message',
         iconColor: Colors.white,
       }}>
       <RNFlatList

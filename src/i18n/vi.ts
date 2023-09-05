@@ -2,11 +2,14 @@
  * @description define English language resource
  */
 export default {
-  hi: 'Xin chào',
+  all: 'Tất cả',
+  hi: 'Hello,',
   grp_driver: 'Chào bạn',
   khong_co_du_lieu: 'Không có dữ liệu',
   error: 'Thất bại',
   loginContinue: 'Đăng nhập ngay',
+  closeToYou: 'Gần bạn',
+  height: 'Nổi bật',
   auth: {
     login_title: 'Chào mừng bạn',
     login_subtitle: 'Nhập số điện thoại để bắt đầu',
@@ -94,8 +97,8 @@ export default {
   bottom: {
     home: 'Trang chủ',
     activity: 'Hoạt động',
-    promotion: 'Ưu đãi',
     account: 'Tài khoản',
+    message: 'Tin nhắn',
   },
   order: {
     title: 'Đơn hàng',
@@ -191,6 +194,7 @@ export default {
     title_promotion: 'Ưu đãi hấp dẫn',
     title_porposed: 'Đề xuất cho bạn',
   },
+  Allcategories: 'Tất cả danh mục',
   category: {
     coupon: '{{number}} ưu đãi đang chờ bạn',
     seen: 'Xem ngay',

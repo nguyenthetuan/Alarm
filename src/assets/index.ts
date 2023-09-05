@@ -1,4 +1,14 @@
 export const Images = {
+  car: require('./images/car.png'),
+  all: require('./images/all.png'),
+  clock: require('./images/clock.png'),
+  map: require('./images/map.png'),
+  location: require('./images/location.png'),
+  bottomAccount: require('./images/bottomAccount.png'),
+  bottomActivity: require('./images/bottomActivity.png'),
+  bottomHomepage: require('./images/bottomHomepage.png'),
+  bottomMessage: require('./images/bottomMessage.png'),
+  bottomNotification: require('./images/bottomNotification.png'),
   splashImage: require('./images/splash.png'),
   splash: require('./splash.json'),
   default_image: require('./images/default-image.png'),
@@ -89,4 +99,8 @@ export const IconName = {
   Edit: 'edit',
   EditNote: 'edit-note',
   Calander: 'calander',
+  activiti: 'activiti',
+  notification: 'notification',
+  accout: 'account',
+  message: 'message',
 };
