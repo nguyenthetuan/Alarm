@@ -94,7 +94,7 @@ const EnterReceiver = React.forwardRef<IRefs, IProps>((props, ref) => {
               onChangeText={onChange}
               onBlur={onBlur}
               value={value}
-              placeholder="account.enter_username"
+              placeholder="Số nhà, số tòa nhà"
               error={errors.receiverHouseNumber?.message}
             />
           );
