@@ -24,17 +24,17 @@ const ListCategories: React.FC<IProps> = ({ categories }) => {
           style={styles.flex025}
           items-center
           mb-16
+          t-10
           onPress={item?.onPress ?? onPressCategoryItem}>
           <ViewCus>
-            <ViewCus items-center>
-              <ViewCus
-                bg-pinkShadow45
-                br-40
-                h-52
-                w-52
-                t-5
-                style={[styles.positionAb]}
-              />
+            <ViewCus
+              bg-pinkShadow45
+              br-40
+              h-62
+              w-62
+              t-5
+              items-center
+              justify-center>
               <ImageCus
                 source={
                   item.icon
@@ -45,7 +45,7 @@ const ListCategories: React.FC<IProps> = ({ categories }) => {
                 resizeMode="contain"
               />
             </ViewCus>
-            <ViewCus>
+            <ViewCus mt-10>
               <TextCus bold color-black22 textAlign="center">
                 {name}
               </TextCus>

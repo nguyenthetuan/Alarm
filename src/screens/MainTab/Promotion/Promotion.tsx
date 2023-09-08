@@ -19,8 +19,9 @@ const Promotion = () => {
     setSelected(item);
   }, []);
   const isBackable = !!route?.params?.backPath;
-
   const handleBack = useCallback(() => {
+    console.log('isBackable', isBackable);
+    NavigationService.goBack();
     if (isBackable) {
       NavigationService.navigate(route.params.backPath, route.params.params);
     }
@@ -79,8 +80,8 @@ const Promotion = () => {
       bgColor={Colors.main}
       header={{
         onPressLeft: handleBack,
-        notGoBack: !isBackable,
-        title: 'bottom.promotion',
+        notGoBack: false,
+        title: 'promotions',
         iconColor: Colors.white,
       }}>
       <RNFlatList

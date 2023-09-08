@@ -7,87 +7,55 @@ import {
   TouchCus,
   ViewCus,
 } from 'components';
-import React, { useImperativeHandle, useRef, useState } from 'react';
+import { NavigationService, Routes } from 'navigation';
+import React, {
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { BaseStyle, Colors } from 'theme';
-
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { IconName, Images } from 'assets';
+import { useRequestDelivery } from 'hooks';
 import {
   Modal,
   StyleSheet,
   TextInput,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { RadioButton } from 'react-native-paper';
+import { IRefModal } from 'types';
 import { formatMoney } from 'utils';
 import ChooseFromTo from '../components/ChooseFromTo';
+import ModalSelectTypeDelivery from '../components/ModalDeliveryMethod';
 import SelectedGroupItems from '../components/SelectedGroupItems';
-
-const dumpDataHinhThuc = [
-  {
-    icon: 'deliveryStuff', //
-    title: 'Lấy hàng ngay (15 phút)',
-    subTitle: 'Giao vào 14:00 - Siêu tốc',
-  },
-  {
-    icon: 'bike', //
-    title: 'Xe máy',
-    subTitle: 'Hàng hóa tối đa 30kg (50x40x50cm)',
-  },
-];
-
-const dumpDataLoaiHinhThuc = [
+const type = [
   {
     icon: 'deliveryStuff', //
     title: 'Thực phẩm',
+    code: 'FOOD',
   },
   {
     icon: 'deliveryStuff', //
     title: 'Quần áo',
+    code: 'CLOTHES',
   },
   {
     icon: 'bike', //
     title: 'Điện tử',
+    code: 'ELECTRONIC',
   },
   {
     icon: 'bike', //
     title: 'Dễ vỡ',
+    code: 'FRAGILE',
   },
   {
     icon: 'bike', //
     title: 'Khác',
+    code: 'OTHER',
   },
 ];
-
-// const dumpDataLoaiHinhHangHoa = [
-//   {
-//     title: 'Cơ bản',
-
-//     subTitle: 'Mặc định',
-//   },
-//   {
-//     title: 'Tiêu chuẩn',
-//     subTitle: '4.000đ',
-//   },
-//   {
-//     title: 'Nâng cao',
-//     subTitle: '10.000đ',
-//   },
-// ];
-
-const dumpDataListOptions = [
-  {
-    title: 'Thu tiền hộ (COD)',
-    price: 20_000,
-  },
-  {
-    title: 'Giao hàng tận tay',
-  },
-  {
-    title: 'Giao hàng cỡ lớn (Từ 50kg, 60x70x60cm)',
-  },
-];
-
 interface IProps {
   fromToData: {
     from: {
@@ -103,55 +71,146 @@ interface IProps {
       place_id?: string;
     };
   };
+  cotinue: (value) => void;
+  inforOder: any;
 }
 interface IRefs {}
 const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
-  //#region Static
-  //#endregion
-
-  //#region State
-  const [value, setValue] = React.useState('first');
+  const refModalDeliveryMethod = useRef<IRefModal>(null);
   const [showInputPriceModal, setShowInputPriceModal] = useState(false);
-  //#endregion
-
-  //#region Ref control
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const {
+    listProductType,
+    listDeliveryMethod,
+    listAddon,
+    postDeliveryDistance,
+  } = useRequestDelivery();
+  const [deliveryMethod, setDeliveryMethod] = useState(
+    listDeliveryMethod?.result?.find(
+      elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
+    ) || {},
+  );
 
-  //#endregion
-
-  //#region Ref value
-  //#endregion
-
-  //#region Function
-  //#endregion
-
-  //#region Watch change
-  //#endregion
-
-  //#region Render
-  //#endregion
-
-  //#region Export func
-  useImperativeHandle(ref, () => {
-    return {};
+  const [formData, setFormData] = useState({
+    pickupLocation: props.fromToData.from,
+    dropoffLocation: props.fromToData.to,
+    weight: props.inforOder.weight,
+    productType: props.inforOder.productType,
+    addon: props.inforOder.addon,
+    postDeliveryDistance: props.inforOder.postDeliveryDistance,
+    deliveryMethod: props.inforOder.deliveryMethod,
   });
-  //#endregion
-  return (
-    <ViewCus style={[]}>
-      <ChooseFromTo fromToData={props.fromToData} disabled={true} />
-      {/* Chọn hình thức */}
+
+  const dumpDataHinhThuc =
+    listDeliveryMethod?.result?.map(elm => {
+      return {
+        ...elm,
+        icon: 'bike',
+        title: elm.name,
+        subTitle: 'Hàng hóa tối đa 30kg (50x40x50cm)',
+      };
+    }) || [];
+
+  const dumpDataLoaiHinhThuc =
+    listProductType?.result.map(elm => {
+      const item = type.find(e => e.code === elm.code);
+      return {
+        ...item,
+        ...elm,
+      };
+    }) || [];
+
+  const dumpDataListOptions = listAddon?.result.map(elm => {
+    return {
+      ...elm,
+      title: elm.name,
+    };
+  });
+
+  const valiSetUpOder = useCallback(() => {
+    let result = true;
+    if (
+      !formData.deliveryMethod ||
+      !formData.postDeliveryDistance ||
+      !formData.weight ||
+      !formData.addon
+    ) {
+      result = false;
+    }
+    return result;
+  }, [formData]);
+  console.log('valiSetUpOder', valiSetUpOder());
+
+  useImperativeHandle(
+    ref,
+    useCallback(() => {
+      return {
+        isValid: () => {
+          return valiSetUpOder();
+        },
+        getValue: () => {
+          return formData;
+        },
+      };
+    }, [formData]),
+  );
+
+  const setDistance = response => {
+    if (response.status === 200) {
+      setFormData(data => {
+        return {
+          ...data,
+          distance: response.data.result[0].distanceText,
+        };
+      });
+    }
+  };
+  const renderDeliveryMethod = () => {
+    return (
       <ViewCus>
-        <TextCus
-          px-16
-          mb-8
-          color={Colors.black}
-          style={{
-            fontWeight: 600,
-          }}>
-          Chọn hình thức
-        </TextCus>
-        <ViewCus>
-          {dumpDataHinhThuc.map((item, index) => {
+        <SelectedGroupItems
+          items={dumpDataHinhThuc}
+          flatListProps={{
+            horizontal: false,
+          }}
+          initValue={deliveryMethod}
+          onChange={(item: any) => {
+            setDeliveryMethod(item);
+            setFormData;
+            if (item.detail) {
+              refModalDeliveryMethod.current?.show();
+              setFormData(data => {
+                return {
+                  ...data,
+                  postDeliveryDistance: item.id,
+                };
+              });
+            } else {
+              setFormData(data => {
+                postDeliveryDistance(
+                  {
+                    ...data,
+                    deliveryMethod: {
+                      id: item.id,
+                      name: item.name,
+                      price: item.price,
+                    },
+                  },
+                  respose => setDistance(respose),
+                );
+                return {
+                  ...data,
+                  deliveryMethod: {
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                  },
+                  postDeliveryDistance: item.id,
+                };
+              });
+            }
+          }}
+          renderItemFunc={(data, index, isSelected) => {
             return (
               <ViewCus key={index} style={[]}>
                 <ViewCus
@@ -159,38 +218,28 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                   py-8
                   f-1
                   items-center
-                  style={[
-                    {
-                      flexDirection: 'row',
-                    },
-                    index == 0 ? styles.selectedDelivery : {},
-                  ]}>
+                  flex-row
+                  style={[isSelected ? styles.selectedDelivery : {}]}>
                   <ViewCus mr-8>
                     <ViewCus
                       bg-pinkShadow45
                       br-40
                       h-30
                       w-30
-                      //   t-5
-                      style={[{ position: 'absolute' }]}
+                      style={styles.wrapImageDelivery}
                     />
                     <ImageCus
-                      source={Images[item.icon]}
-                      style={[
-                        {
-                          width: 32,
-                          height: 32,
-                        },
-                      ]}
+                      source={Images[data.icon]}
+                      style={styles.imageDelivery}
                       resizeMode="contain"
                     />
                   </ViewCus>
                   <ViewCus f-1 style={[{}]}>
                     <TextCus subhead color={Colors.black3A}>
-                      {item.title}
+                      {data.title}
                     </TextCus>
                     <TextCus caption color={Colors.grey8D}>
-                      {item.subTitle}
+                      {data.subTitle}
                     </TextCus>
                   </ViewCus>
                   <ViewCus>
@@ -203,40 +252,158 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                 </ViewCus>
               </ViewCus>
             );
-          })}
+          }}
+        />
+      </ViewCus>
+    );
+  };
+
+  const renderProductType = () => {
+    return (
+      <ViewCus f-2 flex-row style={styles.wrapProduct} items-center px-16>
+        <SelectedGroupItems
+          wrapperStyle={styles.wrapItem}
+          items={dumpDataLoaiHinhThuc}
+          initValue={listProductType?.result.find(
+            elm => elm.name === formData.productType,
+          )}
+          flatListProps={{
+            horizontal: true,
+          }}
+          onChange={(item: any) => {
+            setFormData(data => {
+              return {
+                ...data,
+                productType: item.name,
+              };
+            });
+          }}
+          renderItemFunc={(data, index, isSelected) => {
+            return (
+              <ViewCus
+                key={index}
+                px-16
+                py-8
+                mr-16
+                style={isSelected ? styles.itemActive : styles.item}>
+                <ImageCus
+                  source={Images[data.icon]}
+                  style={styles.image}
+                  resizeMode="contain"
+                />
+                <TextCus color={isSelected ? Colors.white : Colors.black3A}>
+                  {data.title}
+                </TextCus>
+              </ViewCus>
+            );
+          }}
+        />
+      </ViewCus>
+    );
+  };
+
+  const renderAddon = () => {
+    return (
+      <ViewCus px-16 f-1 items-center flex-row>
+        <ViewCus f-1>
+          <SelectedGroupItems
+            wrapperStyle={styles.wrapItem}
+            items={dumpDataListOptions}
+            flatListProps={{
+              horizontal: true,
+            }}
+            initValue={
+              (formData?.addon &&
+                listAddon?.result.find(
+                  elm => elm.id === formData?.addon?.id,
+                )) ||
+              {}
+            }
+            onChange={(item: any) => {
+              setFormData(data => {
+                postDeliveryDistance(
+                  {
+                    ...data,
+                    addon: {
+                      id: item.id,
+                      name: item.name,
+                      price: item.price,
+                    },
+                  },
+                  respose => setDistance(respose),
+                );
+                return {
+                  ...data,
+                  addon: {
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                  },
+                };
+              });
+            }}
+            renderItemFunc={(data, index, isSelected) => {
+              return (
+                <ViewCus key={index} items-center flex-row>
+                  <TextCus style={[data.price ? {} : { flex: 1 }]}>
+                    {data.title}{' '}
+                  </TextCus>
+                  {data.price && (
+                    <TouchCus
+                      f-1
+                      onPress={() => {
+                        setShowInputPriceModal(true);
+                        bottomSheetModalRef.current?.present();
+                      }}>
+                      <TextCus color={Colors.main}>
+                        /{formatMoney(data.price)}
+                      </TextCus>
+                    </TouchCus>
+                  )}
+                  <ViewCus
+                    style={
+                      isSelected ? styles.radioButtonActive : styles.radioButton
+                    }
+                  />
+                </ViewCus>
+              );
+            }}
+          />
         </ViewCus>
       </ViewCus>
-      {/* END Chọn hình thức */}
-      {/* Áp dụng ưu đãi */}
+    );
+  };
+
+  return (
+    <ViewCus style={[]}>
+      <ChooseFromTo fromToData={props.fromToData} disabled={true} />
+      <ViewCus>
+        <TextCus px-16 mb-8 color-black style={styles.text}>
+          Chọn hình thức
+        </TextCus>
+        {renderDeliveryMethod()}
+      </ViewCus>
       <ViewCus mb-8>
-        <TextCus
-          px-16
-          color={Colors.black}
-          style={{
-            fontWeight: 600,
-          }}>
+        <TextCus px-16 color-black style={styles.text}>
           Áp dụng ưu đãi
         </TextCus>
         <ViewCus>
           <ViewCus>
-            <ViewCus
-              px-16
-              py-8
-              f-1
-              items-center
-              style={[
-                {
-                  flexDirection: 'row',
-                },
-              ]}>
+            <ViewCus px-16 py-8 f-1 items-center flex-row>
               <ViewCus mr-8>
                 <Icon.PromotionTag />
               </ViewCus>
-              <ViewCus f-1 style={[{}]}>
+              <TouchCus
+                f-1
+                onPress={() => {
+                  NavigationService.navigate(Routes.Promotion, {
+                    backPath: Routes.RequestDelivery,
+                  });
+                }}>
                 <TextCus subhead color={Colors.black3A}>
                   Áp dụng ưu đãi để được giảm giá
                 </TextCus>
-              </ViewCus>
+              </TouchCus>
               <ViewCus>
                 <IconApp
                   name={IconName.ChevronRight}
@@ -248,49 +415,19 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
           </ViewCus>
         </ViewCus>
       </ViewCus>
-      {/* END Áp dụng ưu đãi */}
-      {/* Khối lượng */}
       <ViewCus mb-8>
-        <TextCus
-          px-16
-          color={Colors.black}
-          style={{
-            fontWeight: 600,
-          }}>
+        <TextCus px-16 color={Colors.black} style={styles.text}>
           Khối lượng
         </TextCus>
         <ViewCus>
           <ViewCus>
-            <ViewCus
-              px-16
-              f-1
-              items-center
-              style={[
-                {
-                  flexDirection: 'row',
-                },
-              ]}>
+            <ViewCus px-16 f-1 items-center flex-row>
               <ViewCus f-1 style={[{}]}>
                 <TextCus subhead color={Colors.black3A}>
                   Ước tính trọng lượng
                 </TextCus>
               </ViewCus>
-              <ViewCus
-                f-1
-                style={[
-                  {
-                    flexDirection: 'row',
-                  },
-                ]}>
-                {/* <TextInputs
-                  styleWrapperInput={{
-                    flex: 1,
-                    width: 120,
-                    backgroundColor: 'red',
-                    margin: 0,
-                  }}
-                  textAlign="center"
-                /> */}
+              <ViewCus f-1 flex-row>
                 <TextInput
                   keyboardType="number-pad"
                   style={[
@@ -305,7 +442,15 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                       marginRight: 8,
                     },
                   ]}
-                  value=""
+                  onChangeText={value => {
+                    setFormData(data => {
+                      return {
+                        ...data,
+                        weight: value,
+                      };
+                    });
+                  }}
+                  value={formData?.weight || ''}
                 />
                 <TextCus>kg</TextCus>
               </ViewCus>
@@ -313,151 +458,17 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
           </ViewCus>
         </ViewCus>
       </ViewCus>
-      {/* END Khối lượng */}
-      {/* Loại hàng hóa */}
       <ViewCus>
-        <TextCus
-          px-16
-          mb-8
-          color={Colors.black}
-          style={{
-            fontWeight: 600,
-          }}>
+        <TextCus px-16 mb-8 color-black style={styles.text}>
           Loại hàng hóa
         </TextCus>
-        <ViewCus>
-          <ViewCus>
-            <ViewCus
-              px-16
-              f-1
-              items-center
-              style={[
-                {
-                  flexDirection: 'row',
-                },
-              ]}>
-              <ViewCus
-                f-1
-                style={[
-                  {
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                  },
-                ]}>
-                <SelectedGroupItems
-                  wrapperStyle={{
-                    marginBottom: 8,
-                  }}
-                  items={dumpDataLoaiHinhThuc}
-                  flatListProps={{
-                    horizontal: true,
-                  }}
-                  renderItemFunc={(data, index, isSelected) => {
-                    return (
-                      <ViewCus
-                        key={index}
-                        px-16
-                        py-8
-                        mr-16
-                        style={[
-                          {
-                            flexDirection: 'row',
-                            borderRadius: 100,
-                            borderWidth: 1,
-                            borderColor: Colors.redF3,
-                            backgroundColor: Colors.redF3,
-                          },
-                          {
-                            backgroundColor: isSelected
-                              ? Colors.main
-                              : 'transparent',
-                          },
-                        ]}>
-                        <ImageCus
-                          source={Images[data.icon]}
-                          style={[
-                            {
-                              width: 24,
-                              height: 24,
-                              marginRight: 8,
-                            },
-                          ]}
-                          resizeMode="contain"
-                        />
-                        <TextCus
-                          color={isSelected ? Colors.white : Colors.black3A}>
-                          {data.title}
-                        </TextCus>
-                      </ViewCus>
-                    );
-                  }}
-                />
-              </ViewCus>
-            </ViewCus>
-          </ViewCus>
-        </ViewCus>
+        {renderProductType()}
       </ViewCus>
-      {/* END Loại hàng hóa */}
-      {/* Dịch vụ thêm */}
       <ViewCus mt-16>
-        <TextCus
-          px-16
-          mb-8
-          color={Colors.black}
-          style={{
-            fontWeight: 600,
-          }}>
+        <TextCus px-16 mb-8 color-black style={styles.text}>
           Dịch vụ thêm
         </TextCus>
-        <ViewCus>
-          <ViewCus>
-            <ViewCus
-              px-16
-              f-1
-              items-center
-              style={[
-                {
-                  flexDirection: 'row',
-                },
-              ]}>
-              <ViewCus f-1 style={[{}]}>
-                <RadioButton.Group
-                  onValueChange={v => setValue(v)}
-                  value={value}>
-                  {dumpDataListOptions.map((x, i) => {
-                    return (
-                      <ViewCus
-                        key={i}
-                        items-center
-                        style={[
-                          {
-                            flexDirection: 'row',
-                          },
-                        ]}>
-                        <TextCus style={[x.price ? {} : { flex: 1 }]}>
-                          {x.title}{' '}
-                        </TextCus>
-                        {x.price && (
-                          <TouchCus
-                            f-1
-                            onPress={() => {
-                              setShowInputPriceModal(true);
-                              bottomSheetModalRef.current?.present();
-                            }}>
-                            <TextCus color={Colors.main}>
-                              /{formatMoney(x.price)}
-                            </TextCus>
-                          </TouchCus>
-                        )}
-                        <RadioButton.Android value={x as any} />
-                      </ViewCus>
-                    );
-                  })}
-                </RadioButton.Group>
-              </ViewCus>
-            </ViewCus>
-          </ViewCus>
-        </ViewCus>
+        {renderAddon()}
       </ViewCus>
       {/* END Dịch vụ thêm */}
       <Modal
@@ -555,16 +566,83 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
           </TouchableWithoutFeedback>
         </ViewCus>
       </Modal>
+      <ModalSelectTypeDelivery
+        ref={refModalDeliveryMethod}
+        continue={item => {
+          setFormData(data => {
+            postDeliveryDistance(
+              {
+                ...data,
+                deliveryMethod: { ...item },
+              },
+              respose => setDistance(respose),
+            );
+            return {
+              ...data,
+              deliveryMethod: { ...item },
+            };
+          });
+        }}
+        data={deliveryMethod?.detail || []}
+      />
     </ViewCus>
   );
 });
 
 const styles = StyleSheet.create({
+  radioButtonActive: {
+    height: 20,
+    width: 20,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: Colors.main,
+  },
+  radioButton: {
+    height: 20,
+    width: 20,
+    borderWidth: 1,
+    borderRadius: 10,
+  },
   selectedDelivery: {
     backgroundColor: Colors.redFFa,
     borderColor: Colors.redEB,
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
+  },
+  item: {
+    flexDirection: 'row',
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: Colors.redF3,
+    backgroundColor: 'transparent',
+  },
+  itemActive: {
+    flexDirection: 'row',
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: Colors.redF3,
+    backgroundColor: Colors.main,
+  },
+  text: {
+    fontWeight: '600',
+  },
+  image: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
+  wrapProduct: {
+    flexWrap: 'wrap',
+  },
+  wrapItem: {
+    marginBottom: 8,
+  },
+  wrapImageDelivery: {
+    position: 'absolute',
+  },
+  imageDelivery: {
+    width: 32,
+    height: 32,
   },
 });
 

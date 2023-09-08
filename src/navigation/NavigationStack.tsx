@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { IconName } from 'assets';
+// import { IconName } from 'assets';
 // import { Images } from 'assets';
 import { useAuth, useKey, useLocation } from 'hooks';
 import React, {
@@ -27,32 +27,38 @@ import { BottomSheetAlert } from 'components';
 // import {  ViewCus } from 'components';
 // import LottieView from 'lottie-react-native';
 // import { StatusBar } from 'react-native';
-
+import { Images } from 'assets';
 const Tab = createBottomTabNavigator();
 const TABAR_SCREEN = [
   {
     screen: Routes.Home,
     component: Screens.Home,
     textLabel: 'bottom.home',
-    icon: IconName.Homepage,
+    icon: Images.bottomHomepage,
   },
   {
     screen: Routes.Activity,
     component: Screens.Activity,
     textLabel: 'bottom.activity',
-    icon: IconName.Activity,
+    icon: Images.bottomActivity,
+  },
+  {
+    screen: Routes.Notification,
+    component: Screens.Notification,
+    textLabel: 'text.notification',
+    icon: Images.bottomNotification,
   },
   {
     screen: Routes.Promotion,
-    component: Screens.Promotion,
-    textLabel: 'bottom.promotion',
-    icon: IconName.Giftbox,
+    component: Screens.Message,
+    textLabel: 'bottom.message',
+    icon: Images.bottomMessage,
   },
   {
     screen: Routes.Account,
     component: Screens.Account,
     textLabel: 'bottom.account',
-    icon: IconName.Account,
+    icon: Images.bottomAccount,
   },
 ];
 
@@ -115,6 +121,7 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
         />
         <Stack.Screen name={Routes.KYC} component={Screens.KYC} />
         <Stack.Screen name={Routes.OTP} component={Screens.OTP} />
+        <Stack.Screen name={Routes.Message} component={Screens.Message} />
         <Stack.Screen
           name={Routes.HomeTabs}
           component={HomeTabs}
@@ -122,7 +129,10 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
             gestureEnabled: false,
           }}
         />
-
+        <Stack.Screen
+          name={Routes.AllCategories}
+          component={Screens.AllCategories}
+        />
         <Stack.Screen name={Routes.Categories} component={Screens.Categories} />
         <Stack.Screen name={Routes.CartOrder} component={Screens.CartOrder} />
         <Stack.Screen name={Routes.CheckOrder} component={Screens.CheckOrder} />

@@ -228,7 +228,7 @@ const DriverAreComing: React.FC<IProps> = props => {
                 </ViewCus>
                 <ViewCus mt-8 flex-row justify-space-between>
                   <TextCus subhead subHeadColor useI18n>
-                    bottom.promotion
+                    bottom.message
                   </TextCus>
                   <TextCus mainSize>
                     {formatMoney(props.orderDetailData.discount_order)}

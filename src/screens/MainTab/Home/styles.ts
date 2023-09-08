@@ -52,4 +52,15 @@ export default StyleSheet.create({
   bgStatus: {
     backgroundColor: Colors.statusColor,
   },
+  image: {
+    height: 52,
+    width: 52,
+    borderRadius: 31,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 3,
+    backgroundColor: Colors.white,
+  },
 });

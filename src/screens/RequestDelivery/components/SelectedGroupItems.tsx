@@ -1,5 +1,5 @@
 import { TouchCus } from 'components';
-import React, { useImperativeHandle, useState } from 'react';
+import React, { useImperativeHandle, useState, useEffect } from 'react';
 
 import { FlatListProps, StyleProp, ViewStyle } from 'react-native';
 
@@ -12,65 +12,33 @@ interface IProps<T = any> {
     index: number,
     isSelected: boolean,
   ) => React.JSX.Element;
-  onChange?: (val: T) => {};
+  onChange?: (val: T) => void;
   flatListProps?: Omit<FlatListProps<T>, 'data' | 'renderItem'>;
+  disable?: boolean;
 }
 interface IRef {}
 const SelectedGroupItems = React.forwardRef<IRef, IProps>((props, ref) => {
-  //#region Static
-  //#endregion
-
-  //#region State
   const [selected, setSelected] = useState(props.initValue ?? null);
-  //#endregion
-
-  //#region Ref control
-  //#endregion
-
-  //#region Ref value
-  //#endregion
-
-  //#region Function
-  //#endregion
-
-  //#region Watch change
-
-  //#endregion
-
-  //#region Render
-  // const renderItem = useCallback(
-  //   ({ item, index }) => {
-  //     const isSelected = item === selected;
-  //     return (
-  //       <TouchCus
-  //         style={[props.wrapperStyle]}
-  //         onPress={() => {
-  //           setSelected(item);
-  //         }}>
-  //         {props.renderItemFunc(item, index, isSelected)}
-  //       </TouchCus>
-  //     );
-  //   },
-  //   [props.renderItemFunc, selected],
-  // );
-  //#endregion
-
-  //#region Export func
+  useEffect(() => {
+    setSelected(props.initValue);
+  }, [props.initValue]);
   useImperativeHandle(ref, () => {
     return {};
   });
-  //#endregion
-
   return (
     <>
       {props.items.map((x, i) => {
-        const isSelected = x === selected;
+        const isSelected = x.id === selected?.id;
         return (
           <TouchCus
             key={i}
             style={[props.wrapperStyle]}
+            disabled={props?.disable}
             onPress={() => {
               setSelected(x);
+              if (props.onChange) {
+                props?.onChange(x);
+              }
             }}>
             {props.renderItemFunc(x, i, isSelected)}
           </TouchCus>
@@ -78,14 +46,6 @@ const SelectedGroupItems = React.forwardRef<IRef, IProps>((props, ref) => {
       })}
     </>
   );
-
-  // return (
-  //   <FlatList
-  //     data={props.items}
-  //     renderItem={renderItem}
-  //     {...props.flatListProps}
-  //   />
-  // );
 });
 
 export default SelectedGroupItems;

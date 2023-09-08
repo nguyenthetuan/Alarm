@@ -31,7 +31,7 @@ export const MarkerBikerRandom: React.FC<MarkerBikerProps> = ({
   durationAnimation = 5000,
   ...props
 }) => {
-  const [location, setLocation] = useState({
+  const [location] = useState({
     lat: props.latitude - getRandomFloat(-0.003, 0.003, 6),
     long: props.longitude - getRandomFloat(-0.003, 0.003, 6),
   });
@@ -41,13 +41,13 @@ export const MarkerBikerRandom: React.FC<MarkerBikerProps> = ({
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-    intervalRef.current = setInterval(() => {
-      const newLoc = {
-        lat: props.latitude - getRandomFloat(-0.0028, 0.0028, 6),
-        long: props.longitude - getRandomFloat(-0.0028, 0.0028, 6),
-      };
-      setLocation(newLoc);
-    }, 7000);
+    // intervalRef.current = setInterval(() => {
+    //   const newLoc = {
+    //     lat: props.latitude - getRandomFloat(-0.0028, 0.0028, 6),
+    //     long: props.longitude - getRandomFloat(-0.0028, 0.0028, 6),
+    //   };
+    //   setLocation(newLoc);
+    // }, 7000);
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);

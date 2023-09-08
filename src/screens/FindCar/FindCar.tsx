@@ -41,6 +41,7 @@ enum ScreenStepView {
 
 const FindCar = () => {
   //#region Static
+  console.log('IP_HOS222222', IP_HOST);
   const route = useRoute<RouteProp<RootStackParamList, 'FindCar'>>();
 
   const deliveryDriverOptions = useMemo(() => {

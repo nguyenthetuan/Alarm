@@ -1,31 +1,75 @@
 import { Images } from 'assets';
-import { CarouselHorizontal, ImageCus, TouchCus } from 'components';
+import {
+  CarouselHorizontal,
+  ImageCus,
+  TextCus,
+  TouchCus,
+  ViewCus,
+} from 'components';
 import { NavigationService, Routes } from 'navigation';
 import React, { useCallback } from 'react';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
+import { Colors } from 'theme';
 import { IPromotion } from 'types';
 interface IProps {
   promotions: IPromotion[];
+  title: string;
 }
-const AttractiveOffers: React.FC<IProps> = ({ promotions }) => {
+const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
   const onPressItem = useCallback(() => {
     NavigationService.navigate(Routes.Categories);
   }, []);
   const renderItem = useCallback(() => {
     return (
-      <TouchCus onPress={onPressItem} style={[styles.mr5]}>
-        <ImageCus
-          source={Images.banner}
-          style={styles.imagePromotion}
-          resizeMode="cover"
-        />
+      <TouchCus onPress={onPressItem} style={[styles.mr5]} b-5>
+        <ViewCus style={styles.container}>
+          <ImageCus
+            source={Images.banner}
+            style={styles.imagePromotion}
+            resizeMode="cover"
+          />
+          <ViewCus fex-1 pb-10>
+            <TextCus heading5 useI18n>
+              Pizza Hut
+            </TextCus>
+            <TextCus useI18n l-5>
+              92 Nguyễn Hữu Cảnh, Phườn...
+            </TextCus>
+            <ViewCus flex-row justify-space-between pl-5 pr-5>
+              <ViewCus
+                flex-row
+                items-center
+                bg-seashellPeach
+                pl-20
+                pr-20
+                br-6
+                pt-5
+                pb-5>
+                <Image source={Images.map} />
+                <TextCus l-3>13km</TextCus>
+              </ViewCus>
+              <ViewCus
+                flex-row
+                items-center
+                bg-seashellPeach
+                pl-30
+                pr-20
+                br-6
+                pt-5
+                pb-5>
+                <Image source={Images.clock} />
+                <TextCus l-3>1h30p</TextCus>
+              </ViewCus>
+            </ViewCus>
+          </ViewCus>
+        </ViewCus>
       </TouchCus>
     );
   }, [promotions]);
   return (
     <CarouselHorizontal
       data={promotions}
-      title={'home.title_promotion'}
+      title={title}
       onPress={() => NavigationService.navigate(Routes.Promotion)}
       renderItem={renderItem}
     />
@@ -34,10 +78,22 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions }) => {
 const styles = StyleSheet.create({
   mr5: {
     marginHorizontal: 10,
+    borderRadius: 16,
   },
   imagePromotion: {
-    height: 167,
-    width: 319,
+    height: 148,
+    width: 240,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  container: {
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: 'rgba(171, 78, 43, 0.16)',
+    shadowOpacity: 1,
+    elevation: 10,
+    shadowRadius: 1,
+    borderRadius: 16,
+    backgroundColor: Colors.white,
   },
 });
 export default AttractiveOffers;

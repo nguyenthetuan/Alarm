@@ -49,6 +49,8 @@ export const useSocket = (props: IUseSocket) => {
     };
   }, []);
 
+  console.log('soccket', socket);
+
   return {
     socket,
     onConnect,

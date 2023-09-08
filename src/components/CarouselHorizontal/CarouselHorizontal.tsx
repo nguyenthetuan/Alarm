@@ -18,7 +18,10 @@ const CarouselHorizontal = <T extends object | number>(props: IProps<T>) => {
           <TextCus heading5 useI18n>
             {title}
           </TextCus>
-          <TouchCus onPress={onPress!}>
+          <TouchCus onPress={onPress!} flex-row items-center>
+            <TextCus useI18n color={Colors.main}>
+              all
+            </TextCus>
             <IconApp
               name={IconName.ChevronRight}
               size={16}

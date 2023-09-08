@@ -12,10 +12,11 @@ const persistConfig = {
   storage: AsyncStorage,
   timeout: 100000,
   whitelist: ['user', 'location', 'home'], // Saved State when open inital app
-  blackList: ['categories', 'orders'], // Don't Saved State
+  blackList: ['categories', 'orders', 'requestDelivery'], // Don't Saved State
 };
 
 export const configStore = () => {
+  console.log('reducers', reducers);
   const middleware: any = [];
   // const enhancers = [];
 

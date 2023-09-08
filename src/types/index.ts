@@ -12,3 +12,4 @@ export * from './home';
 export * from './categories';
 export * from './shippingTypes';
 export * from './promotion';
+export * from './requestDelivery';

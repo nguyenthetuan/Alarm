@@ -50,7 +50,6 @@ const Delivery = () => {
   const { t } = useTranslation();
   const timeOutNotFoundDriver = 60_000;
   const { listData: listShippingType } = useShippingType();
-
   const route = useRoute<RouteProp<RootStackParamList, 'Delivery'>>();
 
   const {
@@ -78,6 +77,8 @@ const Delivery = () => {
 
   const deliveryDriverOptions = useMemo(() => {
     return listShippingType.map(item => {
+      console.log('item', item);
+
       return {
         ...item,
         fast: item.name === 'Giao nhanh',
@@ -253,7 +254,7 @@ const Delivery = () => {
             </ViewCus>
             <ViewCus f-1>
               <Buttons
-                disabled={isOrderLoading || carts.length === 0}
+                // disabled={isOrderLoading || carts.length === 0}
                 h-48
                 round={false}
                 style={[styles.bo8]}
@@ -266,7 +267,7 @@ const Delivery = () => {
                         } else {
                           Toast.show({
                             text1: 'Vui lòng chọn phương thức giao hàng',
-                            position: 'bottom',
+                            position: 'top',
                             type: 'error',
                           });
                         }
@@ -633,7 +634,7 @@ const Delivery = () => {
 
   useEffect(() => {
     refContentBottom.current?.show();
-
+    setStepView(ScreenStepView.CHOOSE_DELIVERY_OPTION);
     if (route.params?.order_code) {
       setCurrentOrderCode(route.params?.order_code);
       reFetchOrderDetailData();
@@ -742,6 +743,8 @@ const Delivery = () => {
 
   //#region Handle event
   const onFindDriverClick = useCallback(() => {
+    console.log('onFindDriverClick', orderRequest);
+
     if (orderRequest) {
       createOrder({
         ...orderRequest,

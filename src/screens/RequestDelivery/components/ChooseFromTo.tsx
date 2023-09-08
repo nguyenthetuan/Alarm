@@ -257,13 +257,11 @@ const ChooseFromTo = React.forwardRef<
                   ...item,
                   address: item?.structured_formatting?.main_text,
                 });
-                inputToRef.current?.focus();
               } else {
                 setToLocation({
                   ...item,
                   address: item?.structured_formatting?.main_text,
                 });
-                inputToRef.current?.blur();
               }
               setAddress([]);
             }}
@@ -313,6 +311,7 @@ const ChooseFromTo = React.forwardRef<
     };
   });
   //#endregion
+
   return (
     <ViewCus style={[BaseStyle.wrapperMain]}>
       <ViewCus style={[BaseStyle.flexRowCenter]}>

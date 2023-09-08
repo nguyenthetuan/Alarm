@@ -43,32 +43,32 @@
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires it to play music</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Our app uses bluetooth to find, connect and transfer data between different devices</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires it to canlendar</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền truy cập vào camera của bạn để chụp hình ảnh xác thực thông tin cá nhân</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires it to contacts</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) want to access your location to tracking order</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>$(PRODUCT_NAME) want to access your location to tracking order</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>$(PRODUCT_NAME) want to access your location to tracking order</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires it to play music</string>
-	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) cần quyền truy cập vào camera của bạn để chụp hình ảnh xác thực thông tin cá nhân</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires it to microphone</string>
+	<key>NSMotionUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires it to motion</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) cần quyền truy cập vào thư viện ảnh để đăng, lưu và tải ảnh hoặc video lên</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) want to access your location to tracking order</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Our app uses bluetooth to find, connect and transfer data between different devices</string>
 	<key>NSSiriUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires it to siri</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires it to speech recognition</string>
-	<key>NSMotionUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires it to motion</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires it to microphone</string>
-	<key>NSContactsUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires it to contacts</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires it to canlendar</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/AntDesign.ttf</string>

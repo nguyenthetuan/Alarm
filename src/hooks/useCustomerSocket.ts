@@ -3,6 +3,7 @@ import { useSocket } from './useSocket';
 import { IP_HOST } from '@env';
 
 export const useCustomerSocket = () => {
+  console.log('IP_HOST11111', IP_HOST);
   const { onConnect, onConnectError, socket } = useSocket({
     uri: `ws://${IP_HOST}/customer`,
     opts: {
@@ -79,6 +80,8 @@ export const useCustomerSocket = () => {
   );
 
   const connect = useCallback(() => {
+    console.log('connect');
+
     socket.connect();
     socket.on('connect');
   }, [socket]);
