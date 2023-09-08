@@ -50,7 +50,7 @@ const TABAR_SCREEN = [
   },
   {
     screen: Routes.Promotion,
-    component: Screens.Promotion,
+    component: Screens.Message,
     textLabel: 'bottom.message',
     icon: Images.bottomMessage,
   },
@@ -121,6 +121,7 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
         />
         <Stack.Screen name={Routes.KYC} component={Screens.KYC} />
         <Stack.Screen name={Routes.OTP} component={Screens.OTP} />
+        <Stack.Screen name={Routes.Message} component={Screens.Message} />
         <Stack.Screen
           name={Routes.HomeTabs}
           component={HomeTabs}

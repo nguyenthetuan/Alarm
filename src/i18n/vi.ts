@@ -2,6 +2,8 @@
  * @description define English language resource
  */
 export default {
+  sender: 'Người gửi',
+  promotions: 'Khuyến mãi',
   all: 'Tất cả',
   hi: 'Hello,',
   grp_driver: 'Chào bạn',

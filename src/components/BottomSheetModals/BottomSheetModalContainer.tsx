@@ -112,9 +112,9 @@ const BottomSheetModalContainer = (
               <TextCus semiBold heading5 mb-12>
                 {title}
               </TextCus>
-              <Divider
+              {/* <Divider
                 style={[getHeight(2), styles.bgDivider, styleSpacing('mb-16')]}
-              />
+              /> */}
             </View>
           )}
           {children && children}

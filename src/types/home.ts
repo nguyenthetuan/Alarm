@@ -27,6 +27,8 @@ export enum ETypeCategory {
   ALL = 'ALL',
   CARBOOKING = 'CAR_BOOKING',
   DRIVERBOOKING = 'DRIVER_BOOKING',
+  CARRENTAL = 'CAR_RENTAL',
+  DELIVERYNATIONWIDE = 'DELIVERY_NATIONWIDE',
 }
 export type TTypeCategory =
   | ETypeCategory.FOOD
@@ -39,7 +41,9 @@ export type TTypeCategory =
   | ETypeCategory.DOMESTIC_WOKER
   | ETypeCategory.ALL
   | ETypeCategory.CARBOOKING
-  | ETypeCategory.DRIVERBOOKING;
+  | ETypeCategory.DRIVERBOOKING
+  | ETypeCategory.CARRENTAL
+  | ETypeCategory.DELIVERYNATIONWIDE;
 interface ITypeCategory {
   icon: string;
   screen?: string;
@@ -90,6 +94,20 @@ export const DATA_CATEGORY: Record<ETypeCategory, ITypeCategory> = {
   },
   [ETypeCategory.DRIVERBOOKING]: {
     icon: 'car',
+    onPress: () =>
+      NavigationService.navigate(Routes.FindCar, {
+        type: FindCarType.MOTORBIKE,
+      }),
+  },
+  [ETypeCategory.CARRENTAL]: {
+    icon: 'carRental',
+    onPress: () =>
+      NavigationService.navigate(Routes.FindCar, {
+        type: FindCarType.MOTORBIKE,
+      }),
+  },
+  [ETypeCategory.DELIVERYNATIONWIDE]: {
+    icon: 'carDeliver',
     onPress: () =>
       NavigationService.navigate(Routes.FindCar, {
         type: FindCarType.MOTORBIKE,

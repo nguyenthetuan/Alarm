@@ -7,7 +7,6 @@ import {
   TouchCus,
   ViewCus,
 } from 'components';
-import { NavigationService, Routes } from 'navigation';
 import React, {
   useCallback,
   useImperativeHandle,
@@ -15,10 +14,12 @@ import React, {
   useState,
 } from 'react';
 import { BaseStyle, Colors } from 'theme';
+
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { IconName, Images } from 'assets';
-import { useRequestDelivery } from 'hooks';
+import { useAuth, useRequestDelivery } from 'hooks';
 import {
+  Image,
   Modal,
   StyleSheet,
   TextInput,
@@ -29,6 +30,7 @@ import { formatMoney } from 'utils';
 import ChooseFromTo from '../components/ChooseFromTo';
 import ModalSelectTypeDelivery from '../components/ModalDeliveryMethod';
 import SelectedGroupItems from '../components/SelectedGroupItems';
+
 const type = [
   {
     icon: 'deliveryStuff', //
@@ -73,12 +75,16 @@ interface IProps {
   };
   cotinue: (value) => void;
   inforOder: any;
+  receiverInfo: any;
 }
 interface IRefs {}
-const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
+const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
   const refModalDeliveryMethod = useRef<IRefModal>(null);
   const [showInputPriceModal, setShowInputPriceModal] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const { userInfo } = useAuth();
+  console.log('userInfo', userInfo);
+
   const {
     listProductType,
     listDeliveryMethod,
@@ -86,9 +92,9 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     postDeliveryDistance,
   } = useRequestDelivery();
   const [deliveryMethod, setDeliveryMethod] = useState(
-    listDeliveryMethod?.result?.find(
+    listDeliveryMethod?.result.find(
       elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
-    ) || {},
+    ),
   );
 
   const [formData, setFormData] = useState({
@@ -101,24 +107,22 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     deliveryMethod: props.inforOder.deliveryMethod,
   });
 
-  const dumpDataHinhThuc =
-    listDeliveryMethod?.result?.map(elm => {
-      return {
-        ...elm,
-        icon: 'bike',
-        title: elm.name,
-        subTitle: 'Hàng hóa tối đa 30kg (50x40x50cm)',
-      };
-    }) || [];
+  const dumpDataHinhThuc = listDeliveryMethod?.result.map(elm => {
+    return {
+      ...elm,
+      icon: 'bike',
+      title: elm.name,
+      subTitle: 'Hàng hóa tối đa 30kg (50x40x50cm)',
+    };
+  });
 
-  const dumpDataLoaiHinhThuc =
-    listProductType?.result.map(elm => {
-      const item = type.find(e => e.code === elm.code);
-      return {
-        ...item,
-        ...elm,
-      };
-    }) || [];
+  const dumpDataLoaiHinhThuc = listProductType?.result.map(elm => {
+    const item = type.find(e => e.code === elm.code);
+    return {
+      ...item,
+      ...elm,
+    };
+  });
 
   const dumpDataListOptions = listAddon?.result.map(elm => {
     return {
@@ -139,7 +143,6 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     }
     return result;
   }, [formData]);
-  console.log('valiSetUpOder', valiSetUpOder());
 
   useImperativeHandle(
     ref,
@@ -165,10 +168,45 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
       });
     }
   };
+  const rerderInforSenderReceiver = () => {
+    return (
+      <>
+        <ViewCus px-16 f-1>
+          <ViewCus flex-row>
+            <Image
+              source={Images.personActive}
+              style={styles.imagePersonSender}
+            />
+            <TextCus l-10 style={styles.text}>
+              Người gửi
+            </TextCus>
+          </ViewCus>
+          <TextCus style={styles.textInfor}>
+            {userInfo?.full_name} - {userInfo?.phone_number} -{' '}
+            {userInfo?.address}
+          </TextCus>
+        </ViewCus>
+        <ViewCus px-16 f-1 mt-10 mb-10>
+          <ViewCus flex-row>
+            <Image source={Images.person} style={styles.imageReceive} />
+            <TextCus l-10 style={styles.text}>
+              Người nhận
+            </TextCus>
+          </ViewCus>
+          <TextCus style={styles.textInfor}>
+            {props?.receiverInfo?.receiverName} -{' '}
+            {props?.receiverInfo?.receiverPhone} -{' '}
+            {props?.receiverInfo?.receiverHouseNumber}
+          </TextCus>
+        </ViewCus>
+      </>
+    );
+  };
   const renderDeliveryMethod = () => {
     return (
       <ViewCus>
         <SelectedGroupItems
+          disable
           items={dumpDataHinhThuc}
           flatListProps={{
             horizontal: false,
@@ -262,6 +300,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     return (
       <ViewCus f-2 flex-row style={styles.wrapProduct} items-center px-16>
         <SelectedGroupItems
+          disable
           wrapperStyle={styles.wrapItem}
           items={dumpDataLoaiHinhThuc}
           initValue={listProductType?.result.find(
@@ -307,6 +346,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
       <ViewCus px-16 f-1 items-center flex-row>
         <ViewCus f-1>
           <SelectedGroupItems
+            disable
             wrapperStyle={styles.wrapItem}
             items={dumpDataListOptions}
             flatListProps={{
@@ -377,6 +417,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
   return (
     <ViewCus style={[]}>
       <ChooseFromTo fromToData={props.fromToData} disabled={true} />
+      {rerderInforSenderReceiver()}
       <ViewCus>
         <TextCus px-16 mb-8 color-black style={styles.text}>
           Chọn hình thức
@@ -393,13 +434,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
               <ViewCus mr-8>
                 <Icon.PromotionTag />
               </ViewCus>
-              <TouchCus
-                f-1
-                onPress={() => {
-                  NavigationService.navigate(Routes.Promotion, {
-                    backPath: Routes.RequestDelivery,
-                  });
-                }}>
+              <TouchCus f-1>
                 <TextCus subhead color={Colors.black3A}>
                   Áp dụng ưu đãi để được giảm giá
                 </TextCus>
@@ -589,7 +624,18 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
   );
 });
 
+export default PreviewOder;
+
 const styles = StyleSheet.create({
+  imagePersonSender: {
+    tintColor: Colors.main,
+    height: 20,
+    width: 20,
+  },
+  imageReceive: {
+    height: 20,
+    width: 20,
+  },
   radioButtonActive: {
     height: 20,
     width: 20,
@@ -625,6 +671,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: '600',
+    fontSize: 14,
+  },
+  textInfor: {
+    fontWeight: '400',
+    fontSize: 12,
+    color: Colors.grey85,
   },
   image: {
     width: 24,
@@ -645,5 +697,3 @@ const styles = StyleSheet.create({
     height: 32,
   },
 });
-
-export default SetUpOrder;

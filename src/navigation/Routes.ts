@@ -9,6 +9,7 @@ export enum Routes {
   HomeTabs = 'HomeTabs',
   Profile = 'Profile',
   Home = 'Home',
+  Message = 'Message',
   SuggestForYou = 'SuggestForYou',
   OTP = 'OTP',
   KYC = 'KYC',

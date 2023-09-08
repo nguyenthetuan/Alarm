@@ -1,4 +1,9 @@
 export const Images = {
+  personActive: require('./images/personActive.png'),
+  person: require('./images/person.png'),
+  typeProduct: require('./images/typeProduct.png'),
+  carRental: require('./images/carRental.png'),
+  carDeliver: require('./images/carDeliver.png'),
   car: require('./images/car.png'),
   all: require('./images/all.png'),
   clock: require('./images/clock.png'),

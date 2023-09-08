@@ -43,7 +43,6 @@ export interface IRestaurantDetail {
   average_rating: number;
   total_reviews: number;
 }
-
 export interface OpenTime {
   day: string;
   time: string;

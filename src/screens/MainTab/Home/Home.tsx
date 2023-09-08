@@ -1,4 +1,3 @@
-import Geolocation from '@react-native-community/geolocation';
 import { Images } from 'assets';
 import {
   HomeLayout,
@@ -39,63 +38,9 @@ const Home: React.FC = () => {
   }, [getListCategories]);
   useEffect(() => {
     getListPromotions();
-    getAddressFromLocation();
-  }, [getListPromotions, getAddressFromLocation]);
+  }, [getListPromotions]);
 
   const { categories } = useMemo(() => {
-    // return {
-    //   categories: [
-    //     {
-    //       name: 'Giao đồ ăn',
-    //       defaultIcon: 'food1',
-    //     },
-    //     {
-    //       name: 'Thức uống',
-    //       defaultIcon: 'drink1',
-    //     },
-    //     {
-    //       name: 'Ôtô 4 chỗ',
-    //       defaultIcon: 'car4Seat',
-    //       onPress: () =>
-    //         NavigationService.navigate(Routes.FindCar, {
-    //           type: 'car',
-    //         }),
-    //     },
-    //     {
-    //       name: 'Xe máy',
-    //       defaultIcon: 'bike',
-    //       onPress: () =>
-    //         NavigationService.navigate(Routes.FindCar, {
-    //           type: 'bike',
-    //         }),
-    //     },
-    //     {
-    //       name: 'Đi chợ',
-    //       defaultIcon: 'goMarket',
-    //       onPress: () =>
-    //         NavigationService.navigate(Routes.FindCar, {
-    //           type: 'both',
-    //         }),
-    //     },
-    //     {
-    //       name: 'Xe du lịch',
-    //       defaultIcon: 'travelCar',
-    //       onPress: () =>
-    //         NavigationService.navigate(Routes.FindCar, {
-    //           type: 'car',
-    //         }),
-    //     },
-    //     {
-    //       name: 'Giao hàng',
-    //       defaultIcon: 'deliveryStuff',
-    //       onPress: () => NavigationService.navigate(Routes.Biker),
-    //     },
-    //     {
-    //       name: 'Giúp việc',
-    //       defaultIcon: 'houseHelper',
-    //     },
-    //   ],
-    // };
     return {
       categories: [
         ...listCategories.map(item => {
@@ -113,40 +58,6 @@ const Home: React.FC = () => {
       ],
     };
   }, [listCategories]);
-
-  const getAddressFromLocation = () => {
-    // Sử dụng Geolocation.getCurrentPosition để lấy thông tin vị trí
-    Geolocation.getCurrentPosition(
-      async position => {
-        const { latitude, longitude } = position.coords;
-
-        // Sử dụng Google Maps Geocoding API để lấy địa chỉ từ vị trí
-        const apiKey = 'GGAPI_KEY';
-        const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
-
-        try {
-          const response = await fetch(apiUrl);
-          const data = await response.json();
-
-          if (data.status === 'OK') {
-            // Lấy địa chỉ từ dữ liệu phản hồi
-            const address = data.results[0].formatted_address;
-            console.log(`Địa chỉ vị trí hiện tại: ${address}`);
-          } else {
-            console.error('Không thể lấy được địa chỉ từ vị trí.');
-          }
-        } catch (error) {
-          console.error(`Lỗi khi lấy địa chỉ: ${error}`);
-        }
-      },
-      error => {
-        console.error(`Lỗi khi lấy vị trí: ${error.message}`);
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
-  };
-
-  console.log('categories', categories);
 
   return (
     <HomeLayout
@@ -169,7 +80,7 @@ const Home: React.FC = () => {
               <ViewCus f-1 flex-row>
                 <Image source={Images.location} />
                 <TextCus l-10 color-white bold>
-                  {userInfo?.full_name}
+                  {userInfo?.address}
                 </TextCus>
               </ViewCus>
             </ViewCus>

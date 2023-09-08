@@ -22,63 +22,43 @@ interface IProps {
       place_id?: string;
     };
   };
+  receiverInfo: any;
 }
 interface IRefs {}
 const EnterReceiver = React.forwardRef<IRefs, IProps>((props, ref) => {
-  //#region Static
-  //#endregion
-
-  //#region State
   const {
     control,
     register,
     formState: { errors, isValid },
     getValues,
   } = useForm<{
-    addressDetail?: string;
-    name: string;
-    phone: string;
-    note?: string;
+    receiverHouseNumber?: string;
+    receiverName: string;
+    receiverPhone: string;
+    driverNote?: string;
   }>({
     mode: 'all',
     reValidateMode: 'onSubmit',
     resolver: yupResolver(
       Yup.object().shape({
-        addressDetail: Yup.string().notRequired(),
-        name: Yup.string()
+        receiverHouseNumber: Yup.string().notRequired(),
+        receiverName: Yup.string()
           .min(3, 'Vui lòng nhập tên người nhận')
           .required('Vui lòng nhập tên người nhận'),
-        phone: Yup.string()
+        receiverPhone: Yup.string()
           .min(10, 'SĐT ít nhất 10 ký tự')
           .required('Vui lòng nhập SĐT người nhận'),
-        note: Yup.string().notRequired(),
+        driverNote: Yup.string().notRequired(),
       }),
     ),
     defaultValues: {
-      addressDetail: '',
-      name: '',
-      phone: '',
-      note: '',
+      receiverHouseNumber: props?.receiverInfo?.receiverHouseNumber || '',
+      receiverName: props?.receiverInfo?.receiverName || '',
+      receiverPhone: props?.receiverInfo?.receiverPhone || '',
+      driverNote: props?.receiverInfo?.driverNote || '',
     },
   });
-  //#endregion
 
-  //#region Ref control
-  //#endregion
-
-  //#region Ref value
-  //#endregion
-
-  //#region Function
-  //#endregion
-
-  //#region Watch change
-  //#endregion
-
-  //#region Render
-  //#endregion
-
-  //#region Export func
   useImperativeHandle(ref, () => {
     return {
       isValid: () => {
@@ -89,7 +69,7 @@ const EnterReceiver = React.forwardRef<IRefs, IProps>((props, ref) => {
       },
     };
   });
-  //#endregion
+
   return (
     <ViewCus px-16 pt-16>
       <TextInputs
@@ -102,79 +82,79 @@ const EnterReceiver = React.forwardRef<IRefs, IProps>((props, ref) => {
 
       <Controller
         control={control}
-        name="addressDetail"
+        name="receiverHouseNumber"
         rules={{
           required: false,
         }}
         render={({ field: { onChange, onBlur, value } }) => {
           return (
             <TextInputs
-              {...register('addressDetail')}
+              {...register('receiverHouseNumber')}
               label="Số nhà, số tòa nhà"
               onChangeText={onChange}
               onBlur={onBlur}
               value={value}
               placeholder="account.enter_username"
-              error={errors.addressDetail?.message}
+              error={errors.receiverHouseNumber?.message}
             />
           );
         }}
       />
       <Controller
         control={control}
-        name="name"
+        name="receiverName"
         // rules={{
         //   required: true,
         // }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInputs
-            {...register('name')}
+            {...register('receiverName')}
             label="Tên người liên lạc"
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
             isRequired
-            placeholder="account.phone_number_input"
-            error={errors.name?.message}
+            placeholder="Tên người liên lạc"
+            error={errors.receiverName?.message}
             // keyboardType="phone-pad"
           />
         )}
       />
       <Controller
         control={control}
-        name="phone"
+        name="receiverPhone"
         // rules={{
         //   required: true,
         // }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInputs
-            {...register('phone')}
+            {...register('receiverPhone')}
             label="account.phone_number"
             onChangeText={onChange}
             onBlur={onBlur}
             isRequired
             value={value}
             placeholder="account.phone_number"
-            error={errors.phone?.message}
+            error={errors.receiverPhone?.message}
             keyboardType="phone-pad"
           />
         )}
       />
       <Controller
         control={control}
-        name="note"
+        name="driverNote"
         rules={{
           required: false,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInputs
-            {...register('note')}
+            {...register('driverNote')}
             label="Ghi chú cho tài xế"
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
             placeholder="Ghi chú cho tài xế"
-            error={errors.note?.message}
+            error={errors.driverNote?.message}
           />
         )}
       />

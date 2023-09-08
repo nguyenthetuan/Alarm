@@ -8,7 +8,7 @@ const Message = () => {
       bgColor={Colors.main}
       header={{
         notGoBack: true,
-        title: 'messsage',
+        title: 'bottom.message',
         iconColor: Colors.white,
       }}
     />

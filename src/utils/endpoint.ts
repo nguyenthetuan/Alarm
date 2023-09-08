@@ -1,4 +1,11 @@
 export const API_ENDPOINT = {
+  REQUESTDELIVERY: {
+    GET_PRODUCT_TYPE: 'customer/delivery/product-type',
+    GET_DELIVERY_METHOD: 'customer/delivery/delivery-method',
+    GET_ADDON: 'customer/delivery/addon',
+    POST_DELIVERY_FEE: 'customer/delivery/delivery-fee',
+    POST_DRLIVERY: 'customer/delivery',
+  },
   AUTH: {
     REQUEST_OTP: 'authen/request-otp',
     VERIFY_OTP: 'authen/verify-otp',
@@ -32,7 +39,6 @@ export const API_ENDPOINT = {
     LIST_FOOD: 'customer/food/list-food',
     CALCULATE_PRICE: 'customer/order/calculate',
   },
-
   ORDER: {
     CREATE: 'customer/order/create',
     DETAIL: 'customer/order/get-detail',

@@ -64,6 +64,11 @@ export interface IHomeActionPayload {
   callback?: ICallback;
 }
 
+export interface IRequestActionPayload {
+  payload: {};
+  callback?: ICallback;
+}
+
 export enum ELanguage {
   VI = 'vi',
   EN = 'en',

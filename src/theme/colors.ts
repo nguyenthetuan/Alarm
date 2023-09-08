@@ -61,6 +61,7 @@ export interface IColors {
   grey8D: string;
   emerald: string;
   seashellPeach: string;
+  koromiko: string;
 }
 
 export const Colors: IColors = {
@@ -122,4 +123,5 @@ export const Colors: IColors = {
   grey8D: '#838D8D',
   emerald: '#47CB7F',
   seashellPeach: '#FFF6F2',
+  koromiko: '#FFB366',
 };

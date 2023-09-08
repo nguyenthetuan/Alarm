@@ -1,10 +1,16 @@
 import { Buttons, HomeLayout, TextCus, ViewCus } from 'components';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  useEffect,
+} from 'react';
 import { Colors } from 'theme';
 // import styles from './styles';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useBackHandler } from '@react-native-community/hooks';
-import { NavigationService } from 'navigation';
+import { NavigationService, Routes } from 'navigation';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,30 +20,30 @@ import {
 import ChooseFromTo from './components/ChooseFromTo';
 import EnterReceiver from './screens/EnterReceiver';
 import SetUpOrder from './screens/SetUpOrder';
+import { useRequestDelivery } from 'hooks';
+import PreviewOder from './screens/PreiewOder';
+import { IPage, location } from 'types';
+import { formatMoney } from 'utils';
 
 enum RequestDeliveryStep {
   CHOOSE_FROM_TO,
   SETUP_ORDER,
   ENTER_RECEIVER,
   CHECK_FINAL_TO_ORDER,
+  PREVIEW_ODER,
 }
 export default function RequestDelivery() {
-  //#region Static
-
-  //#endregion
-
-  //#region Ref control
+  const { getListProductType, getListDeliveryMethod, getListAddon, distance } =
+    useRequestDelivery();
   const chooseFromToRef = useRef();
   const enterReceiverRef = useRef();
-  //#endregion
-
-  //#region State
+  const setUpOderRef = useRef();
   const [viewStep, setViewStep] = useState(RequestDeliveryStep.CHOOSE_FROM_TO);
-  const [fromToData, setFromToData] = useState(null);
+  const [fromToData, setFromToData] = useState<location>(null);
   const [receiverInfo, setReceiverInfo] = useState(null);
-  //#endregion
+  const [inforOder, setInforOder] = useState<any>({});
+  console.log('viewStep', viewStep);
 
-  //#region Values
   const titleView = useMemo(() => {
     switch (viewStep) {
       case RequestDeliveryStep.SETUP_ORDER:
@@ -49,40 +55,33 @@ export default function RequestDelivery() {
 
       case RequestDeliveryStep.ENTER_RECEIVER:
         return 'Thông tin người nhận';
+      case RequestDeliveryStep.PREVIEW_ODER:
+        return 'Chi tiết đơn hàng';
 
       default:
         return 'Giao hàng';
     }
   }, [viewStep]);
-  //#endregion
-
-  //#region Func
   const onBackHandle = useCallback(() => {
     switch (viewStep) {
       case RequestDeliveryStep.CHOOSE_FROM_TO:
         NavigationService.goBack();
         break;
       case RequestDeliveryStep.SETUP_ORDER:
-        if (receiverInfo) {
-          setViewStep(RequestDeliveryStep.ENTER_RECEIVER);
-        } else {
-          setViewStep(RequestDeliveryStep.CHOOSE_FROM_TO);
-        }
+        setViewStep(RequestDeliveryStep.CHOOSE_FROM_TO);
         break;
 
       case RequestDeliveryStep.ENTER_RECEIVER:
-        setReceiverInfo(null);
         setViewStep(RequestDeliveryStep.SETUP_ORDER);
         break;
-
+      case RequestDeliveryStep.PREVIEW_ODER:
+        setViewStep(RequestDeliveryStep.ENTER_RECEIVER);
+        break;
       default:
         break;
     }
     return true;
   }, [viewStep, receiverInfo]);
-  //#endregion
-
-  //#region Render
   const bottomView = useMemo(() => {
     switch (viewStep) {
       case RequestDeliveryStep.CHOOSE_FROM_TO:
@@ -106,32 +105,20 @@ export default function RequestDelivery() {
         );
       case RequestDeliveryStep.SETUP_ORDER:
         return (
-          <ViewCus
-            p-16
-            // pt-20
-            style={[
-              {
-                backgroundColor: Colors.white,
-                borderTopStartRadius: 16,
-                borderTopEndRadius: 16,
-                shadowColor: Colors.black,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.3,
-                elevation: 20,
-              },
-            ]}>
+          <ViewCus p-16 style={styles.popUpCaculator}>
             <ViewCus flex-row style={[{}]}>
               <TextCus heading5 f-1>
                 Tổng cộng{' '}
               </TextCus>
               <TextCus heading1 bold color={Colors.main}>
-                19.000đ
+                {formatMoney(distance[0]?.price || 0)}
               </TextCus>
             </ViewCus>
             <ViewCus mt-16 mb-16>
               <Buttons
                 onPress={() => {
-                  if (receiverInfo == null) {
+                  if (setUpOderRef.current?.isValid?.()) {
+                    setInforOder(setUpOderRef.current?.getValue?.());
                     setViewStep(RequestDeliveryStep.ENTER_RECEIVER);
                   }
                 }}
@@ -153,7 +140,7 @@ export default function RequestDelivery() {
               onPress={() => {
                 if (enterReceiverRef.current?.isValid?.()) {
                   setReceiverInfo(enterReceiverRef.current?.getValue());
-                  setViewStep(RequestDeliveryStep.SETUP_ORDER);
+                  setViewStep(RequestDeliveryStep.PREVIEW_ODER);
                 }
               }}
               disabled={false}
@@ -165,17 +152,42 @@ export default function RequestDelivery() {
             </Buttons>
           </ViewCus>
         );
-
+      case RequestDeliveryStep.PREVIEW_ODER:
+        return (
+          <ViewCus p-16 style={styles.popUpCaculator}>
+            <ViewCus flex-row style={[{}]}>
+              <TextCus heading5 f-1>
+                Tổng cộng{' '}
+              </TextCus>
+              <TextCus heading1 bold color={Colors.main}>
+                {formatMoney(distance[0]?.price || 0)}
+              </TextCus>
+            </ViewCus>
+            <ViewCus mt-16 mb-16>
+              <Buttons
+                onPress={() => {
+                  NavigationService.navigate(Routes.Delivery);
+                }}
+                disabled={false}
+                loading={false}
+                style={[]}>
+                <TextCus useI18n bold heading5 color={Colors.white}>
+                  Đặt giao hàng
+                </TextCus>
+              </Buttons>
+            </ViewCus>
+          </ViewCus>
+        );
       default:
         return <></>;
     }
-  }, [viewStep, receiverInfo]);
+  }, [viewStep, receiverInfo, distance]);
   const mainView = useMemo(() => {
     switch (viewStep) {
       case RequestDeliveryStep.CHOOSE_FROM_TO:
         return (
           <ScrollView keyboardShouldPersistTaps="always">
-            <ChooseFromTo ref={chooseFromToRef} />
+            <ChooseFromTo ref={chooseFromToRef} fromToData={fromToData} />
           </ScrollView>
         );
 
@@ -183,7 +195,11 @@ export default function RequestDelivery() {
         if (fromToData) {
           return (
             <ScrollView>
-              <SetUpOrder fromToData={fromToData} />
+              <SetUpOrder
+                fromToData={fromToData}
+                ref={setUpOderRef}
+                inforOder={inforOder}
+              />
             </ScrollView>
           );
         } else {
@@ -195,27 +211,65 @@ export default function RequestDelivery() {
         if (fromToData) {
           return (
             <ScrollView>
-              <EnterReceiver ref={enterReceiverRef} fromToData={fromToData} />
+              <EnterReceiver
+                receiverInfo={receiverInfo}
+                ref={enterReceiverRef}
+                fromToData={fromToData}
+              />
             </ScrollView>
           );
         } else {
           setViewStep(RequestDeliveryStep.CHOOSE_FROM_TO);
           return <></>;
         }
-
+      case RequestDeliveryStep.PREVIEW_ODER:
+        if (fromToData) {
+          return (
+            <ScrollView>
+              <PreviewOder
+                fromToData={fromToData}
+                ref={setUpOderRef}
+                inforOder={inforOder}
+                receiverInfo={receiverInfo}
+              />
+            </ScrollView>
+          );
+        } else {
+          setViewStep(RequestDeliveryStep.CHOOSE_FROM_TO);
+          return <></>;
+        }
       default:
         return <></>;
     }
   }, [viewStep, fromToData]);
-
-  //#endregion
-
-  //#region Watch change
-
   useBackHandler(onBackHandle);
 
-  //#endregion
-
+  useEffect(() => {
+    getListDeliveryMethod(
+      {
+        page: 1,
+        limit: 1,
+        search: '',
+      } as IPage,
+      () => {},
+    );
+    getListProductType(
+      {
+        page: 1,
+        limit: 1,
+        search: '',
+      } as IPage,
+      () => {},
+    );
+    getListAddon(
+      {
+        page: 1,
+        limit: 1,
+        search: '',
+      } as IPage,
+      () => {},
+    );
+  }, [getListProductType, getListDeliveryMethod, getListAddon]);
   return (
     <BottomSheetModalProvider>
       <HomeLayout
@@ -229,7 +283,6 @@ export default function RequestDelivery() {
           style={[styles.content]}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           {mainView}
-
           {bottomView}
         </KeyboardAvoidingView>
       </HomeLayout>
@@ -256,5 +309,14 @@ const styles = StyleSheet.create({
       },
     }),
     paddingTop: 10,
+  },
+  popUpCaculator: {
+    backgroundColor: Colors.white,
+    borderTopStartRadius: 16,
+    borderTopEndRadius: 16,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    elevation: 20,
   },
 });
