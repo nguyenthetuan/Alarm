@@ -31,6 +31,7 @@ import OrderIsCancel from './Components/OrderIsCancel';
 import OrderIsSuccess from './Components/OrderIsSuccess';
 import QuestionFromTo from './Components/QuestionFromTo';
 import styles from './styles';
+import _ from 'lodash';
 
 export enum FindCarScreenStepView {
   QUESTION_CHOOSE_FROM_TO,
@@ -89,28 +90,98 @@ const FindCar = () => {
     null,
   );
   const { getInfoTaxiService, findCarAction, cancleFindDriver } = useOrders();
-  const deliveryDriverOptions = useMemo(() => {
+  const [refresh, setRefresh] = useState(1);
+  // const deliveryDriverOptions = useMemo(() => {
+  //   const { from, to } = fromToData;
+  //   let rs = [
+  //     {
+  //       id: 1,
+  //       title: 'Xe máy',
+  //       subTitle: '',
+  //       type: 'MOTORBIKE',
+  //     },
+  //     {
+  //       id: 2,
+  //       title: 'Ô tô 4 chỗ',
+  //       subTitle: 'Thoải mái với 4 chỗ ngồi',
+  //       type: 'CAR4SEATS',
+  //     },
+  //     {
+  //       id: 3,
+  //       title: 'Ô tô 7 chỗ',
+  //       subTitle: 'Thoải mái với 7 chỗ ngồi',
+  //       type: 'CAR7SEATS',
+  //     },
+  //   ];
+  //   if (
+  //     from.address &&
+  //     to.address &&
+  //     from.long &&
+  //     from.lat &&
+  //     to.long &&
+  //     to.lat
+  //   ) {
+  //     try {
+  //       for (let i = 0; i < rs.length; i++) {
+  //         getInfoTaxiService(
+  //           {
+  //             pickupLocation: {
+  //               address: from.address,
+  //               long: from.long,
+  //               lat: from.lat,
+  //             },
+  //             dropoffLocation: {
+  //               address: to.address,
+  //               long: to.long,
+  //               lat: to.lat,
+  //             },
+  //             vehicle: rs[i]?.type?.toString(),
+  //           },
+  //           res => {
+  //             if (res.data.result?.length > 0) {
+  //               rs[i].price = res.data.result[0].price?.toFixed(0);
+  //               rs[i].distance = res.data.result[0].distanceKm;
+  //               rs[i].distanceText = res.data.result[0].distanceText;
+  //             }
+  //           },
+  //         );
+  //       }
+  //     } catch (error) {
+  //       console.log('error:', error);
+  //     }
+  //   }
+  //   return rs;
+  // }, [route?.params?.type, fromToData]);
+  const [deliveryDriverOptions, setDeliveryOptions] = useState([
+    {
+      id: 1,
+      title: 'Xe máy',
+      subTitle: '',
+      type: 'MOTORBIKE',
+      price: '0',
+      distance: '0',
+    },
+    {
+      id: 2,
+      title: 'Ô tô 4 chỗ',
+      subTitle: 'Thoải mái với 4 chỗ ngồi',
+      type: 'CAR4SEATS',
+      price: '0',
+      distance: '0',
+    },
+    {
+      id: 3,
+      title: 'Ô tô 7 chỗ',
+      subTitle: 'Thoải mái với 7 chỗ ngồi',
+      type: 'CAR7SEATS',
+      price: '0',
+      distance: '0',
+    },
+  ]);
+
+  useEffect(() => {
     const { from, to } = fromToData;
-    const rs = [
-      {
-        id: 1,
-        title: 'Xe máy',
-        subTitle: '',
-        type: 'MOTORBIKE',
-      },
-      {
-        id: 2,
-        title: 'Ô tô 4 chỗ',
-        subTitle: 'Thoải mái với 4 chỗ ngồi',
-        type: 'CAR4SEATS',
-      },
-      {
-        id: 3,
-        title: 'Ô tô 7 chỗ',
-        subTitle: 'Thoải mái với 7 chỗ ngồi',
-        type: 'CAR7SEATS',
-      },
-    ];
+    let _rs = _.cloneDeep(deliveryDriverOptions);
     if (
       from.address &&
       to.address &&
@@ -120,7 +191,7 @@ const FindCar = () => {
       to.lat
     ) {
       try {
-        for (let i = 0; i < rs.length; i++) {
+        for (let i = 0; i < _rs.length; i++) {
           getInfoTaxiService(
             {
               pickupLocation: {
@@ -133,14 +204,22 @@ const FindCar = () => {
                 long: to.long,
                 lat: to.lat,
               },
-              vehicle: rs[i]?.type?.toString(),
+              vehicle: _rs[i]?.type?.toString(),
             },
             res => {
               if (res.data.result?.length > 0) {
-                rs[i].price = res.data.result[0].price?.toFixed(0);
-                rs[i].distance = res.data.result[0].distanceKm;
-                rs[i].distanceText = res.data.result[0].distanceText;
+                _rs[i].price = res.data.result[0].price?.toFixed(0);
+                _rs[i].distance = res.data.result[0].distanceKm;
+                _rs[i].distanceText = res.data.result[0].distanceText;
               }
+              if (
+                _rs[0].distance === _rs[1].distance &&
+                _rs[0].distance === _rs[2].distance &&
+                parseInt(_rs[0].distance) > 0
+              ) {
+                setDeliveryOptions(deliveryDriverOptions => _rs);
+              }
+              setRefresh(refresh + 1);
             },
           );
         }
@@ -148,9 +227,7 @@ const FindCar = () => {
         console.log('error:', error);
       }
     }
-    return rs;
   }, [route?.params?.type, fromToData]);
-
   useEffect(() => {
     if (isFocused) {
       refContentBottom.current?.show();
@@ -800,7 +877,6 @@ const FindCar = () => {
           snapPoints={snapPointModal}>
           {renderContentModal(stepView)}
         </BottomSheetModalContainer>
-
         {/* <BottomSheet
           index={1}
           android_keyboardInputMode="adjustResize"

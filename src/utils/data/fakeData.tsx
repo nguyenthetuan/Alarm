@@ -1,7 +1,7 @@
 import { Images } from 'assets';
 import Icon from 'assets/svg/Icon';
 import { NavigationService, Routes } from 'navigation';
-
+import IconSVG from '../../assets/IconSVG';
 export const DATA_CATEGORIES = [
   {
     id: 1,
@@ -319,6 +319,21 @@ export const STEP_DATA = [
   {
     key: 1,
     icon: <Icon.AppSetting width={24} height={24} />,
+  },
+  {
+    key: 3,
+    icon: <Icon.MotoCylce width={24} height={24} fast />,
+  },
+  {
+    key: 4,
+    icon: <Icon.HomeOutLine width={24} height={24} />,
+  },
+];
+
+export const STEP_DATA_DELIVERY = [
+  {
+    key: 1,
+    icon: IconSVG.Home,
   },
   {
     key: 2,

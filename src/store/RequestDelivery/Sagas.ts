@@ -96,9 +96,15 @@ function* watchGetBaseActions() {
     RequestDeliveryAction.GET_LIST_ADDON as any,
     onGetBaseActionsRequested,
   );
+  yield takeEvery(
+    RequestDeliveryAction.GET_DETAIL_DELIVERY as any,
+    onGetBaseActionsRequested,
+  );
 }
 
 function* onPostBaseActionsRequested(action: IRequestActionPayload) {
+  console.log('action', action);
+
   try {
     yield put(actionRequest());
     const rs = yield axiosClient.post(

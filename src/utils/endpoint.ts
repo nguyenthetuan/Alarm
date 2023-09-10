@@ -3,6 +3,7 @@ export const API_ENDPOINT = {
     GET_PRODUCT_TYPE: 'customer/delivery/product-type',
     GET_DELIVERY_METHOD: 'customer/delivery/delivery-method',
     GET_ADDON: 'customer/delivery/addon',
+    GET_DETAIL_DELIVERY: 'customer/delivery',
     POST_DELIVERY_FEE: 'customer/delivery/delivery-fee',
     POST_DRLIVERY: 'customer/delivery',
   },

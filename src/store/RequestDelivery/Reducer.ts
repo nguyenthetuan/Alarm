@@ -8,6 +8,7 @@ const initialState: requestDelivery = {
   listAddon: [],
   distance: [],
   delivery: {},
+  detailDelivery: {},
 };
 
 const requestDeliverySlice = createSlice({
