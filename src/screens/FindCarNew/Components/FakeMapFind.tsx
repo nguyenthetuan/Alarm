@@ -19,7 +19,7 @@ export const FakeMapFind = ({
   stepView,
   driverLocation,
 }: {
-  type?: 'car' | 'bike' | 'truck' | 'taxi' | 'hd';
+  type?: 'car' | 'bike' | 'truck' | 'taxi' | 'hd' | 'driver';
   startFind?: boolean;
   stepView: FindCarScreenStepView;
   driverLocation: object;

@@ -6,6 +6,7 @@ export const API_ENDPOINT = {
     GET_DETAIL_DELIVERY: 'customer/delivery',
     POST_DELIVERY_FEE: 'customer/delivery/delivery-fee',
     POST_DRLIVERY: 'customer/delivery',
+    POST_RATING: 'customer/delivery',
     PUT_CANCEL: 'customer/delivery',
   },
   AUTH: {
@@ -32,6 +33,7 @@ export const API_ENDPOINT = {
     CATELOG: 'customer/customer-catalog/get-all',
     PROMOTION: 'customer/promotion/list-promotion',
     SUGGEST_RESTAURANTS: 'customer/restaurant/suggest-restaurants',
+    GET_RESTAURANTS_NEAR_ME: 'customer/restaurant/near-me',
   },
   CATEGORY: {
     RESTAURANT: 'customer/restaurant/list-restaurants',

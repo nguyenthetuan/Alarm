@@ -7,6 +7,7 @@ import {
   IHomeActionPayload,
   IPromotion,
   ISuggestRestaurant,
+  IPage,
 } from 'types';
 
 import { API_ENDPOINT } from 'utils';
@@ -24,6 +25,8 @@ export const useHome = () => {
   const listSuggests: null | { result: ISuggestRestaurant[] } = useSelector(
     HomeSelectors.getAttrByKey('listSuggests'),
   ) as any;
+  const listRestaurantNearMe: null | { result: ISuggestRestaurant[] } =
+    useSelector(HomeSelectors.getAttrByKey('listRestaurantNearMe')) as any;
   const getListCategories = useCallback(() => {
     dispatch(
       HomeActions.getBaseActionsRequest({
@@ -83,15 +86,36 @@ export const useHome = () => {
     [locationUser, dispatch],
   );
 
+  const getRestaurantNearMe = useCallback(
+    ({ ...rest }: IPage, cb?: IHomeActionPayload['callback']) => {
+      dispatch(
+        HomeActions.getBaseActionsRequest(
+          {
+            dataKey: 'listRestaurantNearMe',
+            endPoint: API_ENDPOINT.HOME.GET_RESTAURANTS_NEAR_ME,
+            isPaginate: true,
+            params: {
+              ...locationUser,
+            },
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch, locationUser],
+  );
+
   return {
     loading,
     listCategories,
     listPromotions,
+    listRestaurantNearMe,
     listSuggests:
       listSuggests && listSuggests.result ? listSuggests.result : [],
     reloadSuggestHome,
     getListCategories,
     getListPromotions,
     getListSuggests,
+    getRestaurantNearMe,
   };
 };

@@ -6,6 +6,7 @@ const initialState: IHomeState = {
   listCategories: [],
   listPromotions: [],
   listSuggests: [],
+  listRestaurantNearMe: [],
 };
 
 const homeSlice = createSlice({

@@ -12,7 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet } from 'react-native';
 import { Colors } from 'theme';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { useNotify, useOrders } from 'hooks';
+import { useNotify, useOrders, useRequestDelivery } from 'hooks';
 
 type TFormRating = {
   description: string;
@@ -20,6 +20,7 @@ type TFormRating = {
 const RatingBiker: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'RatingBiker'>>();
   const { ratingDriver } = useOrders();
+  const { postRatingDriver } = useRequestDelivery();
   const { success, danger } = useNotify();
   const { control, handleSubmit, setValue } = useForm<TFormRating>({
     defaultValues: {
@@ -53,19 +54,29 @@ const RatingBiker: React.FC = () => {
   const onRating = useCallback((value: TFormRating) => {
     const deliveryInfo = route.params?.deliveryInfo;
     const body = {
-      id: deliveryInfo?.motorcycleTaxi?.id,
+      id: deliveryInfo?.motorcycleTaxi?.id || deliveryInfo?.id,
       rating: point,
       review: value.description,
     };
-
-    ratingDriver(body, res => {
-      if (res.status === 200) {
-        success('Đánh giá tài xế thành công');
-        NavigationService.navigate(Routes.HomeTabs);
-      } else {
-        danger('Đánh giá tài xế thất bại');
-      }
-    });
+    if (deliveryInfo?.id) {
+      postRatingDriver(body, res => {
+        if (res.status === 200) {
+          success('Đánh giá tài xế thành công');
+          NavigationService.navigate(Routes.HomeTabs);
+        } else {
+          danger('Đánh giá tài xế thất bại');
+        }
+      });
+    } else {
+      ratingDriver(body, res => {
+        if (res.status === 200) {
+          success('Đánh giá tài xế thành công');
+          NavigationService.navigate(Routes.HomeTabs);
+        } else {
+          danger('Đánh giá tài xế thất bại');
+        }
+      });
+    }
   }, []);
   return (
     <HomeLayout

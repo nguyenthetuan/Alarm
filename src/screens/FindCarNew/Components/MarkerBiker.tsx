@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Image } from 'react-native';
 import {
   MapMarker,
   LatLng,
@@ -14,6 +14,7 @@ import {
   MarkerAnimated,
   MapMarkerProps,
 } from 'react-native-maps';
+import { Images } from 'assets';
 
 function getRandomFloat(min, max, decimals) {
   const str = (Math.random() * (max - min) + min).toFixed(decimals);
@@ -123,7 +124,8 @@ const MarkerBiker = React.forwardRef<any, MarkerBikerProps>(
         description={'My Marker'}
         {...props.markerProps}>
         {props.type === 'car' && <Icon.CarMaker />}
-        {props.type !== 'car' && <Icon.DriverMakerRed />}
+        {props.type === 'bike' && <Icon.DriverMakerRed />}
+        {props.type === 'driver' && <Image source={Images.derviceCar} />}
       </MarkerAnimated>
     );
   },

@@ -88,8 +88,6 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     listAddon,
     postDeliveryDistance,
   } = useRequestDelivery();
-  console.log('distance11111', distance);
-
   const [deliveryMethod, setDeliveryMethod] = useState(
     listDeliveryMethod?.result?.find(
       elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
@@ -146,8 +144,6 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     }
     return result;
   }, [formData]);
-  console.log('valiSetUpOder', valiSetUpOder());
-
   useImperativeHandle(
     ref,
     useCallback(() => {

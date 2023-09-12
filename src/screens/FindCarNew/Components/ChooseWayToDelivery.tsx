@@ -31,9 +31,11 @@ interface IProps {
 const ChooseWayToDelivery: React.FC<IProps> = props => {
   const [data, setData] = useState(
     _.cloneDeep(
-      props.type !== 'ALL'
-        ? props.options.filter(elm => elm.type.includes(props.type))
-        : props.options,
+      props.type !== 'CAR_DRIVER'
+        ? props.options.filter(
+            elm => elm.type.includes(props.type) && elm.vehicle,
+          )
+        : props.options.filter(elm => !elm.vehicle),
     ) || [],
   );
   const [refresh, setRefresh] = useState(1);
@@ -42,9 +44,11 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
   useEffect(() => {
     setData(
       _.cloneDeep(
-        props.type !== 'ALL'
-          ? props.options.filter(elm => elm.type.includes(props.type))
-          : props.options,
+        props.type !== 'CAR_DRIVER'
+          ? props.options.filter(
+              elm => elm.type.includes(props.type) && elm.vehicle,
+            )
+          : props.options.filter(elm => !elm.vehicle),
       ),
     );
     setRefresh(refresh + 1);
@@ -125,6 +129,18 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
                             item.type === 'CAR7SEATS') && (
                             <ImageCus
                               source={Images.car4Seat}
+                              style={[
+                                {
+                                  width: 32,
+                                  height: 32,
+                                },
+                              ]}
+                              resizeMode="contain"
+                            />
+                          )}
+                          {item.type === 'CAR_DRIVER' && (
+                            <ImageCus
+                              source={Images.derviceCar}
                               style={[
                                 {
                                   width: 32,
