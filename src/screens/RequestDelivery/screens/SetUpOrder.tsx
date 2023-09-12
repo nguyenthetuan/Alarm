@@ -29,6 +29,8 @@ import { formatMoney } from 'utils';
 import ChooseFromTo from '../components/ChooseFromTo';
 import ModalSelectTypeDelivery from '../components/ModalDeliveryMethod';
 import SelectedGroupItems from '../components/SelectedGroupItems';
+import { useCart } from 'context/CartContext';
+
 const type = [
   {
     icon: 'deliveryStuff', //
@@ -79,12 +81,15 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
   const refModalDeliveryMethod = useRef<IRefModal>(null);
   const [showInputPriceModal, setShowInputPriceModal] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const { setDistance, distance } = useCart();
   const {
     listProductType,
     listDeliveryMethod,
     listAddon,
     postDeliveryDistance,
   } = useRequestDelivery();
+  console.log('distance11111', distance);
+
   const [deliveryMethod, setDeliveryMethod] = useState(
     listDeliveryMethod?.result?.find(
       elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
@@ -112,7 +117,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     }) || [];
 
   const dumpDataLoaiHinhThuc =
-    listProductType?.result.map(elm => {
+    listProductType?.result?.map(elm => {
       const item = type.find(e => e.code === elm.code);
       return {
         ...item,
@@ -120,12 +125,13 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
       };
     }) || [];
 
-  const dumpDataListOptions = listAddon?.result.map(elm => {
-    return {
-      ...elm,
-      title: elm.name,
-    };
-  });
+  const dumpDataListOptions =
+    listAddon?.result?.map(elm => {
+      return {
+        ...elm,
+        title: elm.name,
+      };
+    }) || [];
 
   const valiSetUpOder = useCallback(() => {
     let result = true;
@@ -133,6 +139,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
       !formData.deliveryMethod ||
       !formData.postDeliveryDistance ||
       !formData.weight ||
+      !formData.productType ||
       !formData.addon
     ) {
       result = false;
@@ -155,12 +162,13 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     }, [formData]),
   );
 
-  const setDistance = response => {
+  const setFormDataDistance = response => {
     if (response.status === 200) {
+      setDistance(response.data.result[0].distanceKm);
       setFormData(data => {
         return {
           ...data,
-          distance: response.data.result[0].distanceText,
+          distance: response.data.result[0].distanceKm,
         };
       });
     }
@@ -196,7 +204,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                       price: item.price,
                     },
                   },
-                  respose => setDistance(respose),
+                  respose => setFormDataDistance(respose),
                 );
                 return {
                   ...data,
@@ -264,9 +272,11 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
         <SelectedGroupItems
           wrapperStyle={styles.wrapItem}
           items={dumpDataLoaiHinhThuc}
-          initValue={listProductType?.result.find(
-            elm => elm.name === formData.productType,
-          )}
+          initValue={
+            listProductType?.result?.find(
+              elm => elm.name === formData.productType,
+            ) || {}
+          }
           flatListProps={{
             horizontal: true,
           }}
@@ -330,7 +340,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                       price: item.price,
                     },
                   },
-                  respose => setDistance(respose),
+                  respose => setFormDataDistance(respose),
                 );
                 return {
                   ...data,
@@ -575,7 +585,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                 ...data,
                 deliveryMethod: { ...item },
               },
-              respose => setDistance(respose),
+              respose => setFormDataDistance(respose),
             );
             return {
               ...data,

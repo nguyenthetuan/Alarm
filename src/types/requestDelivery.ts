@@ -4,7 +4,8 @@ export interface requestDelivery {
   listDeliveryMethod: ItemProductType[];
   listAddon: itemAddon[];
   distance: [];
-  oder: {};
+  delivery: {};
+  detailDelivery: {};
 }
 
 export interface ItemProductType {

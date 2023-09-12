@@ -4,8 +4,10 @@ export const RequestDeliveryAction = {
   GET_LIST_PRODUCT_TYPE: 'GET_LIST_PRODUCT_TYPE',
   GET_LIST_DELIVERY_METHOD: 'GET_LIST_DELIVERY_METHOD',
   GET_LIST_ADDON: 'GET_LIST_ADDON',
+  GET_DETAIL_DELIVERY: 'GET_DETAIL_DELIVERY',
   POST_DELIVERY_DISTANCE: 'POST_DELIVERY_DISTANCE',
   POST_DELIVERY: 'POST_DELIVERY',
+  PUT_CANCEL_DELIVERY: 'PUT_CANCEL_DELIVERY',
 };
 
 export const getBaseActionsRequest = (
@@ -22,6 +24,15 @@ export const postBaseActionsRequest = (
   callback?: IRequestActionPayload['callback'],
 ) => ({
   payload,
-  type: RequestDeliveryAction.POST_DELIVERY_DISTANCE,
+  type: payload?.type || RequestDeliveryAction.POST_DELIVERY_DISTANCE,
+  callback,
+});
+
+export const putBaseActionsRequest = (
+  payload: IRequestActionPayload['payload'],
+  callback?: IRequestActionPayload['callback'],
+) => ({
+  payload,
+  type: payload?.type || RequestDeliveryAction.PUT_CANCEL_DELIVERY,
   callback,
 });

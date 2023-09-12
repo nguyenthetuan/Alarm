@@ -38,6 +38,7 @@ interface IContext {
   setSelectedRestaurant: React.Dispatch<React.SetStateAction<string>>;
   setDistance: React.Dispatch<React.SetStateAction<Number>>;
   setPromotions: React.Dispatch<React.SetStateAction<IPromotionListItem[]>>;
+  setDeliveryFee: React.Dispatch<React.SetStateAction<Number | string>>;
 
   orderRequest?: IOrderRequest;
   note: string;
@@ -47,6 +48,7 @@ interface IContext {
   price: number;
   selectedRestaurant: string;
   distance: number;
+  deliveryFee: number | string;
 }
 const CartContext = createContext<IContext>({
   addItemToOrder: () => {},
@@ -59,6 +61,7 @@ const CartContext = createContext<IContext>({
   setOrderRequest: () => {},
   setDistance: () => {},
   setPromotions: () => {},
+  setDeliveryFee: () => {},
 
   orderRequest: undefined,
   note: '',
@@ -68,6 +71,7 @@ const CartContext = createContext<IContext>({
   location: undefined,
   selectedRestaurant: '',
   distance: 0,
+  deliveryFee: 0,
 });
 
 let count = 0;
@@ -79,6 +83,7 @@ const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
   const [location, setLocation] = useState<ILongLocation | undefined>(
     undefined,
   );
+  const [deliveryFee, setDeliveryFee] = useState<number | string>(0);
   const [note, setNote] = useState<string>('');
   const [orderRequest, setOrderRequest] = useState<IOrderRequest | undefined>(
     undefined,
@@ -186,6 +191,9 @@ const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
       setOrderRequest,
       setDistance,
       setPromotions,
+
+      deliveryFee,
+      setDeliveryFee,
     };
   }, [
     location,
@@ -206,6 +214,8 @@ const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
     setOrderRequest,
     setDistance,
     setPromotions,
+    deliveryFee,
+    setDeliveryFee,
   ]);
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

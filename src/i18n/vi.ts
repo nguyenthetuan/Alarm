@@ -2,6 +2,9 @@
  * @description define English language resource
  */
 export default {
+  refreshRequire: 'Đặt lại',
+  cencalRequire: 'Huỷ yêu cầu',
+  cancelDrive: 'Huỷ tìm tài xế',
   sender: 'Người gửi',
   promotions: 'Khuyến mãi',
   all: 'Tất cả',

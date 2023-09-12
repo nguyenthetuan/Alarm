@@ -7,6 +7,7 @@ export enum Routes {
   Register = 'Register',
   Intro = 'Intro',
   HomeTabs = 'HomeTabs',
+  HomeTabsLogin = 'HomeTabsLogin',
   Profile = 'Profile',
   Home = 'Home',
   Message = 'Message',
@@ -19,6 +20,7 @@ export enum Routes {
   Activity = 'Activity',
   // Map
   Delivery = 'Delivery',
+  shipment = 'shipment',
   FindCar = 'FindCar',
   InputAddress = 'InputAddress',
   // Order

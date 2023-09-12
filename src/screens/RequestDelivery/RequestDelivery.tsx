@@ -20,10 +20,11 @@ import {
 import ChooseFromTo from './components/ChooseFromTo';
 import EnterReceiver from './screens/EnterReceiver';
 import SetUpOrder from './screens/SetUpOrder';
-import { useRequestDelivery } from 'hooks';
+import { useRequestDelivery, useLocation } from 'hooks';
 import PreviewOder from './screens/PreiewOder';
 import { IPage, location } from 'types';
 import { formatMoney } from 'utils';
+import { useCart } from 'context/CartContext';
 
 enum RequestDeliveryStep {
   CHOOSE_FROM_TO,
@@ -33,17 +34,31 @@ enum RequestDeliveryStep {
   PREVIEW_ODER,
 }
 export default function RequestDelivery() {
-  const { getListProductType, getListDeliveryMethod, getListAddon, distance } =
-    useRequestDelivery();
+  const {
+    getListProductType,
+    getListDeliveryMethod,
+    getListAddon,
+    distance,
+    postDelivery,
+  } = useRequestDelivery();
+  const {
+    orderItems: carts,
+    price,
+    updateLocationOrder: updateLocation,
+    location: cartLocation,
+    note,
+    setNote,
+    setOrderRequest,
+    setDeliveryFee,
+  } = useCart();
   const chooseFromToRef = useRef();
   const enterReceiverRef = useRef();
   const setUpOderRef = useRef();
   const [viewStep, setViewStep] = useState(RequestDeliveryStep.CHOOSE_FROM_TO);
   const [fromToData, setFromToData] = useState<location>(null);
-  const [receiverInfo, setReceiverInfo] = useState(null);
+  const [receiverInfo, setReceiverInfo] = useState<any>(null);
   const [inforOder, setInforOder] = useState<any>({});
-  console.log('viewStep', viewStep);
-
+  const { locationUser } = useLocation();
   const titleView = useMemo(() => {
     switch (viewStep) {
       case RequestDeliveryStep.SETUP_ORDER:
@@ -82,6 +97,7 @@ export default function RequestDelivery() {
     }
     return true;
   }, [viewStep, receiverInfo]);
+
   const bottomView = useMemo(() => {
     switch (viewStep) {
       case RequestDeliveryStep.CHOOSE_FROM_TO:
@@ -89,7 +105,10 @@ export default function RequestDelivery() {
           <ViewCus px-16 style={[styles.spacingBottom]}>
             <Buttons
               onPress={() => {
-                if (chooseFromToRef.current?.isValid?.()) {
+                if (
+                  chooseFromToRef.current?.isValid?.() &&
+                  chooseFromToRef.current?.checkFromTo
+                ) {
                   setFromToData(chooseFromToRef.current?.getValue());
                   setViewStep(RequestDeliveryStep.SETUP_ORDER);
                 }
@@ -166,7 +185,32 @@ export default function RequestDelivery() {
             <ViewCus mt-16 mb-16>
               <Buttons
                 onPress={() => {
-                  NavigationService.navigate(Routes.Delivery);
+                  console.log('inforOder', inforOder);
+                  postDelivery(
+                    {
+                      pickupLocation: fromToData.from,
+                      dropoffLocation: fromToData.to,
+                      addon: inforOder.addon,
+                      vehicle: 'MOTORBIKE',
+                      productType: inforOder.productType,
+                      deliveryMethod: inforOder.deliveryMethod,
+                      distance: inforOder.distance,
+                      weight: inforOder.weight,
+                      receiverPhone: receiverInfo.receiverPhone,
+                      receiverName: receiverInfo.receiverName,
+                      receiverHouseNumber: receiverInfo.receiverHouseNumber,
+                      driverNote: receiverInfo.driverNote,
+                      price: distance[0]?.price,
+                    },
+                    response => {
+                      if (response.status === 200) {
+                        setDeliveryFee(response.data.result[0].price);
+                        NavigationService.navigate(Routes.shipment, {
+                          order_code: response.data.result[0].id,
+                        });
+                      }
+                    },
+                  );
                 }}
                 disabled={false}
                 loading={false}
@@ -269,7 +313,8 @@ export default function RequestDelivery() {
       } as IPage,
       () => {},
     );
-  }, [getListProductType, getListDeliveryMethod, getListAddon]);
+    updateLocation(fromToData?.to || locationUser);
+  }, [getListProductType, getListDeliveryMethod, getListAddon, fromToData]);
   return (
     <BottomSheetModalProvider>
       <HomeLayout

@@ -28,6 +28,7 @@ import {
   onCloseModal,
   onShowModal,
 } from 'components/BottomSheetAlert/BottomSheetAlert';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -266,9 +267,10 @@ export const useAuth = () => {
     },
     [],
   );
-  const onShowFirstIntro = useCallback(() => {
+  const onShowFirstIntro = useCallback(async () => {
     dispatch(UserActions.isShowIntro());
     saveKeyStore(KEY_CONTEXT.CHECKINTRO, 'Y');
+    await AsyncStorage.setItem('Intro', 'Y');
   }, []);
   return {
     user,

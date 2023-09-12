@@ -89,14 +89,14 @@ export const DATA_CATEGORY: Record<ETypeCategory, ITypeCategory> = {
     icon: 'car',
     onPress: () =>
       NavigationService.navigate(Routes.FindCar, {
-        type: FindCarType.MOTORBIKE,
+        type: FindCarType.CAR,
       }),
   },
   [ETypeCategory.DRIVERBOOKING]: {
     icon: 'car',
     onPress: () =>
       NavigationService.navigate(Routes.FindCar, {
-        type: FindCarType.MOTORBIKE,
+        type: FindCarType.ALL,
       }),
   },
   [ETypeCategory.CARRENTAL]: {

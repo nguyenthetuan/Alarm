@@ -60,7 +60,7 @@ const CallPhone = ({}: IProps, ref: Ref<IModalCallPhoneRef>) => {
     <Modal visible={state.visible} transparent={true} animationType="fade">
       <ViewCus style={styles.container}>
         <TouchCus style={styles.wrapperContent} flex-row onPress={onCallPhone}>
-          <IconApp name={IconName.Phone} size={20} color={Colors.grey6A} />
+          <IconApp name={IconName.Phone} size={20} color={Colors.sharlequin} />
           <TextCus
             ml-10
             heading5

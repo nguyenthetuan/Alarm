@@ -12,4 +12,5 @@ export enum FindCarType {
   MOTORBIKE = 'MOTORBIKE',
   CAR4SEATS = 'CAR4SEATS',
   CAR7SEATS = 'CAR7SEATS',
+  ALL = 'ALL',
 }

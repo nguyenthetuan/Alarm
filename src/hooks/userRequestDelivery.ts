@@ -20,6 +20,12 @@ export const useRequestDelivery = () => {
   const distance = useSelector(
     RequestDeliverySelector.getAttrByKey('distance'),
   );
+  const delivery = useSelector(
+    RequestDeliverySelector.getAttrByKey('delivery'),
+  );
+  const oderDetail = useSelector(
+    RequestDeliverySelector.getAttrByKey('oderDetail'),
+  );
   const getListProductType = useCallback(
     ({ ...rest }: IPage, cb?: IRequestActionPayload['callback']) => {
       console.log('rest', rest);
@@ -56,13 +62,27 @@ export const useRequestDelivery = () => {
 
   const getListAddon = useCallback(
     ({ ...rest }: IPage, cb?: IRequestActionPayload['callback']) => {
-      console.log('rest', rest);
       dispatch(
         RequestDeliveryAction.getBaseActionsRequest(
           {
             dataKey: 'listAddon',
             endPoint: API_ENDPOINT.REQUESTDELIVERY.GET_ADDON,
             isPaginate: true,
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
+
+  const getOrderDetailByCode = useCallback(
+    (orderCode: string, cb?: ICallback) => {
+      dispatch(
+        RequestDeliveryAction.getBaseActionsRequest(
+          {
+            dataKey: 'oderDetail',
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.GET_DETAIL_DELIVERY}/${orderCode}`,
           },
           cb,
         ),
@@ -89,7 +109,7 @@ export const useRequestDelivery = () => {
   const postDelivery = useCallback(
     (data: any, cb?: IRequestActionPayload['callback']) => {
       dispatch(
-        RequestDeliveryAction.getBaseActionsRequest(
+        RequestDeliveryAction.postBaseActionsRequest(
           {
             dataKey: 'delivery',
             endPoint: API_ENDPOINT.REQUESTDELIVERY.POST_DRLIVERY,
@@ -102,16 +122,35 @@ export const useRequestDelivery = () => {
     },
     [dispatch],
   );
-
+  const putDeleteDelivery = useCallback(
+    (orderCode: string, cb?: IRequestActionPayload['callback']) => {
+      console.log('orderCode', orderCode);
+      dispatch(
+        RequestDeliveryAction.putBaseActionsRequest(
+          {
+            dataKey: 'deleteDelivery',
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.POST_DRLIVERY}/${orderCode}/cancel`,
+            isPaginate: true,
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
   return {
     getListProductType,
     getListDeliveryMethod,
     getListAddon,
     postDeliveryDistance,
     postDelivery,
+    getOrderDetailByCode,
+    putDeleteDelivery,
     listProductType,
     listDeliveryMethod,
     listAddon,
     distance,
+    delivery,
+    oderDetail,
   };
 };

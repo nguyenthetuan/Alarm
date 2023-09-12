@@ -1,4 +1,10 @@
 export const Images = {
+  code: require('./images/code.png'),
+  colum: require('./images/colum.png'),
+  place: require('./images/place.png'),
+  dot: require('./images/dot.png'),
+  message: require('./images/message.png'),
+  call: require('./images/call.png'),
   personActive: require('./images/personActive.png'),
   person: require('./images/person.png'),
   typeProduct: require('./images/typeProduct.png'),

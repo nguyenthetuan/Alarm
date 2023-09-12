@@ -3,7 +3,6 @@ import { useSocket } from './useSocket';
 import { IP_HOST } from '@env';
 
 export const useCustomerSocket = () => {
-  console.log('IP_HOST11111', IP_HOST);
   const { onConnect, onConnectError, socket } = useSocket({
     uri: `ws://${IP_HOST}/customer`,
     opts: {
@@ -101,6 +100,54 @@ export const useCustomerSocket = () => {
     [socket],
   );
 
+  const onFoundDriverDelivery = useCallback(
+    (callback: (data: any) => void) => {
+      socket.removeListener('customer:found-driver-for-delivery');
+      socket.on('customer:found-driver-for-delivery', callback);
+    },
+    [socket],
+  );
+
+  const onNotFoundDriverDelivery = useCallback(
+    (callback: (data: any) => void) => {
+      socket.removeListener('customer:not-found-driver-for-delivery');
+      socket.on('customer:not-found-driver-for-delivery', callback);
+    },
+    [socket],
+  );
+
+  const onCompleteDriverDelivery = useCallback(
+    (callback: (data: any) => void) => {
+      socket.removeListener('customer:completed-delivery');
+      socket.on('customer:completed-delivery', callback);
+    },
+    [socket],
+  );
+
+  const onArrivedDriverDelivery = useCallback(
+    (callback: (data: any) => void) => {
+      socket.removeListener('customer:driver-arrived-delivery');
+      socket.on('customer:driver-arrived-delivery', callback);
+    },
+    [socket],
+  );
+
+  const onCancelDriverDelivery = useCallback(
+    (callback: (data: any) => void) => {
+      socket.removeListener('customer:cancelled-delivery');
+      socket.on('customer:cancelled-delivery', callback);
+    },
+    [socket],
+  );
+
+  const onMovingDriverDelivery = useCallback(
+    (callback: (data: any) => void) => {
+      socket.removeListener('customer:delivery-driver-moving');
+      socket.on('customer:delivery-driver-moving', callback);
+    },
+    [socket],
+  );
+
   return {
     onOrderDelivered,
     onFoundDriver,
@@ -118,5 +165,12 @@ export const useCustomerSocket = () => {
     onNotFoundMotoDriver,
     onCancelMotoDriver,
     onDriverArrived,
+
+    onFoundDriverDelivery,
+    onNotFoundDriverDelivery,
+    onCompleteDriverDelivery,
+    onArrivedDriverDelivery,
+    onCancelDriverDelivery,
+    onMovingDriverDelivery,
   };
 };

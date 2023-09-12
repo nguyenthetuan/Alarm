@@ -62,6 +62,11 @@ export interface IColors {
   emerald: string;
   seashellPeach: string;
   koromiko: string;
+  EcornflowerBlue: string;
+  sharlequin: string;
+  gallery: string;
+  greenHaze: string;
+  pumice: string;
 }
 
 export const Colors: IColors = {
@@ -124,4 +129,9 @@ export const Colors: IColors = {
   emerald: '#47CB7F',
   seashellPeach: '#FFF6F2',
   koromiko: '#FFB366',
+  EcornflowerBlue: '#4995EE',
+  sharlequin: '#2DCB05',
+  gallery: '#EDEDED',
+  greenHaze: '#02B250',
+  pumice: '#D7DBD9',
 };

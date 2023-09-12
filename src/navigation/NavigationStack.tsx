@@ -4,8 +4,8 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-// import { IconName } from 'assets';
-// import { Images } from 'assets';
+import { IconName } from 'assets';
+import { Images } from 'assets';
 import { useAuth, useKey, useLocation } from 'hooks';
 import React, {
   useCallback,
@@ -16,7 +16,7 @@ import React, {
 } from 'react';
 import * as Screens from 'screens';
 import { Colors } from 'theme';
-// import { BaseStyle } from 'theme';
+import { BaseStyle } from 'theme';
 import { KEY_CONTEXT, isIos } from 'utils';
 import ButtonBottomStack from './ButtonBottomStack';
 import { navigationRef } from './NavigationService';
@@ -24,10 +24,12 @@ import { Routes } from './Routes';
 import { RootStackParamList } from './types';
 import Geolocation from '@react-native-community/geolocation';
 import { BottomSheetAlert } from 'components';
-// import {  ViewCus } from 'components';
-// import LottieView from 'lottie-react-native';
-// import { StatusBar } from 'react-native';
-import { Images } from 'assets';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { ViewCus } from 'components';
+import LottieView from 'lottie-react-native';
+import { StatusBar, Image } from 'react-native';
+// import { Images } from 'assets';
 const Tab = createBottomTabNavigator();
 const TABAR_SCREEN = [
   {
@@ -109,8 +111,25 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
       screenOptions={{ headerShown: false }}
       initialRouteName={inititalRoute}>
       <Stack.Group>
-        <Stack.Screen name={Routes.Intro} component={Screens.Intro} />
+        {inititalRoute === 'HomeTabs' ? (
+          <Stack.Screen
+            name={Routes.HomeTabsLogin}
+            component={HomeTabs}
+            options={{
+              gestureEnabled: false,
+            }}
+          />
+        ) : (
+          <Stack.Screen name={Routes.Intro} component={Screens.Intro} />
+        )}
         <Stack.Screen name={Routes.InputPhone} component={Screens.InputPhone} />
+        <Stack.Screen
+          name={Routes.HomeTabs}
+          component={HomeTabs}
+          options={{
+            gestureEnabled: false,
+          }}
+        />
         <Stack.Screen
           name={Routes.InputPassword}
           component={Screens.InputPassword}
@@ -122,13 +141,7 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
         <Stack.Screen name={Routes.KYC} component={Screens.KYC} />
         <Stack.Screen name={Routes.OTP} component={Screens.OTP} />
         <Stack.Screen name={Routes.Message} component={Screens.Message} />
-        <Stack.Screen
-          name={Routes.HomeTabs}
-          component={HomeTabs}
-          options={{
-            gestureEnabled: false,
-          }}
-        />
+
         <Stack.Screen
           name={Routes.AllCategories}
           component={Screens.AllCategories}
@@ -138,6 +151,7 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
         <Stack.Screen name={Routes.CheckOrder} component={Screens.CheckOrder} />
         <Stack.Screen name={Routes.ExtraFood} component={Screens.ExtraFood} />
         <Stack.Screen name={Routes.Delivery} component={Screens.Delivery} />
+        <Stack.Screen name={Routes.shipment} component={Screens.Shipment} />
         <Stack.Screen name={Routes.FindCar} component={Screens.FindCar} />
         <Stack.Screen
           name={Routes.SuggestForYou}
@@ -218,13 +232,13 @@ export const Navigator = () => {
   const { getKeyStore } = useKey();
   const { saveCurrentLocation } = useLocation();
   const [inititalRoute, setInititalRoute] = useState('');
-  // const [isWaiting, setIsWaiting] = useState(true);
+  const [isWaiting, setIsWaiting] = useState(true);
   const watchPositionRef = useRef<ReturnType<
     typeof Geolocation.watchPosition
   > | null>(null);
   useLayoutEffect(() => {
     (async () => {
-      const isCheckIntro = await getKeyStore(KEY_CONTEXT.CHECKINTRO);
+      const isCheckIntro = await AsyncStorage.getItem('Intro');
       if (isCheckIntro === 'Y') {
         setInititalRoute(
           user?.accessToken ? Routes.HomeTabs : Routes.InputPhone,
@@ -289,21 +303,21 @@ export const Navigator = () => {
       clearWatchPosition();
     };
   }, []);
-  // if (isWaiting) {
-  //   return (
-  //     <ViewCus style={[BaseStyle.flex1]}>
-  //       <StatusBar barStyle={'dark-content'} />
-  //       <LottieView
-  //         source={Images.splash}
-  //         autoPlay
-  //         loop={false}
-  //         speed={1}
-  //         duration={2000}
-  //         onAnimationFinish={() => setIsWaiting(false)}
-  //       />
-  //     </ViewCus>
-  //   );
-  // }
+
+  if (isWaiting) {
+    setTimeout(() => {
+      setIsWaiting(false);
+    }, 4000);
+    return (
+      <ViewCus style={[BaseStyle.flex1]}>
+        <StatusBar barStyle={'dark-content'} />
+        <Image
+          source={Images.splashImage}
+          style={{ justifyContent: 'center', alignSelf: 'center' }}
+        />
+      </ViewCus>
+    );
+  }
   return (
     <>
       <NavigationContainer ref={navigationRef}>

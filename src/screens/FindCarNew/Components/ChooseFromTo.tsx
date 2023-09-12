@@ -158,9 +158,13 @@ const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
     });
   }, [fromLocation, toLocation]);
 
-  useEffect(() => {
+  const changeFromToFinal = useCallback(() => {
     props.onChooseFromToChange?.(fromLocationFinal, toLocationFinal);
   }, [toLocationFinal, fromLocationFinal, props.onChooseFromToChange]);
+
+  // useEffect(() => {
+  //   props.onChooseFromToChange?.(fromLocationFinal, toLocationFinal);
+  // }, [toLocationFinal, fromLocationFinal, props.onChooseFromToChange]);
 
   const renderItem = useCallback(
     ({ item, index }: { item: any; index: number }) => {
@@ -359,6 +363,7 @@ const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
                     FindCarScreenStepView.CHOOSE_DELIVERY_OPTION,
                   );
                 }
+                changeFromToFinal();
               }}>
               <TextCus useI18n bold semiBold color={Colors.white}>
                 Xác nhận điểm đón

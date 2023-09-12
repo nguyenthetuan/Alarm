@@ -3,11 +3,13 @@ import { Images } from 'assets';
 import Icon from 'assets/svg/Icon';
 import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
 import { NavigationService, Routes } from 'navigation';
-import React from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList, Image } from 'react-native';
 import { Colors } from 'theme';
 import { formatMoney, height } from 'utils';
 import styles from './styles';
+import _ from 'lodash';
+
 interface Option {
   id: number;
   fast: boolean;
@@ -23,10 +25,30 @@ interface IProps {
   onSubmit: (data: Option) => void;
   fromToData: any;
   onLayout: (height: number) => void;
+  type: string;
 }
 
 const ChooseWayToDelivery: React.FC<IProps> = props => {
+  const [data, setData] = useState(
+    _.cloneDeep(
+      props.type !== 'ALL'
+        ? props.options.filter(elm => elm.type.includes(props.type))
+        : props.options,
+    ) || [],
+  );
+  const [refresh, setRefresh] = useState(1);
+
   // const isFocused = useIsFocused();
+  useEffect(() => {
+    setData(
+      _.cloneDeep(
+        props.type !== 'ALL'
+          ? props.options.filter(elm => elm.type.includes(props.type))
+          : props.options,
+      ),
+    );
+    setRefresh(refresh + 1);
+  }, [props.options]);
 
   return (
     <ViewCus>
@@ -49,96 +71,109 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
               style={{ alignItems: 'center' }}
               flex-row>
               <TextCus color={Colors.main}>Tất cả phương tiện</TextCus>
-              <ImageCus
+              <Image
                 style={{ width: 14, height: 14, marginLeft: 10 }}
                 resizeMode={'contain'}
                 source={Images.arrowUp}
               />
             </TouchCus>
           </ViewCus>
-          {props.options.map((val, index) => {
-            return (
-              <TouchCus
-                key={index}
-                flex-row
-                mb-12
-                px-16
-                h-48
-                items-center
-                justify-space-between
-                style={[
-                  styles.w100,
-                  val.id === props.initialValue?.id ? styles.selected : null,
-                ]}
-                onPress={() => {
-                  props.onSubmit(val);
-                }}>
-                <ViewCus flex-row items-center>
-                  <ViewCus mr-8>
-                    {/* <Icon.MotoCylce fast={val.fast} /> */}
-                    <ViewCus items-center>
-                      <ViewCus
-                        bg-pinkShadow45
-                        br-40
-                        h-30
-                        w-30
-                        style={[
-                          {
-                            position: 'absolute',
-                          },
-                        ]}
-                      />
-                      {(val.type === 'CAR4SEATS' ||
-                        val.type === 'CAR7SEATS') && (
-                        <ImageCus
-                          source={Images.car4Seat}
-                          style={[
-                            {
-                              width: 32,
-                              height: 32,
-                            },
-                          ]}
-                          resizeMode="contain"
-                        />
-                      )}
-                      {val.type === 'MOTORBIKE' && (
-                        <ImageCus
-                          source={Images.bike}
-                          style={[
-                            {
-                              width: 32,
-                              height: 32,
-                            },
-                          ]}
-                          resizeMode="contain"
-                        />
-                      )}
-                    </ViewCus>
-                  </ViewCus>
-                  <ViewCus>
+          {refresh > 0 && (
+            <FlatList
+              data={data}
+              keyExtractor={(item, index) => `${index.toString()}`}
+              renderItem={({ item, index }) => {
+                const _item = { ...item };
+                console.log('item', _item);
+                console.log('item.price', _item.price);
+                console.log('item.price', _item.distance);
+
+                return (
+                  <TouchCus
+                    key={index}
+                    flex-row
+                    mb-12
+                    px-16
+                    h-48
+                    items-center
+                    justify-space-between
+                    style={[
+                      styles.w100,
+                      item.id === props.initialValue?.id
+                        ? styles.selected
+                        : null,
+                    ]}
+                    onPress={() => {
+                      props.onSubmit(item);
+                    }}>
                     <ViewCus flex-row items-center>
-                      <TextCus color={Colors.black3A} mr-5>
-                        {/* Giao {val.fast ? 'nhanh' : 'chậm'} {formatMoney(val.price)} */}
-                        {val.title}
-                      </TextCus>
-                      <Icon.Info />
-                    </ViewCus>
-                    {val.subTitle && (
-                      <ViewCus>
-                        <TextCus color={'#838D8D'} caption>
-                          {/* Giao {val.fast ? 'nhanh' : 'chậm'} {formatMoney(val.price)} */}
-                          {val.subTitle}
-                        </TextCus>
+                      <ViewCus mr-8>
+                        {/* <Icon.MotoCylce fast={val.fast} /> */}
+                        <ViewCus items-center>
+                          <ViewCus
+                            bg-pinkShadow45
+                            br-40
+                            h-30
+                            w-30
+                            style={[
+                              {
+                                position: 'absolute',
+                              },
+                            ]}
+                          />
+                          {(item.type === 'CAR4SEATS' ||
+                            item.type === 'CAR7SEATS') && (
+                            <ImageCus
+                              source={Images.car4Seat}
+                              style={[
+                                {
+                                  width: 32,
+                                  height: 32,
+                                },
+                              ]}
+                              resizeMode="contain"
+                            />
+                          )}
+                          {item.type === 'MOTORBIKE' && (
+                            <ImageCus
+                              source={Images.bike}
+                              style={[
+                                {
+                                  width: 32,
+                                  height: 32,
+                                },
+                              ]}
+                              resizeMode="contain"
+                            />
+                          )}
+                        </ViewCus>
                       </ViewCus>
-                    )}
-                  </ViewCus>
-                </ViewCus>
-                <TextCus color="#021616" mainSize bold>
-                  {formatMoney(val?.price)} - {val.distance}km
-                </TextCus>
-              </TouchCus>
-            );
-          })}
+                      <ViewCus>
+                        <ViewCus flex-row items-center>
+                          <TextCus color={Colors.black3A} mr-5>
+                            {/* Giao {val.fast ? 'nhanh' : 'chậm'} {formatMoney(val.price)} */}
+                            {item.title}
+                          </TextCus>
+                          <Icon.Info />
+                        </ViewCus>
+                        {item.subTitle && (
+                          <ViewCus>
+                            <TextCus color={'#838D8D'} caption>
+                              {/* Giao {val.fast ? 'nhanh' : 'chậm'} {formatMoney(val.price)} */}
+                              {item.subTitle}
+                            </TextCus>
+                          </ViewCus>
+                        )}
+                      </ViewCus>
+                    </ViewCus>
+                    <TextCus color="#021616" mainSize bold>
+                      {formatMoney(_item?.price)} - {_item.distance}km
+                    </TextCus>
+                  </TouchCus>
+                );
+              }}
+            />
+          )}
           {/* <ViewCus px-16 style={[BaseStyle.flexRowSpaceBetwwen]}>
           <TextCus color="#000000" heading5>
             Đi chung
