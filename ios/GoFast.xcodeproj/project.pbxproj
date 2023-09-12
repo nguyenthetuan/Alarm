@@ -592,7 +592,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gofast.customerapp;
+				PRODUCT_BUNDLE_IDENTIFIER = gober.tastvietnam.com;
 				PRODUCT_NAME = GoFast;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -635,7 +635,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gofast.customerapp;
+				PRODUCT_BUNDLE_IDENTIFIER = gober.tastvietnam.com;
 				PRODUCT_NAME = GoFast;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
