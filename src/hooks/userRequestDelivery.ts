@@ -28,7 +28,6 @@ export const useRequestDelivery = () => {
   );
   const getListProductType = useCallback(
     ({ ...rest }: IPage, cb?: IRequestActionPayload['callback']) => {
-      console.log('rest', rest);
       dispatch(
         RequestDeliveryAction.getBaseActionsRequest(
           {
@@ -45,7 +44,6 @@ export const useRequestDelivery = () => {
 
   const getListDeliveryMethod = useCallback(
     ({ ...rest }: IPage, cb?: IRequestActionPayload['callback']) => {
-      console.log('rest', rest);
       dispatch(
         RequestDeliveryAction.getBaseActionsRequest(
           {
@@ -90,7 +88,23 @@ export const useRequestDelivery = () => {
     },
     [dispatch],
   );
-
+  const postRatingDriver = useCallback(
+    (data: any, cb?: ICallback) => {
+      dispatch(
+        RequestDeliveryAction.postBaseActionsRequest(
+          {
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.POST_RATING}/${data?.id}/evaluate`,
+            formData: {
+              rating: data.rating,
+              review: data.review,
+            },
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
   const postDeliveryDistance = useCallback(
     (params: any, cb?: IRequestActionPayload['callback']) => {
       dispatch(
@@ -124,7 +138,6 @@ export const useRequestDelivery = () => {
   );
   const putDeleteDelivery = useCallback(
     (orderCode: string, cb?: IRequestActionPayload['callback']) => {
-      console.log('orderCode', orderCode);
       dispatch(
         RequestDeliveryAction.putBaseActionsRequest(
           {
@@ -144,6 +157,7 @@ export const useRequestDelivery = () => {
     getListAddon,
     postDeliveryDistance,
     postDelivery,
+    postRatingDriver,
     getOrderDetailByCode,
     putDeleteDelivery,
     listProductType,

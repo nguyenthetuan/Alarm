@@ -87,6 +87,8 @@ const Shipment = () => {
   const [location, setLocation] = useState<ILongLocation | undefined>(
     cartLocation,
   );
+  const [DeliveryInfo, setDeliveryInfo] = useState({});
+
   const [driverLocation, setDriverLocation] = useState<
     ILongLocation | undefined
   >(undefined);
@@ -359,6 +361,10 @@ const Shipment = () => {
                       },
                       {
                         name: Routes.Rating,
+                        params: {
+                          type: 'car',
+                          deliveryInfo: DeliveryInfo,
+                        },
                       },
                     ],
                     1,
@@ -457,7 +463,8 @@ const Shipment = () => {
   };
 
   const handleCustomerSocketFoundDriver = args => {
-    console.log('nhanxxxxxx');
+    console.log('resss',args)
+    setDeliveryInfo(args?.result[0]?.delivery);
     setStepView(ScreenStepView.DRIVER_ARE_COMING);
     if (args.result) {
       const code = args.result[0]?.order?.order_code;
@@ -582,7 +589,7 @@ const Shipment = () => {
   };
 
   const complateDilivery = () => {
-    setStepView();
+    setStepView(ScreenStepView.ORDER_IS_SUCCESS);
   };
   useEffect(() => {
     refContentBottom.current?.show();
@@ -604,7 +611,7 @@ const Shipment = () => {
     onOrderDelivering(handleCustomerSocketOrderDelivering);
     onConnectError(onSocketCustomerConnectionError);
     onMovingDriverDelivery(updateStatus);
-    onCompleteDriverDelivery(ScreenStepView.ORDER_IS_SUCCESS);
+    onCompleteDriverDelivery(complateDilivery);
   }, []);
 
   return (

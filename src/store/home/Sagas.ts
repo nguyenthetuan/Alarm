@@ -41,6 +41,10 @@ function* watchGetBaseActions() {
     HomeActions.GET_LIST_CATEGORY as any,
     onGetBaseActionsRequested,
   );
+  yield takeEvery(
+    HomeActions.GET_LIST_RESTAURANT_NEAR_ME as any,
+    onGetBaseActionsRequested,
+  );
 }
 export default function* homeSagas() {
   yield all([watchGetBaseActions()]);

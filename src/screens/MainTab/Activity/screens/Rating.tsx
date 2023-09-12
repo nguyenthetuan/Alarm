@@ -63,6 +63,8 @@ const Rating: React.FC = () => {
         );
     }
   }, [route.params?.type, point]);
+  console.log('route.params?.deliveryInfo', route.params?.deliveryInfo);
+
   return (
     <HomeLayout
       bgColor={Colors.main}

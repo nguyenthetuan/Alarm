@@ -1,4 +1,6 @@
 export const Images = {
+  driveBike: require('./images/driveBike.png'),
+  derviceCar: require('./images/derviceCar.png'),
   code: require('./images/code.png'),
   colum: require('./images/colum.png'),
   place: require('./images/place.png'),

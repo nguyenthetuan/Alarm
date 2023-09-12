@@ -14,6 +14,7 @@ export interface IHomeState {
   listCategories: any[];
   listPromotions: IPromotion[];
   listSuggests: any[];
+  listRestaurantNearMe: any[];
 }
 export enum ETypeCategory {
   FOOD = 'FOOD',
@@ -96,7 +97,7 @@ export const DATA_CATEGORY: Record<ETypeCategory, ITypeCategory> = {
     icon: 'car',
     onPress: () =>
       NavigationService.navigate(Routes.FindCar, {
-        type: FindCarType.ALL,
+        type: FindCarType.CAR_DRIVER,
       }),
   },
   [ETypeCategory.CARRENTAL]: {

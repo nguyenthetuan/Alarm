@@ -39,7 +39,7 @@ const StarsRating: React.FC<IProps> = ({
             />
           </TouchCus>
         ))}
-      {/* {Array(count - Number(point))
+      {Array(count - Number(point))
         .fill(0)
         .map((_, i) => (
           <TouchCus
@@ -54,7 +54,7 @@ const StarsRating: React.FC<IProps> = ({
               style={[styles.mr, style]}
             />
           </TouchCus>
-        ))} */}
+        ))}
     </ViewCus>
   );
 };

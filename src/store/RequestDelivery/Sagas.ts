@@ -137,8 +137,6 @@ function* onPostBaseActionsRequested(action: IRequestActionPayload) {
   }
 }
 
-
-
 function* watchPostBaseActions() {
   yield takeEvery(
     RequestDeliveryAction.POST_DELIVERY as any,
@@ -146,6 +144,10 @@ function* watchPostBaseActions() {
   );
   yield takeEvery(
     RequestDeliveryAction.POST_DELIVERY_DISTANCE as any,
+    onPostBaseActionsRequested,
+  );
+  yield takeEvery(
+    RequestDeliveryAction.POST_RATING as any,
     onPostBaseActionsRequested,
   );
 }

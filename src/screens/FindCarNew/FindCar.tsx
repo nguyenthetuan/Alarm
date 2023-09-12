@@ -99,6 +99,7 @@ const FindCar = () => {
       type: 'MOTORBIKE',
       price: '0',
       distance: '0',
+      vehicle: true,
     },
     {
       id: 2,
@@ -107,6 +108,7 @@ const FindCar = () => {
       type: 'CAR4SEATS',
       price: '0',
       distance: '0',
+      vehicle: true,
     },
     {
       id: 3,
@@ -115,6 +117,16 @@ const FindCar = () => {
       type: 'CAR7SEATS',
       price: '0',
       distance: '0',
+      vehicle: true,
+    },
+    {
+      id: 4,
+      title: 'Tài xế ô tô',
+      subTitle: '',
+      type: 'CAR_DRIVER',
+      price: '0',
+      distance: '0',
+      vehicle: false,
     },
   ]);
 
@@ -289,6 +301,9 @@ const FindCar = () => {
           break;
         case FindCarType.CAR:
           rs = 'car';
+          break;
+        case FindCarType.CAR_DRIVER:
+          rs = 'driver';
           break;
         default:
           rs = 'bike';
@@ -526,6 +541,8 @@ const FindCar = () => {
     }
   }, [stepView, deliveryDriverSelected, fromToData]);
 
+  console.log('route?.params?.type',route?.params?.type);
+  
   const renderContentModal = (step: FindCarScreenStepView) => {
     switch (step) {
       case FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO:

@@ -10,62 +10,69 @@ import { NavigationService, Routes } from 'navigation';
 import React, { useCallback } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Colors } from 'theme';
+import { getImage, isIos } from 'utils';
 import { IPromotion } from 'types';
 interface IProps {
-  promotions: IPromotion[];
+  promotions: [];
   title: string;
 }
 const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
   const onPressItem = useCallback(() => {
     NavigationService.navigate(Routes.Categories);
   }, []);
-  const renderItem = useCallback(() => {
-    return (
-      <TouchCus onPress={onPressItem} style={[styles.mr5]} b-5>
-        <ViewCus style={styles.container}>
-          <ImageCus
-            source={Images.banner}
-            style={styles.imagePromotion}
-            resizeMode="cover"
-          />
-          <ViewCus fex-1 pb-10>
-            <TextCus heading5 useI18n>
-              Pizza Hut
-            </TextCus>
-            <TextCus useI18n l-5>
-              92 Nguyễn Hữu Cảnh, Phườn...
-            </TextCus>
-            <ViewCus flex-row justify-space-between pl-5 pr-5>
-              <ViewCus
-                flex-row
-                items-center
-                bg-seashellPeach
-                pl-20
-                pr-20
-                br-6
-                pt-5
-                pb-5>
-                <Image source={Images.map} />
-                <TextCus l-3>13km</TextCus>
+
+  const renderItem = useCallback(
+    ({ item }) => {
+      return (
+        <TouchCus onPress={onPressItem} style={[styles.mr5]} b-5>
+          <ViewCus style={styles.container}>
+            <ImageCus
+              source={{ uri: getImage({ image: `/${item.avatar}` }) }}
+              style={styles.imagePromotion}
+              resizeMode="cover"
+            />
+            <ViewCus fex-1 pb-10>
+              <TextCus heading5 useI18n>
+                {item?.name}
+              </TextCus>
+              <ViewCus style={{ width: '60%' }}>
+                <TextCus useI18n l-5 numberOfLines={1}>
+                  {item?.address}
+                </TextCus>
               </ViewCus>
-              <ViewCus
-                flex-row
-                items-center
-                bg-seashellPeach
-                pl-30
-                pr-20
-                br-6
-                pt-5
-                pb-5>
-                <Image source={Images.clock} />
-                <TextCus l-3>1h30p</TextCus>
+              <ViewCus flex-row justify-space-between pl-5 pr-5>
+                <ViewCus
+                  flex-row
+                  items-center
+                  bg-seashellPeach
+                  pl-20
+                  pr-20
+                  br-6
+                  pt-5
+                  pb-5>
+                  <Image source={Images.map} />
+                  <TextCus l-3>{item?.distance}</TextCus>
+                </ViewCus>
+                <ViewCus
+                  flex-row
+                  items-center
+                  bg-seashellPeach
+                  pl-30
+                  pr-20
+                  br-6
+                  pt-5
+                  pb-5>
+                  <Image source={Images.clock} />
+                  <TextCus l-3>{item?.open_time?.time}</TextCus>
+                </ViewCus>
               </ViewCus>
             </ViewCus>
           </ViewCus>
-        </ViewCus>
-      </TouchCus>
-    );
-  }, [promotions]);
+        </TouchCus>
+      );
+    },
+    [promotions],
+  );
   return (
     <CarouselHorizontal
       data={promotions}

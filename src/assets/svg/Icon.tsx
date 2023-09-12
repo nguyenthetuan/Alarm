@@ -1690,7 +1690,6 @@ const Icon = {
       </Defs>
     </Svg>
   ),
-
   Info: ({ width = 12, height = 12 }) => (
     <Svg width={width} height={height} viewBox="0 0 12 12" fill="none">
       <Path

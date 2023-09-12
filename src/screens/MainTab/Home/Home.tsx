@@ -10,7 +10,7 @@ import { useAuth, useHome } from 'hooks';
 import React, { useEffect, useMemo } from 'react';
 import { Image } from 'react-native';
 import { Colors } from 'theme';
-import { DATA_CATEGORY } from 'types';
+import { DATA_CATEGORY, IPage } from 'types';
 import { getImage, isIos } from 'utils';
 import {
   AttractiveOffers,
@@ -20,7 +20,13 @@ import {
 } from './Components';
 import styles from './styles';
 const Home: React.FC = () => {
-  const { getListCategories, listCategories, getListPromotions } = useHome();
+  const {
+    getListCategories,
+    listCategories,
+    getListPromotions,
+    getRestaurantNearMe,
+    listRestaurantNearMe,
+  } = useHome();
   const { userInfo } = useAuth();
   useEffect(() => {
     getListCategories();
@@ -38,7 +44,17 @@ const Home: React.FC = () => {
   }, [getListCategories]);
   useEffect(() => {
     getListPromotions();
-  }, [getListPromotions]);
+    getRestaurantNearMe(
+      {
+        page: 1,
+        limit: 1,
+        search: '',
+      } as IPage,
+      res => {
+        console.log('res', res);
+      },
+    );
+  }, [getListPromotions, getRestaurantNearMe]);
 
   const { categories } = useMemo(() => {
     return {
@@ -101,7 +117,7 @@ const Home: React.FC = () => {
               <ListCategories categories={categories} />
             )}
             <AttractiveOffers
-              promotions={Array(3).fill(1)}
+              promotions={listRestaurantNearMe?.result}
               title="closeToYou"
             />
             <AttractiveOffers promotions={Array(3).fill(1)} title="height" />
