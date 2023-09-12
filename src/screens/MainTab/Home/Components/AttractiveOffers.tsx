@@ -17,14 +17,17 @@ interface IProps {
   title: string;
 }
 const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
-  const onPressItem = useCallback(() => {
-    NavigationService.navigate(Routes.Categories);
+  const onPressItem = useCallback(item => {
+    NavigationService.navigate(Routes.RestaurantDetail, {
+      restaurantId: item.id,
+      distance: item?.distance,
+    });
   }, []);
 
   const renderItem = useCallback(
     ({ item }) => {
       return (
-        <TouchCus onPress={onPressItem} style={[styles.mr5]} b-5>
+        <TouchCus onPress={() => onPressItem(item)} style={[styles.mr5]} b-5>
           <ViewCus style={styles.container}>
             <ImageCus
               source={{ uri: getImage({ image: `/${item.avatar}` }) }}
@@ -77,7 +80,7 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
     <CarouselHorizontal
       data={promotions}
       title={title}
-      onPress={() => NavigationService.navigate(Routes.Promotion)}
+      onPress={() => NavigationService.navigate(Routes.Categories)}
       renderItem={renderItem}
     />
   );
