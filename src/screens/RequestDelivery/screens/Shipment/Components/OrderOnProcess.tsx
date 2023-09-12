@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from 'react';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import Icon from 'assets/svg/Icon';
-import {
-  Card,
-  RoutineLocaltion,
-  RoutineStep,
-  TextCus,
-  TouchCus,
-  ViewCus,
-} from 'components';
+import { HomeLayout, IconCus, RoutineStep, TextCus, ViewCus } from 'components';
+import React, { useEffect, useState } from 'react';
+import { Image } from 'react-native';
 import { Colors } from 'theme';
 import { IOrderDetail } from 'types';
 // import { useCategories } from 'hooks';
 // import { useEffect } from 'react';
-import { STEP_DATA, formatMoney, getWidthBySpace } from 'utils';
+import { Images } from 'assets';
+import { useAuth, useGeo } from 'hooks';
+import { STEP_DATA, formatMoney } from 'utils';
 import styles from './styles';
-import { useGeo } from 'hooks';
-
 interface IProps {
   orderDetailData?: IOrderDetail | null;
   onCancel: () => void;
 }
 
 const OrderOnProcess: React.FC<IProps> = props => {
-  //#region Static
+  const { userInfo } = useAuth();
   const { onNameByLatLng } = useGeo();
-  //#endregion
-
   const [fromName, setFromName] = useState('');
   const [toName, setToName] = useState('');
-
   useEffect(() => {
     if (props.orderDetailData) {
       onNameByLatLng(
@@ -60,106 +50,139 @@ const OrderOnProcess: React.FC<IProps> = props => {
   if (!props.orderDetailData) {
     return <></>;
   }
-  return (
-    <ViewCus flex-1 flex-column flexGrow-1 style={[styles.w100]}>
-      <BottomSheetScrollView>
-        <ViewCus p-16>
-          <TextCus heading4 bold useI18n>
-            delivery.onProcessing
-          </TextCus>
-        </ViewCus>
-        <ViewCus p-16 flex-row justify-space-between items-center>
+
+  const rerderInforSenderReceiver = () => {
+    return (
+      <>
+        <ViewCus f-1>
           <ViewCus flex-row>
-            <TextCus
-              useI18n
-              mainSize
-              style={{
-                color: Colors.grey85,
-              }}>
-              delivery.orderIsSending
-            </TextCus>
-            <TextCus
-              mainSize
-              style={{
-                color: Colors.grey85,
-              }}>
-              ...
+            <Image
+              source={Images.personActive}
+              style={styles.imagePersonSender}
+            />
+            <TextCus l-10 style={styles.text}>
+              Đang xác nhận đơn hàng
             </TextCus>
           </ViewCus>
-          <TouchCus onPress={props.onCancel}>
-            <TextCus
-              useI18n
-              mainSize
-              style={{
-                color: Colors.success,
-              }}>
-              action.cancel
+          <TextCus l-10 style={styles.subHeader}>
+            Thông tin giao hàng của bạn đang được xử lý.
+          </TextCus>
+          <TextCus l-10 style={styles.text} mt-20>
+            Chi tiết đơn hàng
+          </TextCus>
+          <ViewCus flex-row mt-10>
+            <Image
+              source={Images.personActive}
+              style={styles.imagePersonSender}
+            />
+            <TextCus l-10 style={styles.text}>
+              Người gửi
             </TextCus>
-          </TouchCus>
+          </ViewCus>
+          <TextCus style={styles.textInfor}>
+            {props?.orderDetailData?.customer?.full_name} -{' '}
+            {props?.orderDetailData?.customer?.phone_number} -{' '}
+            {userInfo?.address}
+          </TextCus>
+        </ViewCus>
+        <ViewCus f-1 mt-10 mb-10>
+          <ViewCus flex-row>
+            <Image source={Images.person} style={styles.imageReceive} />
+            <TextCus l-10 style={styles.text}>
+              Người nhận
+            </TextCus>
+          </ViewCus>
+          <TextCus style={styles.textInfor}>
+            {props?.orderDetailData?.receiver_name} -{' '}
+            {props?.orderDetailData?.receiver_phone} -{' '}
+            {props?.orderDetailData?.receiver_house_number}
+          </TextCus>
         </ViewCus>
 
-        <ViewCus items-center p-6 p-16>
-          <RoutineStep keyValue={3} listData={STEP_DATA} />
+        <ViewCus f-1 mt-10 mb-10 flex-row justify-space-between>
+          <TextCus style={styles.editDetail}>Chỉnh sửa chi tiết</TextCus>
+          <IconCus name={'arrow-right'} size={15} color={Colors.grey85} />
         </ViewCus>
+      </>
+    );
+  };
 
-        <Card hasShadow={true} mt-40 mr-16 ml-16 style={styles.boxShadow}>
+  return (
+    <HomeLayout
+      bgColor={Colors.white}
+      header={{
+        title: 'Kiểm tra đơn hàng',
+        iconColor: Colors.black,
+        // onPressLeft: onBackHandle,
+      }}>
+      <ViewCus flex-1 flex-column flexGrow-1 style={[styles.w100]}>
+        <BottomSheetScrollView>
+          <ViewCus items-center p-6 p-16>
+            <RoutineStep keyValue={3} listData={STEP_DATA} />
+          </ViewCus>
+          <ViewCus pl-20 pr-20>
+            {rerderInforSenderReceiver()}
+          </ViewCus>
+          {/* <Card hasShadow={true} mt-40 mr-16 ml-16 style={styles.boxShadow}> */}
           <ViewCus>
-            <ViewCus>
-              <TextCus mainSize bold color={Colors.black3A}>
-                {props.orderDetailData?.restaurant?.name}
-              </TextCus>
-            </ViewCus>
-
-            <ViewCus flex-row justify-space-between>
+            <ViewCus mt-12 style={styles.line} />
+            <ViewCus flex-row justify-space-between pl-20 pr-20 mt-50>
               <ViewCus flex-row>
-                <TextCus mainSize color={Colors.grey85} useI18n>
-                  delivery.totalMoney
+                <TextCus mainSize bold useI18n>
+                  Tổng cộng
                 </TextCus>
                 <TextCus mainSize color={Colors.grey85}>
                   :
                 </TextCus>
               </ViewCus>
-              <TextCus heading5 bold color={Colors.main}>
+              <TextCus heading5 bold>
                 {formatMoney(props.orderDetailData?.price)}
               </TextCus>
             </ViewCus>
-            <ViewCus mt-12>{Icon.Line(getWidthBySpace(32))}</ViewCus>
-            <ViewCus>
-              <ViewCus mt-12 flex-row justify-space-between>
-                <ViewCus>
-                  <TextCus mainSize bold mr-4 color={Colors.black3A}>
-                    Hình thức: {props.orderDetailData.delivery_method.name}
-                  </TextCus>
-                  <TextCus mainSize color={Colors.black3A}>
-                    Khối lượng: {props.orderDetailData.weight}
-                  </TextCus>
-                  <TextCus mainSize color={Colors.black3A}>
-                    Loại hàng hoá: {props.orderDetailData.product_type}
-                  </TextCus>
-                  <TextCus mainSize color={Colors.black3A}>
-                    Dịch vụ Thêm: {props.orderDetailData.addon.name}
-                  </TextCus>
-                </ViewCus>
-
+            <ViewCus flex-row justify-space-between pl-20 pr-20 mt-2>
+              <ViewCus flex-row>
+                <TextCus mainSize color={Colors.grey85} useI18n>
+                  Phí áp dụng
+                </TextCus>
                 <TextCus mainSize color={Colors.grey85}>
-                  {formatMoney(props.orderDetailData.price)}
+                  :
                 </TextCus>
               </ViewCus>
+              <TextCus bold>
+                {formatMoney(props.orderDetailData?.price)}
+              </TextCus>
             </ViewCus>
-            {/* End list item in order */}
-          </ViewCus>
-        </Card>
+            <ViewCus flex-row justify-space-between pl-20 pr-20 mt-2>
+              <ViewCus flex-row>
+                <TextCus mainSize color={Colors.grey85} useI18n>
+                  Phí áp dụng
+                </TextCus>
+                <TextCus mainSize color={Colors.grey85}>
+                  :
+                </TextCus>
+              </ViewCus>
+              <TextCus bold>
+                {formatMoney(props.orderDetailData?.price)}
+              </TextCus>
+            </ViewCus>
 
-        <Card mt-12 mr-16 ml-16 hasShadow={true}>
-          <RoutineLocaltion
-            style={[styles.w100]}
-            from={fromName}
-            to={toName}
-            note={props.orderDetailData?.note}
-          />
-        </Card>
-      </BottomSheetScrollView>
-    </ViewCus>
+            <ViewCus flex-row justify-space-between pl-20 pr-20 mt-30>
+              <ViewCus flex-row>
+                <TextCus mainSize color={Colors.grey85} useI18n>
+                  Người gưi trả tiền mặt
+                </TextCus>
+                <TextCus mainSize color={Colors.grey85}>
+                  :
+                </TextCus>
+              </ViewCus>
+              <TextCus bold style={styles.change}>
+                Thay đổi
+              </TextCus>
+            </ViewCus>
+          </ViewCus>
+        </BottomSheetScrollView>
+      </ViewCus>
+    </HomeLayout>
   );
 };
 

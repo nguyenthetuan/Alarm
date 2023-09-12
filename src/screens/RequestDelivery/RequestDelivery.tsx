@@ -97,6 +97,7 @@ export default function RequestDelivery() {
     }
     return true;
   }, [viewStep, receiverInfo]);
+
   const bottomView = useMemo(() => {
     switch (viewStep) {
       case RequestDeliveryStep.CHOOSE_FROM_TO:
@@ -104,7 +105,10 @@ export default function RequestDelivery() {
           <ViewCus px-16 style={[styles.spacingBottom]}>
             <Buttons
               onPress={() => {
-                if (chooseFromToRef.current?.isValid?.()) {
+                if (
+                  chooseFromToRef.current?.isValid?.() &&
+                  chooseFromToRef.current?.checkFromTo
+                ) {
                   setFromToData(chooseFromToRef.current?.getValue());
                   setViewStep(RequestDeliveryStep.SETUP_ORDER);
                 }

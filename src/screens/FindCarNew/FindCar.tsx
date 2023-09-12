@@ -91,67 +91,6 @@ const FindCar = () => {
   );
   const { getInfoTaxiService, findCarAction, cancleFindDriver } = useOrders();
   const [refresh, setRefresh] = useState(1);
-  // const deliveryDriverOptions = useMemo(() => {
-  //   const { from, to } = fromToData;
-  //   let rs = [
-  //     {
-  //       id: 1,
-  //       title: 'Xe máy',
-  //       subTitle: '',
-  //       type: 'MOTORBIKE',
-  //     },
-  //     {
-  //       id: 2,
-  //       title: 'Ô tô 4 chỗ',
-  //       subTitle: 'Thoải mái với 4 chỗ ngồi',
-  //       type: 'CAR4SEATS',
-  //     },
-  //     {
-  //       id: 3,
-  //       title: 'Ô tô 7 chỗ',
-  //       subTitle: 'Thoải mái với 7 chỗ ngồi',
-  //       type: 'CAR7SEATS',
-  //     },
-  //   ];
-  //   if (
-  //     from.address &&
-  //     to.address &&
-  //     from.long &&
-  //     from.lat &&
-  //     to.long &&
-  //     to.lat
-  //   ) {
-  //     try {
-  //       for (let i = 0; i < rs.length; i++) {
-  //         getInfoTaxiService(
-  //           {
-  //             pickupLocation: {
-  //               address: from.address,
-  //               long: from.long,
-  //               lat: from.lat,
-  //             },
-  //             dropoffLocation: {
-  //               address: to.address,
-  //               long: to.long,
-  //               lat: to.lat,
-  //             },
-  //             vehicle: rs[i]?.type?.toString(),
-  //           },
-  //           res => {
-  //             if (res.data.result?.length > 0) {
-  //               rs[i].price = res.data.result[0].price?.toFixed(0);
-  //               rs[i].distance = res.data.result[0].distanceKm;
-  //               rs[i].distanceText = res.data.result[0].distanceText;
-  //             }
-  //           },
-  //         );
-  //       }
-  //     } catch (error) {
-  //       console.log('error:', error);
-  //     }
-  //   }
-  //   return rs;
-  // }, [route?.params?.type, fromToData]);
   const [deliveryDriverOptions, setDeliveryOptions] = useState([
     {
       id: 1,
@@ -348,9 +287,11 @@ const FindCar = () => {
       switch (type) {
         case FindCarType.MOTORBIKE:
           break;
-
-        default:
+        case FindCarType.CAR:
           rs = 'car';
+          break;
+        default:
+          rs = 'bike';
           break;
       }
     }
@@ -625,6 +566,7 @@ const FindCar = () => {
               onSubmit={data => {
                 setDeliveryDriverSelected(data);
               }}
+              type={route?.params?.type}
             />
           </View>
         );
@@ -819,7 +761,6 @@ const FindCar = () => {
       }
     });
   };
-
   const handleBackOrCancel = useCallback(() => {
     switch (stepView) {
       case FindCarScreenStepView.CHOOSE_FROM_TO:
@@ -851,7 +792,7 @@ const FindCar = () => {
       </ViewCus>
       <ViewCus f-1>
         <FakeMapFind
-          type={getTypeFindDirection(deliveryDriverSelected.type)}
+          type={getTypeFindDirection(route?.params?.type)}
           // type={'car'}
           startFind={
             ![

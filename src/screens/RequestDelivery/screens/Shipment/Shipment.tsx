@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { IconName } from 'assets';
-import { Buttons, IconCus, TextCus, TouchCus, ViewCus } from 'components';
+import { Buttons, IconCus, TextCus, TouchCus, ViewCus, Card } from 'components';
 import { BottomSheetModalContainer } from 'components/BottomSheetModals';
 import { useCart } from 'context/CartContext';
 import { useCustomerSocket, useNotify, useRequestDelivery } from 'hooks';
@@ -22,17 +22,18 @@ import CannotFoundDriver from './Components/CannotFoundDriver';
 import { DeliveryMapView } from './Components/DeliveryMapView';
 import OrderIsCancel from './Components/OrderIsCancel';
 import OrderIsSuccess from './Components/OrderIsSuccess';
+import ModoalCancelOder from './Components/ModoalCancelOder';
 import styles from './styles';
 
 export enum ScreenStepView {
   NOT_READY = 0,
-  CHOOSE_DELIVERY_OPTION = 1,
-  FIND_DRIVER = 2,
-  ON_PROCESS = 3,
-  DRIVER_ARE_COMING = 4,
-  CANNOT_FOUND_DRIVER = 5,
-  ORDER_IS_CANCEL = 6,
-  ORDER_IS_SUCCESS = 7,
+  FIND_DRIVER = 1,
+  ON_PROCESS = 2,
+  DRIVER_ARE_COMING = 3,
+  CANNOT_FOUND_DRIVER = 4,
+  ORDER_IS_CANCEL = 5,
+  ORDER_IS_SUCCESS = 6,
+  DRVER_MOVING = 7,
 }
 
 const Shipment = () => {
@@ -69,19 +70,20 @@ const Shipment = () => {
 
   const {
     loading: isOrderLoading,
-    onCancelOrderByCode,
     keepFindDriverForOrderByCode,
     getDriverLocationByDriverId,
   } = useOrders();
-
+  const { putDeleteDelivery } = useRequestDelivery();
   const { getOrderDetailByCode } = useRequestDelivery();
 
   const refContentBottom = useRef<IRefBottom>(null);
+  const refModal = useRef(null);
+  const [cancelOder, setCancelOder] = useState<any>(false);
   const currentOrderCodeRef = useRef<string | null>(null);
   const [orderDetailData, setOrderDetailData] = useState<IOrderDetail | null>(
     null,
   );
-
+  const [status, setStatus] = useState(ScreenStepView.DRIVER_ARE_COMING);
   const [location, setLocation] = useState<ILongLocation | undefined>(
     cartLocation,
   );
@@ -110,7 +112,11 @@ const Shipment = () => {
         break;
 
       case ScreenStepView.DRIVER_ARE_COMING:
-        rs = [222, '80%'];
+        if (cancelOder) {
+          rs = ['5%', '5%', '5'];
+        } else {
+          rs = ['30%', '5%', '50%'];
+        }
         break;
       case ScreenStepView.CANNOT_FOUND_DRIVER:
         rs = [310, '30%'];
@@ -127,7 +133,7 @@ const Shipment = () => {
         break;
     }
     return rs;
-  }, [stepView]);
+  }, [stepView, cancelOder]);
 
   const refTimeOutCacheRunningFunction = useRef<ReturnType<
     typeof setTimeout
@@ -143,6 +149,47 @@ const Shipment = () => {
   };
   const renderFooterModal = useCallback(() => {
     switch (stepView) {
+      case ScreenStepView.FIND_DRIVER:
+        return (
+          <Card flex-row p-16>
+            <ViewCus f-1>
+              <Buttons
+                mt-10
+                ml-10
+                mr-10
+                style={styles.buttoCancel}
+                onPress={() => {
+                  if (currentOrderCodeRef.current) {
+                    putDeleteDelivery(currentOrderCodeRef.current, () => {
+                      if (refTimeOutCacheRunningFunction.current) {
+                        clearTimeout(refTimeOutCacheRunningFunction.current);
+                      }
+                      refContentBottom.current?.close();
+                      NavigationService.goBack();
+                    });
+                  } else {
+                    if (refTimeOutCacheRunningFunction.current) {
+                      clearTimeout(refTimeOutCacheRunningFunction.current);
+                    }
+
+                    refContentBottom.current?.close();
+                    NavigationService.goBack();
+                  }
+                }}
+                disabled={false}>
+                <TextCus
+                  bold
+                  useI18n
+                  mainSize
+                  style={{
+                    color: Colors.white,
+                  }}>
+                  cancelDrive
+                </TextCus>
+              </Buttons>
+            </ViewCus>
+          </Card>
+        );
       case ScreenStepView.CANNOT_FOUND_DRIVER:
         return (
           <ViewCus flex-row p-16>
@@ -159,7 +206,7 @@ const Shipment = () => {
                 ]}
                 onPress={() => {
                   if (currentOrderCodeRef.current) {
-                    onCancelOrderByCode(currentOrderCodeRef.current, () => {
+                    putDeleteDelivery(currentOrderCodeRef.current, () => {
                       if (refTimeOutCacheRunningFunction.current) {
                         clearTimeout(refTimeOutCacheRunningFunction.current);
                       }
@@ -330,7 +377,7 @@ const Shipment = () => {
     }
   }, [
     stepView,
-    onCancelOrderByCode,
+    putDeleteDelivery,
     keepFindDriverForOrderByCode,
     danger,
     t,
@@ -342,40 +389,11 @@ const Shipment = () => {
     switch (step) {
       case ScreenStepView.FIND_DRIVER:
         return (
-          <FindDriver
-            orderDetailData={orderDetailData}
-            onCancel={() => {
-              if (orderDetailData?.order_code) {
-                onCancelOrderByCode(orderDetailData?.order_code, rs => {
-                  if (Array.isArray(rs.data.result)) {
-                    if (
-                      rs.data.result[0]?.order?.order_code ===
-                      currentOrderCodeRef.current
-                    ) {
-                      setStepView(ScreenStepView.CHOOSE_DELIVERY_OPTION);
-                      if (refTimeOutCacheRunningFunction.current) {
-                        clearTimeout(refTimeOutCacheRunningFunction.current);
-                      }
-                      setOrderDetailData(null);
-                    } else {
-                      danger(t('error'), 'Huỷ thất bại');
-                    }
-                  }
-                });
-              }
-            }}
-            onSubmit={() => {
-              setStepView(ScreenStepView.DRIVER_ARE_COMING);
-            }}
-          />
-        );
-      case ScreenStepView.ON_PROCESS:
-        return (
           <OrderOnProcess
             orderDetailData={orderDetailData}
             onCancel={() => {
               if (orderDetailData?.order_code) {
-                onCancelOrderByCode(orderDetailData?.order_code, rs => {
+                putDeleteDelivery(orderDetailData?.order_code, rs => {
                   if (Array.isArray(rs.data.result)) {
                     if (
                       rs.data.result[0]?.order?.order_code ===
@@ -399,16 +417,16 @@ const Shipment = () => {
       case ScreenStepView.DRIVER_ARE_COMING:
         return (
           <DriverAreComing
+            status={status}
             orderDetailData={orderDetailData}
             onCancel={() => {
+              refModal?.current.show();
+              setCancelOder(true);
               // setStepView(ScreenStepView.CHOOSE_DELIVERY_OPTION);
               if (orderDetailData?.order_code) {
-                onCancelOrderByCode(orderDetailData?.order_code, rs => {
+                putDeleteDelivery(orderDetailData?.order_code, rs => {
                   if (Array.isArray(rs.data.result)) {
-                    if (
-                      rs.data.result[0]?.order?.order_code ===
-                      currentOrderCodeRef.current
-                    ) {
+                    if (rs.status === 200) {
                       setStepView(ScreenStepView.CHOOSE_DELIVERY_OPTION);
                       if (refTimeOutCacheRunningFunction.current) {
                         clearTimeout(refTimeOutCacheRunningFunction.current);
@@ -439,7 +457,8 @@ const Shipment = () => {
   };
 
   const handleCustomerSocketFoundDriver = args => {
-    setStepView(ScreenStepView.ON_PROCESS)
+    console.log('nhanxxxxxx');
+    setStepView(ScreenStepView.DRIVER_ARE_COMING);
     if (args.result) {
       const code = args.result[0]?.order?.order_code;
       if (code === getCurrentOrderCode()) {
@@ -558,10 +577,16 @@ const Shipment = () => {
       }
     }
   }, [route, carts]);
+  const updateStatus = () => {
+    setStatus(ScreenStepView.DRVER_MOVING);
+  };
 
+  const complateDilivery = () => {
+    setStepView();
+  };
   useEffect(() => {
     refContentBottom.current?.show();
-    setStepView(ScreenStepView.ON_PROCESS);
+    setStepView(ScreenStepView.FIND_DRIVER);
     if (cartLocation) {
       setLocation(cartLocation);
     }
@@ -578,6 +603,8 @@ const Shipment = () => {
     onOrderDelivered(handleCustomerSocketOrderDelivered);
     onOrderDelivering(handleCustomerSocketOrderDelivering);
     onConnectError(onSocketCustomerConnectionError);
+    onMovingDriverDelivery(updateStatus);
+    onCompleteDriverDelivery(ScreenStepView.ORDER_IS_SUCCESS);
   }, []);
 
   return (
@@ -622,6 +649,7 @@ const Shipment = () => {
           index={0}>
           {renderContentModal(stepView)}
         </BottomSheetModalContainer>
+        <ModoalCancelOder ref={refModal} orderDetailData={orderDetailData} />
       </ViewCus>
     </>
   );

@@ -78,7 +78,6 @@ export const useRequestDelivery = () => {
 
   const getOrderDetailByCode = useCallback(
     (orderCode: string, cb?: ICallback) => {
-      console.log('orderCode', orderCode);
       dispatch(
         RequestDeliveryAction.getBaseActionsRequest(
           {
@@ -109,7 +108,6 @@ export const useRequestDelivery = () => {
   );
   const postDelivery = useCallback(
     (data: any, cb?: IRequestActionPayload['callback']) => {
-      console.log('data', data);
       dispatch(
         RequestDeliveryAction.postBaseActionsRequest(
           {
@@ -124,7 +122,22 @@ export const useRequestDelivery = () => {
     },
     [dispatch],
   );
-
+  const putDeleteDelivery = useCallback(
+    (orderCode: string, cb?: IRequestActionPayload['callback']) => {
+      console.log('orderCode', orderCode);
+      dispatch(
+        RequestDeliveryAction.putBaseActionsRequest(
+          {
+            dataKey: 'deleteDelivery',
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.POST_DRLIVERY}/${orderCode}/cancel`,
+            isPaginate: true,
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
   return {
     getListProductType,
     getListDeliveryMethod,
@@ -132,6 +145,7 @@ export const useRequestDelivery = () => {
     postDeliveryDistance,
     postDelivery,
     getOrderDetailByCode,
+    putDeleteDelivery,
     listProductType,
     listDeliveryMethod,
     listAddon,

@@ -24,4 +24,9 @@ export default StyleSheet.create({
   bo8: {
     borderRadius: 8,
   },
+  buttoCancel: {
+    borderWidth: 1,
+    borderColor: Colors.main,
+    borderRadius: 4,
+  },
 });

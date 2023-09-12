@@ -4,13 +4,14 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
+  useMemo,
 } from 'react';
 import Icon from 'assets/svg/Icon';
 import { Divider, TextCus, TextInputs, TouchCus, ViewCus } from 'components';
 import { BaseStyle, Colors } from 'theme';
 import { useGeo, useLocation } from 'hooks';
-
-import { Platform, TextInput } from 'react-native';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { Platform, TextInput, Keyboard } from 'react-native';
 
 interface LocationResult extends LocationFind {
   lat: number;
@@ -117,6 +118,23 @@ const ChooseFromTo = React.forwardRef<
   //#endregion
 
   //#region Function
+  const checkFromTo = useMemo(() => {
+    let rs = true;
+    if (
+      toLocation?.address !== '' &&
+      fromLocation?.address !== '' &&
+      fromLocation?.address === toLocation?.address
+    ) {
+      Toast.show({
+        text1: 'Điểm nhận và giao hàng trùng nhau',
+        position: 'top',
+        type: 'error',
+      });
+      rs = false;
+    }
+    return rs;
+  }, [fromLocation, toLocation]);
+
   const validFromToFinalResult = useCallback(
     (
       data: LocationFind & { lat?: number; long?: number; place_id?: string },
@@ -298,6 +316,7 @@ const ChooseFromTo = React.forwardRef<
           validFromToFinalResult(toLocationFinal)
         );
       },
+      checkFromTo: checkFromTo,
       getValue: () => {
         return {
           from: validFromToFinalResult(fromLocationFinal)
@@ -333,6 +352,7 @@ const ChooseFromTo = React.forwardRef<
             }}
             autoFocus={false}
             onBlur={() => {
+              Keyboard.dismiss();
               if (fromLocation?.structured_formatting?.main_text) {
                 setFromLocation({
                   ...toLocation,
@@ -378,6 +398,7 @@ const ChooseFromTo = React.forwardRef<
               marginBottom: 0,
             }}
             onBlur={() => {
+              Keyboard.dismiss();
               if (toLocation?.structured_formatting?.main_text) {
                 setToLocation({
                   ...toLocation,

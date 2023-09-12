@@ -1,17 +1,25 @@
 import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
-import Icon from 'assets/svg/Icon';
-import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
-import styles from './styles';
-import { BaseStyle, Colors } from 'theme';
-import { formatMoney, getImage, getWidthBySpace, openLink } from 'utils';
-import { IDriver_OrderDetail, IOrderDetail } from 'types';
-import React, { useEffect, useState } from 'react';
-import { useOrders } from 'hooks';
 import { Images } from 'assets';
-
+import {
+  Buttons,
+  Card,
+  ImageCus,
+  TextCus,
+  TouchCus,
+  ViewCus,
+} from 'components';
+import { useAuth, useGeo, useOrders } from 'hooks';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Image, Text, View } from 'react-native';
+import { BaseStyle, Colors } from 'theme';
+import { IDriver_OrderDetail, IOrderDetail } from 'types';
+import { formatMoney, getImage, openLink } from 'utils';
+import { ScreenStepView } from '../Shipment';
+import styles from './styles';
 interface IProps {
   orderDetailData?: IOrderDetail | null;
   onCancel: () => void;
+  status: any;
 }
 
 const driverInfomation = (
@@ -22,12 +30,13 @@ const driverInfomation = (
       openLink('telephone', driverInfo.phone_number);
     }
   };
+
   return (
     <ViewCus>
-      <ViewCus style={styles.w100} px-16>
-        <ViewCus flex-row justify-space-between items-center>
-          <ViewCus items-flex-start w-32 />
-          <ViewCus items-center w-68 h-68>
+      <ViewCus pt-10 pl-10 pr-10 flex-row justify-space-between items-center>
+        <ViewCus flex-row items-center>
+          {/* <ViewCus items-flex-start w-32 /> */}
+          <ViewCus w-78 h-78>
             {driverInfo?.avatar && (
               <ImageCus
                 source={{
@@ -52,20 +61,23 @@ const driverInfomation = (
               />
             )}
           </ViewCus>
-          <ViewCus items-flex-end w-32>
-            <TouchCus onPress={callDriver}>
-              <Icon.PhoneCircle width={32} height={32} />
-            </TouchCus>
+          <ViewCus>
+            <TextCus style={styles.name}>Phan Đức Bảo</TextCus>
+            <TextCus style={styles.infor}>Air blade đỏ đen</TextCus>
+            <TextCus style={styles.infor}>59H-12345</TextCus>
           </ViewCus>
+        </ViewCus>
+        <ViewCus flex-row>
+          <TouchCus onPress={callDriver} style={styles.btnCall}>
+            <Image source={Images.call} />
+          </TouchCus>
+          <TouchCus onPress={callDriver} style={styles.btnCall} ml-10>
+            <Image source={Images.message} />
+          </TouchCus>
         </ViewCus>
       </ViewCus>
       <ViewCus style={styles.w100} px-16>
         <ViewCus flex-column justify-center>
-          <ViewCus mt-12>
-            <TextCus textAlign="center" useI18n heading4>
-              delivery.driverAreComing
-            </TextCus>
-          </ViewCus>
           {driverInfo?.full_name && (
             <ViewCus mt-12>
               <TextCus textAlign="center" heading2>
@@ -74,26 +86,23 @@ const driverInfomation = (
             </ViewCus>
           )}
         </ViewCus>
-        <ViewCus mt-12>{Icon.Line(getWidthBySpace(32))}</ViewCus>
       </ViewCus>
     </ViewCus>
   );
 };
-
 const DriverAreComing: React.FC<IProps> = props => {
-  //#region Static
   const { getFoodDetailByCode } = useOrders();
-  //#endregion
-
-  //#region ScreenState
   const [listItemDetail, setListItemDetail] = useState({});
-  //#endregion
-  //#region handle event
   const callCenter = () => {
     openLink('telephone', '19008079');
   };
-  //#endregion
-
+  const { userInfo } = useAuth();
+  const { onNameByLatLng } = useGeo();
+  const [fromName, setFromName] = useState('');
+  const [toName, setToName] = useState('');
+  const [status, setStatus] = useState(
+    props.status || ScreenStepView.DRIVER_ARE_COMING,
+  );
   useEffect(() => {
     if (
       props?.orderDetailData &&
@@ -124,151 +133,189 @@ const DriverAreComing: React.FC<IProps> = props => {
     }
   }, [props.orderDetailData]);
 
+  const cancelOder = () => {
+    // refModal?.current?.show();
+    refModal.current.handleClosePress();
+  };
+
+  useEffect(() => {
+    if (props.orderDetailData) {
+      onNameByLatLng(
+        {
+          latitude: props.orderDetailData.dropoff_location.lat,
+          longitude: props.orderDetailData.dropoff_location.long,
+        },
+        rs => {
+          if (rs) {
+            setFromName(rs);
+          }
+        },
+      );
+      onNameByLatLng(
+        {
+          latitude: props.orderDetailData.pickup_location.lat,
+          longitude: props.orderDetailData.pickup_location.long,
+        },
+        rs => {
+          if (rs) {
+            setToName(rs);
+          }
+        },
+      );
+    }
+    setStatus(props.status);
+  }, [props.orderDetailData, props.status]);
+
   if (!props.orderDetailData) {
     return <></>;
   }
+  const renderStatus = useCallback(() => {
+    if (status === ScreenStepView.DRIVER_ARE_COMING) {
+      return <Text style={styles.txtPick}>Tài xế đang đến </Text>;
+    } else if (status === ScreenStepView.DRVER_MOVING) {
+      return <Text style={styles.txtPick}>Tài xế đang giao hàng</Text>;
+    }
+  }, [status]);
 
-  return (
-    <>
-      <BottomSheetView>
-        {driverInfomation(props?.orderDetailData?.driver)}
-      </BottomSheetView>
-      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+  const headerInformation = () => {
+    return (
+      <ViewCus flex-1 ml-20 mr-20>
+        <ViewCus mt-12 style={styles.lineBack} />
+        <ViewCus mt-10 mb-10>
+          <ViewCus flex-row mt-10 item-center>
+            <ViewCus style={styles.dot} />
+            {renderStatus()}
+          </ViewCus>
+          <TextCus style={styles.textWeadth}>Thời tiết xấu</TextCus>
+        </ViewCus>
+        <ViewCus mt-12 style={styles.lineBack} />
+        <ViewCus mt-20 mb-20>
+          <TextCus style={styles.textWeadth}>Thời gian dự kiến</TextCus>
+          <Text ml-0 style={styles.txtPick}>
+            12:41
+          </Text>
+        </ViewCus>
+        <ViewCus mt-12 style={styles.lineBack} />
+      </ViewCus>
+    );
+  };
+
+  const renderRoutineLocation = () => {
+    return (
+      <ViewCus flex-1 flex-row pl-20 items-center mt-20>
         <ViewCus>
-          <ViewCus p-16>
-            <ViewCus flex-row mt-12 justify-space-between items-center>
-              <TextCus mainSize color={Colors.black3A}>
-                Thời gian dự kiến:
-              </TextCus>
-              <ViewCus>
-                <TextCus mainSize color={Colors.black3A}>
-                  5 phút
-                </TextCus>
-              </ViewCus>
-            </ViewCus>
-            {/* <TextCus useI18n>delivery.informationLine</TextCus> */}
-            <ViewCus py-16>
-              {props.orderDetailData.order_items?.map((itemData, i) => {
-                return (
-                  <ViewCus key={i} mb-8>
-                    <ViewCus flex-row items-flex-start>
-                      <ViewCus mt-5 style={{ width: 52 }}>
-                        {listItemDetail?.[itemData.item_id] &&
-                          listItemDetail?.[itemData.item_id].image && (
-                            <ImageCus
-                              source={{
-                                uri: getImage({
-                                  image: listItemDetail[itemData.item_id].image,
-                                }),
-                              }}
-                              style={BaseStyle.flexGrow1}
-                              resizeMode="stretch"
-                            />
-                          )}
-                      </ViewCus>
-                      <ViewCus ml-8 justify-space-between>
-                        <ViewCus flex-row items-center flexGrow-1>
-                          <TextCus mainSize bold mr-2>
-                            {itemData.quantity}x
-                          </TextCus>
-                          <TextCus mainSize>{itemData.item_name}</TextCus>
-                        </ViewCus>
-                        {/* <TextCus caption subHeadColor>
-                      Chọn size: Size vừa
-                    </TextCus> */}
-                        {itemData.extra_options?.length > 0 && (
-                          <TextCus caption subHeadColor>
-                            Món thêm:{' '}
-                            {itemData.extra_options
-                              ?.map(x => x.extra_option_name)
-                              .join(', ')}
-                          </TextCus>
-                        )}
-
-                        {/* <TextCus caption color={Colors.black3A}>
-                    Ghi chú: {itemData}
-                  </TextCus> */}
-                        <TextCus main bold>
-                          {formatMoney(itemData.price)}
-                        </TextCus>
-                      </ViewCus>
-                    </ViewCus>
-                    <ViewCus
-                      bbw-1
-                      bbc-greyEE
-                      style={getWidthBySpace(32)}
-                      mt-8
-                    />
-                  </ViewCus>
-                );
-              })}
-              <TextCus mainSize useI18n>
-                category.payment
-              </TextCus>
-              <ViewCus>
-                <ViewCus mt-8 flex-row justify-space-between>
-                  <TextCus subhead subHeadColor useI18n>
-                    category.estimate
-                  </TextCus>
-                  <TextCus mainSize>
-                    {formatMoney(props.orderDetailData.order_price)}
-                  </TextCus>
-                </ViewCus>
-                <ViewCus mt-8 flex-row justify-space-between>
-                  <TextCus
-                    subhead
-                    subHeadColor
-                    useI18n
-                    paramI18n={{ number: 12 }}>
-                    category.fee_delivery
-                  </TextCus>
-                  <TextCus mainSize>
-                    {formatMoney(props.orderDetailData.shipping_fee)}
-                  </TextCus>
-                </ViewCus>
-                <ViewCus mt-8 flex-row justify-space-between>
-                  <TextCus subhead subHeadColor useI18n>
-                    bottom.message
-                  </TextCus>
-                  <TextCus mainSize>
-                    {formatMoney(props.orderDetailData.discount_order)}
-                  </TextCus>
-                </ViewCus>
-                <ViewCus py-8 bbw-1 bbc-greyEE style={getWidthBySpace(32)} />
-                <ViewCus mt-8 flex-row justify-space-between>
-                  <TextCus heading5 useI18n>
-                    delivery.cashPayment
-                  </TextCus>
-                  <TextCus heading5>
-                    {formatMoney(props.orderDetailData.total_price)}
-                  </TextCus>
-                </ViewCus>
-                <ViewCus my-18 items-center>
-                  <TouchCus onPress={props.onCancel}>
-                    <ViewCus
-                      minh-48
-                      br-8
-                      bg-greyAD
-                      style={getWidthBySpace(32)}
-                      justify-center
-                      items-center>
-                      <TextCus semiBold mainSize color={Colors.greyF8} useI18n>
-                        delivery.cancelOrder
-                      </TextCus>
-                    </ViewCus>
-                  </TouchCus>
-                  <TouchCus onPress={callCenter}>
-                    <TextCus mainSize color-blue4D mt-12 useI18n>
-                      delivery.contactToCenterToCancelOrder
-                    </TextCus>
-                  </TouchCus>
-                </ViewCus>
-              </ViewCus>
-            </ViewCus>
+          <View style={styles.wrapImage}>
+            <Image source={Images.dot} style={{ marginBottom: 10 }} />
+            <Image source={Images.colum} />
+            <Image source={Images.place} style={{ marginTop: 10 }} />
+            <ViewCus />
+          </View>
+        </ViewCus>
+        <ViewCus>
+          <ViewCus mb-10>
+            <TextCus>{userInfo.full_name}</TextCus>
+            <TextCus>{fromName}</TextCus>
+          </ViewCus>
+          <ViewCus mt-10>
+            <TextCus>{props?.orderDetailData?.receiver_name}</TextCus>
+            <TextCus>{toName}</TextCus>
           </ViewCus>
         </ViewCus>
+      </ViewCus>
+    );
+  };
+  return (
+    <ViewCus pb-30>
+      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+        <BottomSheetView>
+          {headerInformation()}
+          {driverInfomation(props?.orderDetailData?.driver)}
+          <Card mt-10 pt-5 pb-5 mr-16 ml-16 hasShadow={true}>
+            <TextCus bold>Chi tiết đơn hàng</TextCus>
+          </Card>
+          {renderRoutineLocation()}
+          <ViewCus
+            flex-row
+            items-center
+            justify-space-between
+            pl-10
+            pr-20
+            mt-20>
+            <ViewCus justify-center>
+              <TextCus style={styles.txtPick}>Mã đơn hàng</TextCus>
+              <TextCus ml-3 style={styles.infor}>
+                {props?.orderDetailData?.order_code}
+              </TextCus>
+            </ViewCus>
+            <Image source={Images.code} />
+          </ViewCus>
+          <ViewCus mt-12 style={styles.lineBack} />
+          <Card mt-10 pt-5 pb-5 mr-16 ml-16 hasShadow={true}>
+            <TextCus bold>Chỉnh sửa chi tiết</TextCus>
+          </Card>
+        </BottomSheetView>
+        <ViewCus>
+          <ViewCus p-16>
+            <ViewCus flex-row justify-space-between mt-2>
+              <ViewCus flex-row>
+                <TextCus mainSize color={Colors.grey85} useI18n>
+                  Phí áp dụng
+                </TextCus>
+                <TextCus mainSize color={Colors.grey85}>
+                  :
+                </TextCus>
+              </ViewCus>
+              <TextCus bold>
+                {formatMoney(props.orderDetailData?.price)}
+              </TextCus>
+            </ViewCus>
+            <ViewCus flex-row justify-space-between mt-2>
+              <ViewCus flex-row>
+                <TextCus mainSize color={Colors.grey85} useI18n>
+                  Phí áp dụng
+                </TextCus>
+                <TextCus mainSize color={Colors.grey85}>
+                  :
+                </TextCus>
+              </ViewCus>
+              <TextCus bold>
+                {formatMoney(props.orderDetailData?.price)}
+              </TextCus>
+            </ViewCus>
+            <ViewCus flex-row justify-space-between>
+              <ViewCus flex-row>
+                <TextCus mainSize bold useI18n>
+                  Tổng cộng
+                </TextCus>
+                <TextCus mainSize color={Colors.grey85}>
+                  :
+                </TextCus>
+              </ViewCus>
+              <TextCus heading5 bold color={Colors.main}>
+                {formatMoney(props.orderDetailData?.price)}
+              </TextCus>
+            </ViewCus>
+          </ViewCus>
+          <Buttons
+            mt-10
+            ml-10
+            mr-10
+            style={styles.buttoCancel}
+            onPress={props.onCancel}
+            disabled={false}>
+            <TextCus
+              bold
+              useI18n
+              mainSize
+              style={{
+                color: Colors.main,
+              }}>
+              cencalRequire
+            </TextCus>
+          </Buttons>
+        </ViewCus>
       </BottomSheetScrollView>
-    </>
+    </ViewCus>
   );
 };
 

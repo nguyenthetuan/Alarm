@@ -103,8 +103,6 @@ function* watchGetBaseActions() {
 }
 
 function* onPostBaseActionsRequested(action: IRequestActionPayload) {
-  console.log('action', action);
-
   try {
     yield put(actionRequest());
     const rs = yield axiosClient.post(
@@ -139,6 +137,8 @@ function* onPostBaseActionsRequested(action: IRequestActionPayload) {
   }
 }
 
+
+
 function* watchPostBaseActions() {
   yield takeEvery(
     RequestDeliveryAction.POST_DELIVERY as any,
@@ -150,6 +150,52 @@ function* watchPostBaseActions() {
   );
 }
 
+function* onPutBaseActionsRequested(action: IRequestActionPayload) {
+  try {
+    yield put(actionRequest());
+    const rs = yield axiosClient.put(
+      `${action.payload.endPoint}`,
+      action?.payload?.formData,
+      {
+        headers: { ...action.payload?.headers },
+      },
+    );
+
+    const dataKey = action?.payload?.dataKey;
+    const payload = dataKey
+      ? {
+          [`${dataKey}`]: action?.payload?.isObject
+            ? rs?.data?.result?.[0]
+            : rs?.data?.result,
+        }
+      : {};
+    yield put(getDataSuccess(payload));
+    if (action?.callback) {
+      action?.callback?.(rs);
+    }
+  } catch (e: any) {
+    yield put(
+      error({
+        message: 'some_thing_wrong',
+        options: { useI18n: true },
+      } as INofifyState),
+    );
+    yield put(getDataSuccess({}));
+    return action?.callback?.({ ...e });
+  }
+}
+
+function* watchPutBaseActions() {
+  yield takeEvery(
+    RequestDeliveryAction.PUT_CANCEL_DELIVERY as any,
+    onPutBaseActionsRequested,
+  );
+}
+
 export default function* requestDeliverySaga() {
-  yield all([watchGetBaseActions(), watchPostBaseActions()]);
+  yield all([
+    watchGetBaseActions(),
+    watchPostBaseActions(),
+    watchPutBaseActions(),
+  ]);
 }

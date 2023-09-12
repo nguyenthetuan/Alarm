@@ -6,6 +6,7 @@ export const API_ENDPOINT = {
     GET_DETAIL_DELIVERY: 'customer/delivery',
     POST_DELIVERY_FEE: 'customer/delivery/delivery-fee',
     POST_DRLIVERY: 'customer/delivery',
+    PUT_CANCEL: 'customer/delivery',
   },
   AUTH: {
     REQUEST_OTP: 'authen/request-otp',
