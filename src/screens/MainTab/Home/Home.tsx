@@ -120,7 +120,10 @@ const Home: React.FC = () => {
               promotions={listRestaurantNearMe?.result}
               title="closeToYou"
             />
-            <AttractiveOffers promotions={Array(3).fill(1)} title="height" />
+            <AttractiveOffers
+              promotions={listRestaurantNearMe?.result}
+              title="height"
+            />
             <SuggestionForYou />
           </ScrollViewCus>
         </ViewCus>

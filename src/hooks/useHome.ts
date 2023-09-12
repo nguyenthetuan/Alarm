@@ -94,11 +94,9 @@ export const useHome = () => {
             dataKey: 'listRestaurantNearMe',
             endPoint: API_ENDPOINT.HOME.GET_RESTAURANTS_NEAR_ME,
             isPaginate: true,
-            params:{
-              lat: 21.0277644,
-              long: 105.8341598,
-            }
-            // ...locationUser,
+            params: {
+              ...locationUser,
+            },
           },
           cb,
         ),

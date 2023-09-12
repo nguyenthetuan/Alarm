@@ -463,7 +463,6 @@ const Shipment = () => {
   };
 
   const handleCustomerSocketFoundDriver = args => {
-    console.log('resss',args)
     setDeliveryInfo(args?.result[0]?.delivery);
     setStepView(ScreenStepView.DRIVER_ARE_COMING);
     if (args.result) {
