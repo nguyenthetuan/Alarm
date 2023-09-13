@@ -34,6 +34,8 @@ const CartOrder: React.FC = () => {
     setNote,
     setOrderRequest,
   } = useCart();
+  console.log('cartLocation',cartLocation);
+  
   const [address, setAddress] = useState('');
   const { onNameByLatLng, searchDetail } = useGeo();
   const { selectedPromos, detailRestaurant, estimatePrices } = useCategories();
@@ -53,9 +55,12 @@ const CartOrder: React.FC = () => {
 
   useEffect(() => {
     if (cartLocation) {
+      console.log('from11111');
+
       onNameByLatLng(
         { latitude: cartLocation.lat, longitude: cartLocation.long },
         from => {
+          
           setAddress(from);
         },
       );
@@ -104,6 +109,8 @@ const CartOrder: React.FC = () => {
             if (rs.result) {
               const { formatted_address, geometry } = rs.result;
               console.log('formatted_address', formatted_address);
+              console.log('geometry', geometry);
+
               if (geometry.location) {
                 updateLocation({
                   lat: geometry.location.lat,

@@ -11,7 +11,6 @@ import React, { useCallback } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Colors } from 'theme';
 import { getImage, isIos } from 'utils';
-import { IPromotion } from 'types';
 interface IProps {
   promotions: [];
   title: string;
@@ -23,14 +22,14 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
       distance: item?.distance,
     });
   }, []);
-
+  
   const renderItem = useCallback(
     ({ item }) => {
       return (
         <TouchCus onPress={() => onPressItem(item)} style={[styles.mr5]} b-5>
           <ViewCus style={styles.container}>
             <ImageCus
-              source={{ uri: getImage({ image: `/${item.avatar}` }) }}
+              source={{ uri: getImage({ image: `${item.avatar}` }) }}
               style={styles.imagePromotion}
               resizeMode="cover"
             />
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
   },
   imagePromotion: {
     height: 148,
-    width: 240,
+    width: '100%',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
