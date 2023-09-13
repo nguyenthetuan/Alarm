@@ -1,15 +1,17 @@
 import { Images } from 'assets';
 import Icon from 'assets/svg/Icon';
 import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from 'theme';
 import { formatMoney, width } from 'utils';
+import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 
 interface IProps {
   option: object;
   onSubmit: () => void;
   onLayout: (height: number) => void;
+  type: string;
 }
 
 const dataTab = [
@@ -19,6 +21,26 @@ const dataTab = [
 ];
 
 const FullWayToDelivery: React.FC<IProps> = props => {
+  const [data, setData] = useState(
+    _.cloneDeep(
+      props.type !== 'CAR_DRIVER'
+        ? props.option.filter(
+            elm => elm.type.includes(props.type) && elm.vehicle,
+          )
+        : props.option.filter(elm => !elm.vehicle),
+    ) || [],
+  );
+  useEffect(() => {
+    setData(
+      _.cloneDeep(
+        props.type !== 'CAR_DRIVER'
+          ? props.option.filter(
+              elm => elm.type.includes(props.type) && elm.vehicle,
+            )
+          : props.option.filter(elm => !elm.vehicle),
+      ),
+    );
+  }, [props.option]);
   const renderTab = (item, index) => {
     return (
       <ViewCus style={styles.itemTab} key={index}>
@@ -35,7 +57,7 @@ const FullWayToDelivery: React.FC<IProps> = props => {
       <ViewCus style={{ marginBottom: 30 }} flex-row>
         {dataTab.map(renderTab)}
       </ViewCus>
-      {props.option.map((val, index) => {
+      {data.map((val, index) => {
         return (
           <TouchCus
             key={index}

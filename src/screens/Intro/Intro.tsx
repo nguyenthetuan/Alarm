@@ -30,12 +30,10 @@ const Intro = () => {
           />
         </View>
         <View style={styles.viewContent}>
-          <TextCus useI18n heading1 main textAlign="center" mb-12>
+          <TextCus useI18n heading1 main mb-12>
             {title}
           </TextCus>
-          <TextCus textAlign="center" useI18n>
-            {subtitle}
-          </TextCus>
+          <TextCus useI18n>{subtitle}</TextCus>
         </View>
       </View>
     );
@@ -89,7 +87,7 @@ const Intro = () => {
                   h-40
                   items-center
                   justify-center
-                  br-20
+                  br-10
                   onPress={nextIntro}>
                   <IconApp
                     name={IconName.ChevronRight}

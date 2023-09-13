@@ -227,6 +227,7 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
               onPress={() => {
                 NavigationService.navigate(Routes.Promotion, {
                   backPath: Routes.FindCar,
+                  params: { type: props.type },
                 });
               }}>
               <ViewCus

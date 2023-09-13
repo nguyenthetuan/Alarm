@@ -30,7 +30,7 @@ const RatingBiker: React.FC = () => {
 
   const suggestData = [
     { title: 'Tài xế thân thiện', id: 0 },
-    { title: 'Tài xế thân thiện', id: 1 },
+    { title: 'Sạch sẽ và thoải mái', id: 1 },
     { title: 'Lái xe an toàn', id: 2 },
     { title: 'Vui tính', id: 3 },
   ];

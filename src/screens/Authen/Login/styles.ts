@@ -30,4 +30,10 @@ export default StyleSheet.create({
   btnContinue: {
     borderRadius: 8,
   },
+  btnLogin: {
+    borderRadius: 8,
+  },
+  textDk: {
+    textDecorationLine: 'underline',
+  },
 });

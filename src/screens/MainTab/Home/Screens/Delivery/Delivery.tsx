@@ -227,6 +227,9 @@ const Delivery = () => {
 
   //#region Render function
   const renderFooterModal = useCallback(() => {
+    console.log('deliveryDriverSelected', deliveryDriverSelected);
+    console.log('stepView', stepView);
+
     switch (stepView) {
       case ScreenStepView.CHOOSE_DELIVERY_OPTION:
         return (
@@ -262,6 +265,10 @@ const Delivery = () => {
                   isOrderLoading || carts.length === 0
                     ? () => {}
                     : () => {
+                        console.log(
+                          'deliveryDriverSelected1111',
+                          deliveryDriverSelected,
+                        );
                         if (deliveryDriverSelected !== null) {
                           onFindDriverClick();
                         } else {
@@ -480,6 +487,8 @@ const Delivery = () => {
               NavigationService.replace(Routes.Categories);
             }}
             onSubmit={data => {
+              console.log('daaaa', data);
+
               setDeliveryDriverSelected(data);
             }}
           />
@@ -742,6 +751,9 @@ const Delivery = () => {
   //#endregion
 
   //#region Handle event
+  useEffect(() => {
+    console.log('orderRequest');
+  }, [orderRequest]);
   const onFindDriverClick = useCallback(() => {
     console.log('onFindDriverClick', orderRequest);
 

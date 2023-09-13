@@ -149,20 +149,20 @@ const OrderOnProcess: React.FC<IProps> = props => {
                 </TextCus>
               </ViewCus>
               <TextCus bold>
-                {formatMoney(props.orderDetailData?.price)}
+                {formatMoney(props.orderDetailData?.price-props.orderDetailData?.addon.price)}
               </TextCus>
             </ViewCus>
             <ViewCus flex-row justify-space-between pl-20 pr-20 mt-2>
               <ViewCus flex-row>
                 <TextCus mainSize color={Colors.grey85} useI18n>
-                  Phí áp dụng
+                  Đảm bảo hàng hoá
                 </TextCus>
                 <TextCus mainSize color={Colors.grey85}>
                   :
                 </TextCus>
               </ViewCus>
               <TextCus bold>
-                {formatMoney(props.orderDetailData?.price)}
+                {formatMoney(props.orderDetailData?.addon.price)}
               </TextCus>
             </ViewCus>
 
