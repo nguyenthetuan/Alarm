@@ -4,9 +4,10 @@ import Icon from 'assets/svg/Icon';
 import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
 import { NavigationService, Routes } from 'navigation';
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, Image } from 'react-native';
+import { View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { Colors } from 'theme';
 import { formatMoney, height } from 'utils';
+import { useOrders } from 'hooks';
 import styles from './styles';
 import _ from 'lodash';
 
@@ -39,6 +40,7 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
     ) || [],
   );
   const [refresh, setRefresh] = useState(1);
+  const { loading } = useOrders();
 
   // const isFocused = useIsFocused();
   useEffect(() => {
@@ -82,7 +84,9 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
               />
             </TouchCus>
           </ViewCus>
-          {refresh > 0 && (
+          {loading ? (
+            <ActivityIndicator size="small" color={Colors.main} />
+          ) : (
             <FlatList
               data={data}
               keyExtractor={(item, index) => `${index.toString()}`}
@@ -138,7 +142,7 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
                               resizeMode="contain"
                             />
                           )}
-                          {item.type === 'CAR_DRIVER' && (
+                          {item.type === 'DRIVER' && (
                             <ImageCus
                               source={Images.derviceCar}
                               style={[

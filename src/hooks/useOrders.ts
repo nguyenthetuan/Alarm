@@ -19,7 +19,6 @@ export const useOrders = () => {
   const dispatch = useDispatch();
   const { locationUser } = useLocation();
   const loading = useSelector(OrdersSelectors.getLoading);
-
   const getOrderDetailByCode = useCallback(
     (orderCode: string, cb?: ICallback) => {
       dispatch(
@@ -81,6 +80,8 @@ export const useOrders = () => {
 
   const getInfoTaxiService = useCallback(
     (data: IBookTaxiRequest, cb?: ICallback) => {
+      console.log('dataxxxxx',data);
+      
       dispatch(
         OrdersActions.postBaseActionsRequest(
           {
