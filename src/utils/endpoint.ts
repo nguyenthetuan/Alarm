@@ -21,6 +21,9 @@ export const API_ENDPOINT = {
     FORGOT_PASSWORD: 'authen/forgot-password',
     KYC_USER: 'authen/create-update-user',
     CHANGE_PASSWORD: 'authen/change-password',
+    UPLOAD_IMAGE: 'user/upload-image-message',
+    MESSAGE_HISTORY: 'user/message/history',
+    INFO_USER: 'user',
   },
   GOONG: {
     GEO_CODE: 'Geocode',

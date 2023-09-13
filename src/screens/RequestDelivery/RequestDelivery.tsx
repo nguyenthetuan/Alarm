@@ -25,6 +25,7 @@ import PreviewOder from './screens/PreiewOder';
 import { IPage, location } from 'types';
 import { formatMoney } from 'utils';
 import { useCart } from 'context/CartContext';
+import { Portal } from 'react-native-paper';
 
 enum RequestDeliveryStep {
   CHOOSE_FROM_TO,
