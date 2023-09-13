@@ -12,6 +12,7 @@ import { BaseStyle, Colors } from 'theme';
 import { useGeo, useLocation } from 'hooks';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { Platform, TextInput, Keyboard } from 'react-native';
+import {BottomSheetView } from '@gorhom/bottom-sheet';
 
 interface LocationResult extends LocationFind {
   lat: number;

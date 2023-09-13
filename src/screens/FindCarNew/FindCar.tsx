@@ -89,7 +89,9 @@ const FindCar = () => {
   const [driverLocation, setDriverLocation] = useState<ILongLocation | null>(
     null,
   );
-  const { getInfoTaxiService, findCarAction, cancleFindDriver } = useOrders();
+  const { getInfoTaxiService, findCarAction, cancleFindDriver,loading } = useOrders();
+  console.log('loading',loading);
+  
   const [refresh, setRefresh] = useState(1);
   const [deliveryDriverOptions, setDeliveryOptions] = useState([
     {
@@ -123,7 +125,7 @@ const FindCar = () => {
       id: 4,
       title: 'Tài xế ô tô',
       subTitle: '',
-      type: 'CAR_DRIVER',
+      type: 'DRIVER',
       price: '0',
       distance: '0',
       vehicle: false,
@@ -163,9 +165,12 @@ const FindCar = () => {
                 _rs[i].distance = res.data.result[0].distanceKm;
                 _rs[i].distanceText = res.data.result[0].distanceText;
               }
+              console.log('_rs', _rs);
+
               if (
                 _rs[0].distance === _rs[1].distance &&
                 _rs[0].distance === _rs[2].distance &&
+                _rs[0].distance === _rs[3].distance &&
                 parseInt(_rs[0].distance) > 0
               ) {
                 setDeliveryOptions(deliveryDriverOptions => _rs);
@@ -541,8 +546,8 @@ const FindCar = () => {
     }
   }, [stepView, deliveryDriverSelected, fromToData]);
 
-  console.log('route?.params?.type',route?.params?.type);
-  
+  console.log('route?.params?.type', route?.params?.type);
+
   const renderContentModal = (step: FindCarScreenStepView) => {
     switch (step) {
       case FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO:
