@@ -53,6 +53,7 @@ export default StyleSheet.create({
     width: '100%',
   },
   btn: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
   },
 });

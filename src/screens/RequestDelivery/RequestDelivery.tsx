@@ -316,24 +316,22 @@ export default function RequestDelivery() {
     updateLocation(fromToData?.to || locationUser);
   }, [getListProductType, getListDeliveryMethod, getListAddon, fromToData]);
   return (
-    <Portal>
-      <BottomSheetModalProvider>
-        <HomeLayout
-          bgColor={Colors.main}
-          header={{
-            title: titleView,
-            iconColor: Colors.white,
-            onPressLeft: onBackHandle,
-          }}>
-          <KeyboardAvoidingView
-            style={[styles.content]}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-            {mainView}
-            {bottomView}
-          </KeyboardAvoidingView>
-        </HomeLayout>
-      </BottomSheetModalProvider>
-    </Portal>
+    <BottomSheetModalProvider>
+      <HomeLayout
+        bgColor={Colors.main}
+        header={{
+          title: titleView,
+          iconColor: Colors.white,
+          onPressLeft: onBackHandle,
+        }}>
+        <KeyboardAvoidingView
+          style={[styles.content]}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          {mainView}
+          {bottomView}
+        </KeyboardAvoidingView>
+      </HomeLayout>
+    </BottomSheetModalProvider>
   );
 }
 

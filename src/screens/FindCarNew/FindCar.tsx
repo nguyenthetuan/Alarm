@@ -651,6 +651,7 @@ const FindCar = () => {
               setDeliveryDriverSelected(data);
               setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
             }}
+            type={deliveryDriverSelected.type}
           />
         );
       default:

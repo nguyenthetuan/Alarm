@@ -11,8 +11,8 @@ import { Divider, TextCus, TextInputs, TouchCus, ViewCus } from 'components';
 import { BaseStyle, Colors } from 'theme';
 import { useGeo, useLocation } from 'hooks';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { Platform, TextInput, Keyboard } from 'react-native';
-import {BottomSheetView } from '@gorhom/bottom-sheet';
+import { Platform, TextInput, Keyboard, View } from 'react-native';
+import { BottomSheetView } from '@gorhom/bottom-sheet';
 
 interface LocationResult extends LocationFind {
   lat: number;
@@ -333,7 +333,7 @@ const ChooseFromTo = React.forwardRef<
   //#endregion
 
   return (
-    <ViewCus style={[BaseStyle.wrapperMain]}>
+    <View flex-1 style={[BaseStyle.wrapperMain]}>
       <ViewCus style={[BaseStyle.flexRowCenter]}>
         <ViewCus mr-8>
           <Icon.CurrentLocation />
@@ -352,6 +352,7 @@ const ChooseFromTo = React.forwardRef<
               marginBottom: 0,
             }}
             autoFocus={false}
+            out
             onBlur={() => {
               Keyboard.dismiss();
               if (fromLocation?.structured_formatting?.main_text) {
@@ -408,6 +409,8 @@ const ChooseFromTo = React.forwardRef<
               }
               setAddress([]);
             }}
+            onPress={()=>{console.log('xxxxx');
+            }}
             onFocus={() => {
               setIsFocusOnFrom(false);
             }}
@@ -428,7 +431,7 @@ const ChooseFromTo = React.forwardRef<
       <ViewCus mt-15>
         {address.map((x, i) => renderItem({ item: x, index: i }))}
       </ViewCus>
-    </ViewCus>
+    </View>
   );
 });
 

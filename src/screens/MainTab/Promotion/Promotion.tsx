@@ -53,26 +53,27 @@ const Promotion = () => {
       refModal.current?.show();
     }
   }, [selected]);
-  useEffect(() => {
-    if (listDataTable.length > 0 && promotions.length > 0) {
-      const newPro: IPromotionListItem[] = [];
-      for (let i = 0; i < promotions.length; i++) {
-        const element = promotions[i];
-        let found = false;
-        for (let j = 0; j < listDataTable.length; j++) {
-          const element2 = listDataTable[j];
-          if (element2.id === element.id) {
-            found = true;
-            break;
-          }
-        }
-        if (found) {
-          newPro.push(element);
-        }
-      }
-      setPromotions(newPro);
-    }
-  }, [listDataTable, promotions]);
+  // useEffect(() => {
+  //   if (listDataTable.length > 0 && promotions.length > 0) {
+  //     const newPro: IPromotionListItem[] = [];
+  //     for (let i = 0; i < promotions.length; i++) {
+  //       const element = promotions[i];
+  //       let found = false;
+  //       for (let j = 0; j < listDataTable.length; j++) {
+  //         const element2 = listDataTable[j];
+  //         if (element2.id === element.id) {
+  //           found = true;
+  //           break;
+  //         }
+  //       }
+  //       if (found) {
+  //         newPro.push(element);
+  //       }
+  //     }
+  //     console.log('newPro',newPro)
+  //     setPromotions(newPro);
+  //   }
+  // }, [listDataTable]);
   //#endregion
 
   return (

@@ -42,7 +42,12 @@ const InputPhone: React.FC = ({}) => {
       <ScrollView contentContainerStyle={styles.wrapper}>
         <ViewCus style={styles.flex04}>{/* <Icon.Logo /> */}</ViewCus>
         <ViewCus px-24 style={styles.flex06}>
-          <TextCus heading1 mb-8 useI18n textAlign="center">
+          <TextCus
+            heading1
+            mb-8
+            useI18n
+            textAlign="center"
+            color={Colors.black3A}>
             auth.login_title
           </TextCus>
           <TextCus bold mb-12 color-grey85 useI18n textAlign="center">
@@ -79,6 +84,7 @@ const InputPhone: React.FC = ({}) => {
             textBtn={'continue'}
             mt-24
             mb-32
+            style={styles.btnLogin}
             onPress={handleSubmit(onSubmitInputPhone)}
             disabled={loading}
             loading={loading}
@@ -95,6 +101,7 @@ const InputPhone: React.FC = ({}) => {
           <TextCus color-grey84>
             Tôi đồng ý những
             <TextCus
+              style={styles.textDk}
               color-blue47
               onPress={() => NavigationService.navigate(Routes.Term)}>
               {' '}
