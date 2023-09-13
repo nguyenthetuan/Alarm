@@ -56,6 +56,7 @@ const CartOrder: React.FC = () => {
       onNameByLatLng(
         { latitude: cartLocation.lat, longitude: cartLocation.long },
         from => {
+          
           setAddress(from);
         },
       );

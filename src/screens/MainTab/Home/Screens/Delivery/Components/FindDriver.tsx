@@ -24,6 +24,7 @@ const FindDriver: React.FC<IProps> = props => {
   const [toName, setToName] = useState('');
 
   useEffect(() => {
+    console.log('props.orderDetailData', props.orderDetailData);
     if (props.orderDetailData) {
       onNameByLatLng(
         {
