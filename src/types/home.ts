@@ -15,6 +15,8 @@ export interface IHomeState {
   listPromotions: IPromotion[];
   listSuggests: any[];
   listRestaurantNearMe: any[];
+  listMessageHistory: any[];
+  infoUser: any;
 }
 export enum ETypeCategory {
   FOOD = 'FOOD',

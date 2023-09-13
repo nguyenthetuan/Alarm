@@ -2,7 +2,7 @@ import { RouteProp, useIsFocused, useRoute } from '@react-navigation/native';
 import { IconName } from 'assets';
 import { Buttons, IconCus, TextCus, TouchCus, ViewCus } from 'components';
 import { BottomSheetModalContainer } from 'components/BottomSheetModals';
-import { useCustomerSocket, useLocation, useOrders } from 'hooks';
+import { useAuth, useCustomerSocket, useLocation, useOrders } from 'hooks';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, {
   useCallback,
@@ -32,6 +32,8 @@ import OrderIsSuccess from './Components/OrderIsSuccess';
 import QuestionFromTo from './Components/QuestionFromTo';
 import styles from './styles';
 import _ from 'lodash';
+import DriverArrivedV2 from 'screens/FindCarNew/Components/DriverArrivedV2';
+import DriverAreComingV2 from 'screens/FindCarNew/Components/DriverAreComingV2';
 
 export enum FindCarScreenStepView {
   QUESTION_CHOOSE_FROM_TO,
@@ -55,6 +57,8 @@ const FindCar = () => {
   //#region Static
   const route = useRoute<RouteProp<RootStackParamList, 'FindCar'>>();
   const { locationUser } = useLocation();
+  const { getInfoUser } = useAuth();
+
   // const { user } = useAuth();
   const isFocused = useIsFocused();
   const {
@@ -89,10 +93,12 @@ const FindCar = () => {
   const [driverLocation, setDriverLocation] = useState<ILongLocation | null>(
     null,
   );
-  const { getInfoTaxiService, findCarAction, cancleFindDriver,loading } = useOrders();
-  console.log('loading',loading);
-  
+  const { getInfoTaxiService, findCarAction, cancleFindDriver, loading } =
+    useOrders();
+  console.log('loading', loading);
+
   const [refresh, setRefresh] = useState(1);
+  const [infoDriverDb, setInfoDriverDb] = useState();
   const [deliveryDriverOptions, setDeliveryOptions] = useState([
     {
       id: 1,
@@ -190,6 +196,10 @@ const FindCar = () => {
     } else {
       refContentBottom.current?.close();
     }
+
+    return () => {
+      refContentBottom.current?.close();
+    };
   }, [isFocused]);
 
   //#endregion
@@ -608,9 +618,18 @@ const FindCar = () => {
         return <FindedDriver type={deliveryDriverSelected.type} />;
       case FindCarScreenStepView.DRIVER_ARE_COMING:
         return (
-          <DriverAreComing
+          <DriverAreComingV2
             onCancel={() => {
               setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
+            }}
+            infoDriverDb={infoDriverDb}
+            onMessageDetail={driverInfo => {
+              if (driverInfo) {
+                refContentBottom.current?.close();
+                NavigationService.push(Routes.MessageDetail, {
+                  partner: driverInfo,
+                });
+              }
             }}
             onLayout={(Height: number) => setHeightSheet(Height)}
             fromToData={fromToData}
@@ -621,9 +640,18 @@ const FindCar = () => {
 
       case FindCarScreenStepView.DRIVER_ARRIVED:
         return (
-          <DriverArrived
+          <DriverArrivedV2
             onCancel={() => {
               setStepView(FindCarScreenStepView.CHOOSE_DELIVERY_OPTION);
+            }}
+            infoDriverDb={infoDriverDb}
+            onMessageDetail={driverInfo => {
+              if (driverInfo) {
+                refContentBottom.current?.close();
+                NavigationService.push(Routes.MessageDetail, {
+                  partner: driverInfo,
+                });
+              }
             }}
             onLayout={(Height: number) => setHeightSheet(Height)}
             fromToData={fromToData}
@@ -662,7 +690,7 @@ const FindCar = () => {
 
   //#region Watch change
   useEffect(() => {
-    refContentBottom.current?.show();
+    // refContentBottom.current?.show();
   }, [refContentBottom.current]);
 
   useEffect(() => {
@@ -748,12 +776,22 @@ const FindCar = () => {
   );
   const handleCustomerSocketFoundDriver = args => {
     setDeliveryInfo(args?.result[0]);
+    getInfoDriver(args?.result[0]);
     clearTimeout(TimeOutCancel);
 
     setStepView(FindCarScreenStepView.FINDED_DRIVER);
     setTimeout(() => {
       setStepView(FindCarScreenStepView.DRIVER_ARE_COMING);
     }, 5000);
+  };
+
+  const getInfoDriver = (data: any) => {
+    if (data?.motorcycleTaxi?.driver) {
+      getInfoUser(data?.motorcycleTaxi?.driver?.user_id, res => {
+        const info = res?.data?.result?.[0];
+        setInfoDriverDb(info);
+      });
+    }
   };
 
   const onFindDriverClick = () => {

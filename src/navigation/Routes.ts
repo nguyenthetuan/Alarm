@@ -61,6 +61,7 @@ export enum Routes {
   Rating = 'Rating',
   RatingBiker = 'RatingBiker',
   RatingRestaurant = 'RatingRestaurant',
+  MessageDetail = 'MessageDetail',
 
   ModalScreen = 'ModalScreen',
 }

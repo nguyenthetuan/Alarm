@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ViewCus } from 'components';
 import LottieView from 'lottie-react-native';
 import { StatusBar, Image } from 'react-native';
+import MessageDetail from 'screens/Message/MessageDetail';
 // import { Images } from 'assets';
 const Tab = createBottomTabNavigator();
 const TABAR_SCREEN = [
@@ -223,6 +224,7 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
           component={Screens.ModalScreen}
         />
       </Stack.Group>
+      <Stack.Screen name={Routes.MessageDetail} component={MessageDetail} />
     </Stack.Navigator>
   );
 };

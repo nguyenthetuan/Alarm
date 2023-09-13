@@ -1,0 +1,87 @@
+import { StyleSheet } from 'react-native';
+import { Colors } from 'theme';
+export default StyleSheet.create({
+  wrapperHeader: {
+    backgroundColor: Colors.white,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    borderBottomColor: Colors.colorD9,
+    borderBottomWidth: 1,
+  },
+  avatarHeader: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 8,
+  },
+  dot: {
+    marginHorizontal: 4,
+    width: 4,
+    height: 4,
+    borderRadius: 4,
+    backgroundColor: Colors.black,
+  },
+  bottomChatView: {
+    paddingTop: 11,
+    paddingHorizontal: 18,
+    shadowColor: '#F0F0F5',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 4,
+    elevation: 5,
+    backgroundColor: Colors.white,
+  },
+  sentButton: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.main,
+  },
+  groupMenuButton: {
+    height: 33,
+    width: 33,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.main,
+  },
+  textInputContainer: {
+    flex: 1,
+    flexGrow: 1,
+    padding: 10,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    backgroundColor: Colors.greyF8,
+    color: Colors.grey85,
+    borderColor: Colors.greyEE,
+    borderWidth: 1,
+    marginHorizontal: 12,
+    fontSize: 14,
+  },
+  wrapperInput: {
+    width: '100%',
+    flexGrow: 1,
+    margin: 0,
+    marginBottom: 0,
+    padding: 0,
+    borderRadius: 0,
+    borderWidth: 0,
+  },
+  styleInput: {
+    width: '100%',
+    flexGrow: 1,
+  },
+  input: {
+    width: '100%',
+    backgroundColor: 'transparent',
+    borderRadius: 0,
+    borderWidth: 0,
+  },
+});

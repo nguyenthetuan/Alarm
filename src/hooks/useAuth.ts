@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as UserActions from 'store/user';
 import { UserSelectors } from 'store/user';
 import {
+  ICallback,
   IFormDataLogin,
   IFormVerifyOTP,
   IKYCParams,
@@ -29,6 +30,7 @@ import {
   onShowModal,
 } from 'components/BottomSheetAlert/BottomSheetAlert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -272,6 +274,66 @@ export const useAuth = () => {
     saveKeyStore(KEY_CONTEXT.CHECKINTRO, 'Y');
     await AsyncStorage.setItem('Intro', 'Y');
   }, []);
+
+  const onUploadImageChat = useCallback(
+    (file: any, token: any, callback: (result: any) => void) => {
+      const _formData = new FormData();
+      _formData.append('files', {
+        uri: file?.uri,
+        type: file?.type || file?.mime,
+        name: file?.name,
+      });
+      axios
+        .post(`${API_HOST}${API_ENDPOINT.AUTH.UPLOAD_IMAGE}`, _formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(res => {
+          if (res.status === 200 && res?.data?.data) {
+            const result = res?.data?.data?.result;
+            callback?.(result);
+          } else {
+            danger(t('error'), 'Vui lòng thử lại');
+          }
+        })
+        .catch(err => {
+          danger(t('error'), 'Vui lòng thử lại');
+        });
+    },
+    [],
+  );
+
+  const getListMessageHistory = useCallback(
+    (sender_user_id: string, receiver_user_id: string, cb?: ICallback) => {
+      dispatch(
+        UserActions.getBaseActionsRequest(
+          {
+            dataKey: 'listMessageHistory',
+            endPoint: `${API_ENDPOINT.AUTH.MESSAGE_HISTORY}?receiver_user_id=${receiver_user_id}&sender_user_id=${sender_user_id}`,
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
+
+  const getInfoUser = useCallback(
+    (user_id: string, cb?: ICallback) => {
+      dispatch(
+        UserActions.getBaseActionsRequest(
+          {
+            dataKey: 'infoUser',
+            endPoint: `${API_ENDPOINT.AUTH.INFO_USER}/${user_id}`,
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
   return {
     user,
     loading,
@@ -288,5 +350,8 @@ export const useAuth = () => {
     onHanldeKYCUser,
     onShowFirstIntro,
     onChangePassword,
+    onUploadImageChat,
+    getListMessageHistory,
+    getInfoUser,
   };
 };
