@@ -15,7 +15,7 @@ import styles from './Screens/styles';
 import { getImage, KEY_CONTEXT, openLink } from 'utils';
 import { NavigationService } from 'navigation';
 import {
-  Animated,
+  Animated, Keyboard,
   KeyboardAvoidingView,
   Platform,
   TextInput,
@@ -185,7 +185,7 @@ const MessageDetail = ({ route }) => {
                   : avatarDefault,
               }}
               style={styles.avatarHeader}
-              resizeMode="contain"
+              resizeMode="cover"
             />
             <ViewCus>
               <TextCus heading5 bold color-black3A>
@@ -215,6 +215,7 @@ const MessageDetail = ({ route }) => {
   };
 
   const onActionMedia = () => {
+    Keyboard.dismiss();
     refModal?.current?.show?.();
     console.log('onActionMedia');
   };

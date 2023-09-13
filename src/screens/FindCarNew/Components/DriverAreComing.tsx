@@ -168,7 +168,7 @@ const DriverAreComing: React.FC<IProps> = props => {
               type: props.type,
             })}
             <TextCus bole useI18n heading3 alignSelf="center">
-              Tài xế đang đến
+              Tài xế đã đến nơi
             </TextCus>
           </BottomSheetView>
           {/* </TouchCus> */}
