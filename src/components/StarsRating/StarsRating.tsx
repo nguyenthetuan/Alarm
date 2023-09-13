@@ -11,7 +11,7 @@ interface IProps {
   count?: number;
   size?: number;
   style?: StyleProp<ViewStyle>;
-  onChangePoint: () => void;
+  onChangePoint: (number?: number) => void;
 }
 
 const StarsRating: React.FC<IProps> = ({
@@ -23,12 +23,12 @@ const StarsRating: React.FC<IProps> = ({
 }) => {
   return (
     <ViewCus flex-row>
-      {Array(point)
+      {Array(point || 0)
         .fill(0)
         .map((_, i) => (
           <TouchCus
             onPress={() => {
-              onChangePoint(i);
+              onChangePoint?.(i);
             }}>
             <IconApp
               key={i}
@@ -39,12 +39,12 @@ const StarsRating: React.FC<IProps> = ({
             />
           </TouchCus>
         ))}
-      {Array(count - Number(point))
+      {Array(Number(count || 0) - Number(point || 0))
         .fill(0)
         .map((_, i) => (
           <TouchCus
             onPress={() => {
-              onChangePoint(i + point);
+              onChangePoint?.(Number(i || 0) + Number(point || 0));
             }}>
             <IconApp
               key={i}

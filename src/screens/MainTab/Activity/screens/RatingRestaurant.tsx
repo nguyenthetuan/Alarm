@@ -7,19 +7,21 @@ import {
   ViewCus,
 } from 'components';
 import { NavigationService, Routes } from 'navigation';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet } from 'react-native';
 import { Colors } from 'theme';
 type TFormRating = {
   description: string;
 };
-const RatingRestaurant: React.FC = () => {
+const RatingRestaurant: React.FC = ({ route }) => {
   const { control, handleSubmit } = useForm<TFormRating>({
     defaultValues: {
       description: '',
     },
   });
+  const [point, setPoint] = useState(route.params?.point || 5);
+  
   const onRating = useCallback((value: TFormRating) => {
     console.log('value', value);
     NavigationService.navigate(Routes.HomeTabs, {
@@ -55,7 +57,12 @@ const RatingRestaurant: React.FC = () => {
       styleContent={[styles.p16]}>
       <ViewCus>
         <ViewCus items-center>
-          <StarsRating point={5} size={40} style={styles.mr16} />
+          <StarsRating
+            point={point}
+            onChangePoint={p => setPoint(p + 1)}
+            size={40}
+            style={styles.mr16}
+          />
         </ViewCus>
         <ViewCus my-16 style={styles.contentSuggest}>
           {[...Array(5).keys()].map(renderSuggestItem)}

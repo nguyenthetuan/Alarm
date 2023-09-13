@@ -17,6 +17,9 @@ import { ContentRating } from '../components';
 const Rating: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'Rating'>>();
   const [point, setpoint] = useState<Number>(5);
+  const [pointBiker, setPointBiker] = useState(0);
+  const [pointRes, setPointRes] = useState(0);
+
   const body = useMemo(() => {
     switch (route.params?.type) {
       case 'car':
@@ -46,23 +49,29 @@ const Rating: React.FC = () => {
               subtitle="Bạn đánh các món tại Cơm Gà Xối Mỡ 142 - Đinh Tiên Hoàng như thế nào"
               title="Đánh giá nhà hàng"
               onPress={() =>
-                NavigationService.navigate(Routes.RatingRestaurant)
+                NavigationService.navigate(Routes.RatingRestaurant, { point: pointRes })
               }
+              point={pointRes}
+              onChangePoint={p => {
+                setPointRes(p + 1);
+              }}
             />
             <ContentRating
               subtitle="Bạn đánh giá tài xế của bạn như thế nào?"
               title="Đánh giá tài xế"
               onPress={() =>
                 NavigationService.navigate(Routes.RatingBiker, {
-                  point: point,
+                  point: pointBiker,
                   deliveryInfo: route.params?.deliveryInfo,
                 })
               }
+              point={pointBiker}
+              onChangePoint={p => setPointBiker(p + 1)}
             />
           </>
         );
     }
-  }, [route.params?.type, point]);
+  }, [route.params?.type, point, pointRes, pointBiker]);
   console.log('route.params?.deliveryInfo', route.params?.deliveryInfo);
 
   return (

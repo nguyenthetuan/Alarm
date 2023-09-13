@@ -7,7 +7,7 @@ interface IProps {
   title: string;
   subtitle: string;
   point: number;
-  onChangePoint?: () => void;
+  onChangePoint?: (p: number) => void;
 }
 const ContentRating: React.FC<IProps> = ({
   onPress,
