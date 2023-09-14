@@ -80,8 +80,6 @@ export const useOrders = () => {
 
   const getInfoTaxiService = useCallback(
     (data: IBookTaxiRequest, cb?: ICallback) => {
-      console.log('dataxxxxx', data);
-
       dispatch(
         OrdersActions.postBaseActionsRequest(
           {
