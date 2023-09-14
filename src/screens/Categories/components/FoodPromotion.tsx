@@ -21,7 +21,7 @@ const FoodPromotion: React.FC<IProps> = ({ foods }) => {
     });
   }, []);
   const renderItem: ListRenderItem<IFood> = useCallback(({ item, index }) => {
-    const { images, base_price, food_name, id } = item;
+    const { images, base_price, food_name, id, price } = item;
     return (
       <TouchCus
         onPress={() => onPressItem(id)}
@@ -32,7 +32,7 @@ const FoodPromotion: React.FC<IProps> = ({ foods }) => {
             <TextCus heading5>{food_name}</TextCus>
             <ViewCus flex-row f-1 style={styles.contentPrice}>
               <TextCus heading5 main mr-5>
-                {formatMoney(base_price)}
+                {formatMoney(price)}
               </TextCus>
               {/* <TextCus style={styles.price}>{formatMoney(55000)}</TextCus> */}
             </ViewCus>
