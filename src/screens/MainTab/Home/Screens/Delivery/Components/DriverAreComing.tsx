@@ -1,9 +1,9 @@
 import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Icon from 'assets/svg/Icon';
-import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
+import { ImageCus, StarsRating, TextCus, TouchCus, ViewCus } from 'components';
 import styles from './styles';
 import { BaseStyle, Colors } from 'theme';
-import { formatMoney, getImage, getWidthBySpace, openLink } from 'utils';
+import { formatMoney, getImage, getWidthBySpace, openLink, width } from 'utils';
 import { IDriver_OrderDetail, IOrderDetail } from 'types';
 import React, { useEffect, useState } from 'react';
 import { useOrders } from 'hooks';
@@ -12,70 +12,120 @@ import { Images } from 'assets';
 interface IProps {
   orderDetailData?: IOrderDetail | null;
   onCancel: () => void;
+  onMessageDetail?: (i: any) => void;
+  infoDriverDb?: any;
 }
 
 const driverInfomation = (
   driverInfo: IDriver_OrderDetail | null | undefined,
+  infoDriverDb?: any,
+  onMessageDetail?: (i: any) => void,
 ) => {
   const callDriver = () => {
     if (driverInfo?.phone_number) {
       openLink('telephone', driverInfo.phone_number);
     }
   };
+  const messageDriver = () => {
+    onMessageDetail?.(infoDriverDb);
+  };
   return (
     <ViewCus>
       <ViewCus style={styles.w100} px-16>
-        <ViewCus flex-row justify-space-between items-center>
-          <ViewCus items-flex-start w-32 />
-          <ViewCus items-center w-68 h-68>
-            {driverInfo?.avatar && (
-              <ImageCus
-                source={{
-                  uri: getImage({
-                    image: driverInfo?.avatar,
-                  }),
-                }}
-                style={BaseStyle.flexGrow1}
-                resizeMode="stretch"
-              />
-            )}
-
-            {!driverInfo?.avatar && (
-              <ImageCus
-                source={Images.driver}
-                style={[
-                  BaseStyle.flexGrow1,
-                  BaseStyle['w100%'],
-                  BaseStyle['h100%'],
-                ]}
-                resizeMode="stretch"
-              />
-            )}
+        <ViewCus flex-row pt-5 pb-15 items-center style={styles.headerStatus}>
+          <Icon.IconClock />
+          <TextCus color={Colors.black} useI18n heading4 medium ml-10>
+            delivery.driverAreComing
+          </TextCus>
+        </ViewCus>
+        <ViewCus
+          style={{ width: width - 40 }}
+          flex-row
+          mt-22
+          justify-space-between
+          items-center>
+          <ViewCus flex-row items-center style={{ width: '68%' }}>
+            <ViewCus flex-row items-center>
+              <ViewCus items-center w-60 h-60>
+                {infoDriverDb?.avatar && (
+                  <ImageCus
+                    source={{
+                      uri: getImage({
+                        image: infoDriverDb?.avatar,
+                      }),
+                    }}
+                    style={[
+                      BaseStyle.flexGrow1,
+                      BaseStyle['w100%'],
+                      BaseStyle['h100%'],
+                      {
+                        borderRadius: 100,
+                        borderWidth: 1,
+                        borderColor: Colors.greyEE,
+                      },
+                    ]}
+                    resizeMode="stretch"
+                  />
+                )}
+                {!infoDriverDb?.avatar && (
+                  <ImageCus
+                    source={
+                      infoDriverDb?.type === 'car'
+                        ? Images.carDriverAvatar
+                        : Images.bikeDriverAvatar
+                    }
+                    style={[
+                      BaseStyle.flexGrow1,
+                      BaseStyle['w100%'],
+                      BaseStyle['h100%'],
+                    ]}
+                    resizeMode="stretch"
+                  />
+                )}
+              </ViewCus>
+              <ViewCus ml-10 mb-5>
+                <TextCus
+                  numberOfLines={1}
+                  color={'#2E2E2E'}
+                  useI18n
+                  heading5
+                  regular
+                  mb-5
+                  style={{ width: '110%' }}>
+                  {`Tài xế ${infoDriverDb?.full_name}`}
+                </TextCus>
+                <StarsRating point={5} onChangePoint={() => {}} size={15} />
+              </ViewCus>
+            </ViewCus>
           </ViewCus>
-          <ViewCus items-flex-end w-32>
-            <TouchCus onPress={callDriver}>
-              <Icon.PhoneCircle width={32} height={32} />
+
+          <ViewCus flex-row items-center>
+            <TouchCus pr-8 onPress={callDriver}>
+              <Icon.PhoneDriver width={44} height={44} />
+            </TouchCus>
+            <TouchCus onPress={messageDriver}>
+              <Icon.MessageDriver width={44} height={44} />
             </TouchCus>
           </ViewCus>
         </ViewCus>
       </ViewCus>
-      <ViewCus style={styles.w100} px-16>
-        <ViewCus flex-column justify-center>
-          <ViewCus mt-12>
-            <TextCus textAlign="center" useI18n heading4>
-              delivery.driverAreComing
-            </TextCus>
-          </ViewCus>
-          {driverInfo?.full_name && (
-            <ViewCus mt-12>
-              <TextCus textAlign="center" heading2>
-                {driverInfo?.full_name}
-              </TextCus>
-            </ViewCus>
-          )}
-        </ViewCus>
-        <ViewCus mt-12>{Icon.Line(getWidthBySpace(32))}</ViewCus>
-      </ViewCus>
+      {/*<ViewCus style={styles.w100} px-16>*/}
+      {/*  <ViewCus flex-column justify-center>*/}
+      {/*    <ViewCus mt-12>*/}
+      {/*      <TextCus textAlign="center" useI18n heading4>*/}
+      {/*        delivery.driverAreComing*/}
+      {/*      </TextCus>*/}
+      {/*    </ViewCus>*/}
+      {/*    {driverInfo?.full_name && (*/}
+      {/*      <ViewCus mt-12>*/}
+      {/*        <TextCus textAlign="center" heading2>*/}
+      {/*          {driverInfo?.full_name}*/}
+      {/*        </TextCus>*/}
+      {/*      </ViewCus>*/}
+      {/*    )}*/}
+      {/*  </ViewCus>*/}
+      {/*  <ViewCus mt-12>{Icon.Line(getWidthBySpace(32))}</ViewCus>*/}
+      {/*</ViewCus>*/}
     </ViewCus>
   );
 };
@@ -131,7 +181,11 @@ const DriverAreComing: React.FC<IProps> = props => {
   return (
     <>
       <BottomSheetView>
-        {driverInfomation(props?.orderDetailData?.driver)}
+        {driverInfomation(
+          props?.orderDetailData?.driver,
+          props?.infoDriverDb,
+          props?.onMessageDetail,
+        )}
       </BottomSheetView>
       <BottomSheetScrollView showsVerticalScrollIndicator={false}>
         <ViewCus>
