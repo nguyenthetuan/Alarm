@@ -26,5 +26,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 48,
   },
+  headerStatus: {
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.greyEE,
+  },
+  btnDetail: {
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Colors.main,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  infor: {
+    color: Colors.grey85,
+  },
 });
 export default styles;

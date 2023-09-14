@@ -13,6 +13,7 @@ const ChatContent = ({
   isEndLoad,
   onEndReach,
   userId,
+  partner,
   listHeaderComponent,
 }) => {
   const renderItem = (item, index) => {
@@ -31,14 +32,14 @@ const ChatContent = ({
             {!isSender && (
               <ImageCus
                 source={{
-                  uri: driverInfo?.avatar
+                  uri: partner?.avatar
                     ? getImage({
-                        image: driverInfo?.avatar,
+                        image: partner?.avatar,
                       })
                     : avatarDefault,
                 }}
                 style={styles.avatar}
-                resizeMode="contain"
+                resizeMode="cover"
               />
             )}
             {item?.type === 'IMAGE' ? (

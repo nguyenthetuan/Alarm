@@ -1,9 +1,14 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useIsFocused, useRoute } from '@react-navigation/native';
 import { IconName } from 'assets';
 import { Buttons, IconCus, TextCus, TouchCus, ViewCus, Card } from 'components';
 import { BottomSheetModalContainer } from 'components/BottomSheetModals';
 import { useCart } from 'context/CartContext';
-import { useCustomerSocket, useNotify, useRequestDelivery } from 'hooks';
+import {
+  useAuth,
+  useCustomerSocket,
+  useNotify,
+  useRequestDelivery,
+} from 'hooks';
 import { useOrders } from 'hooks/useOrders';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, {
@@ -75,6 +80,7 @@ const Shipment = () => {
   } = useOrders();
   const { putDeleteDelivery } = useRequestDelivery();
   const { getOrderDetailByCode } = useRequestDelivery();
+  const [infoDriverDb, setInfoDriverDb] = useState();
 
   const refContentBottom = useRef<IRefBottom>(null);
   const refModal = useRef(null);
@@ -88,6 +94,8 @@ const Shipment = () => {
     cartLocation,
   );
   const [DeliveryInfo, setDeliveryInfo] = useState({});
+  const { getInfoUser } = useAuth();
+  const isFocused = useIsFocused();
 
   const [driverLocation, setDriverLocation] = useState<
     ILongLocation | undefined
@@ -99,6 +107,15 @@ const Shipment = () => {
 
   const getCurrentOrderCode = () => {
     return currentOrderCodeRef.current;
+  };
+
+  const getInfoDriver = (data: any) => {
+    if (data?.driver) {
+      getInfoUser(data?.driver?.user_id, res => {
+        const info = res?.data?.result?.[0];
+        setInfoDriverDb(info);
+      });
+    }
   };
 
   const [stepView, setStepView] = useState(ScreenStepView.NOT_READY);
@@ -445,6 +462,15 @@ const Shipment = () => {
                 });
               }
             }}
+            infoDriverDb={infoDriverDb}
+            onMessageDetail={driverInfo => {
+              if (driverInfo) {
+                refContentBottom.current?.close();
+                NavigationService.push(Routes.MessageDetail, {
+                  partner: driverInfo,
+                });
+              }
+            }}
           />
         );
 
@@ -464,6 +490,7 @@ const Shipment = () => {
 
   const handleCustomerSocketFoundDriver = args => {
     setDeliveryInfo(args?.result[0]?.delivery);
+    getInfoDriver(args?.result[0]?.delivery);
     setStepView(ScreenStepView.DRIVER_ARE_COMING);
     if (args.result) {
       const code = args.result[0]?.order?.order_code;
@@ -590,6 +617,14 @@ const Shipment = () => {
   const complateDilivery = () => {
     setStepView(ScreenStepView.ORDER_IS_SUCCESS);
   };
+
+  //#region Watch change
+  useEffect(() => {
+    if (isFocused) {
+      refContentBottom.current?.show();
+    }
+  }, [isFocused]);
+
   useEffect(() => {
     refContentBottom.current?.show();
     setStepView(ScreenStepView.FIND_DRIVER);

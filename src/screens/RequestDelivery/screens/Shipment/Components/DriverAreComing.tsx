@@ -20,36 +20,53 @@ interface IProps {
   orderDetailData?: IOrderDetail | null;
   onCancel: () => void;
   status: any;
+  onMessageDetail?: (i: any) => void;
+  infoDriverDb?: any;
 }
 
 const driverInfomation = (
   driverInfo: IDriver_OrderDetail | null | undefined,
+  infoDriverDb?: any,
+  onMessageDetail?: (i: any) => void,
 ) => {
   const callDriver = () => {
-    if (driverInfo?.phone_number) {
-      openLink('telephone', driverInfo.phone_number);
+    if (infoDriverDb?.phone_number) {
+      openLink('telephone', infoDriverDb.phone_number);
     }
+  };
+
+  const messageDriver = () => {
+    onMessageDetail?.(infoDriverDb);
   };
 
   return (
     <ViewCus>
       <ViewCus pt-10 pl-10 pr-10 flex-row justify-space-between items-center>
-        <ViewCus flex-row items-center>
+        <ViewCus flex-row items-center px-5 mb-5>
           {/* <ViewCus items-flex-start w-32 /> */}
-          <ViewCus w-78 h-78>
-            {driverInfo?.avatar && (
+          <ViewCus>
+            {infoDriverDb?.avatar && (
               <ImageCus
                 source={{
                   uri: getImage({
-                    image: driverInfo?.avatar,
+                    image: infoDriverDb?.avatar,
                   }),
                 }}
-                style={BaseStyle.flexGrow1}
-                resizeMode="stretch"
+                style={[
+                  {
+                    width: 48,
+                    height: 48,
+                    borderRadius: 100,
+                    borderWidth: 1,
+                    borderColor: Colors.greyEE,
+                    marginRight: 10,
+                  },
+                ]}
+                resizeMode="cover"
               />
             )}
 
-            {!driverInfo?.avatar && (
+            {!infoDriverDb?.avatar && (
               <ImageCus
                 source={Images.driver}
                 style={[
@@ -57,21 +74,20 @@ const driverInfomation = (
                   BaseStyle['w100%'],
                   BaseStyle['h100%'],
                 ]}
-                resizeMode="stretch"
+                resizeMode="cover"
               />
             )}
           </ViewCus>
           <ViewCus>
-            <TextCus style={styles.name}>Phan Đức Bảo</TextCus>
-            <TextCus style={styles.infor}>Air blade đỏ đen</TextCus>
-            <TextCus style={styles.infor}>59H-12345</TextCus>
+            <TextCus style={styles.name}>{infoDriverDb?.full_name}</TextCus>
+            <TextCus style={styles.infor}>Air Blade 99-H7 7060</TextCus>
           </ViewCus>
         </ViewCus>
         <ViewCus flex-row>
           <TouchCus onPress={callDriver} style={styles.btnCall}>
             <Image source={Images.call} />
           </TouchCus>
-          <TouchCus onPress={callDriver} style={styles.btnCall} ml-10>
+          <TouchCus onPress={messageDriver} style={styles.btnCall} ml-10>
             <Image source={Images.message} />
           </TouchCus>
         </ViewCus>
@@ -229,7 +245,11 @@ const DriverAreComing: React.FC<IProps> = props => {
       <BottomSheetScrollView showsVerticalScrollIndicator={false}>
         <BottomSheetView>
           {headerInformation()}
-          {driverInfomation(props?.orderDetailData?.driver)}
+          {driverInfomation(
+            props?.orderDetailData?.driver,
+            props?.infoDriverDb,
+            props?.onMessageDetail,
+          )}
           <Card mt-10 pt-5 pb-5 mr-16 ml-16 hasShadow={true}>
             <TextCus bold>Chi tiết đơn hàng</TextCus>
           </Card>

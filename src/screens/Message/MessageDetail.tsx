@@ -15,7 +15,8 @@ import styles from './Screens/styles';
 import { getImage, KEY_CONTEXT, openLink } from 'utils';
 import { NavigationService } from 'navigation';
 import {
-  Animated, Keyboard,
+  Animated,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   TextInput,
@@ -248,6 +249,7 @@ const MessageDetail = ({ route }) => {
         isLoading={false}
         userId={userId}
         listHeaderComponent={() => {}}
+        partner={partner}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>

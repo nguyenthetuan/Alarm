@@ -1,9 +1,9 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useIsFocused, useRoute } from '@react-navigation/native';
 import { IconName } from 'assets';
 import { Buttons, IconCus, TextCus, TouchCus, ViewCus } from 'components';
 import { BottomSheetModalContainer } from 'components/BottomSheetModals';
 import { useCart } from 'context/CartContext';
-import { useCustomerSocket, useNotify, useShippingType } from 'hooks';
+import { useAuth, useCustomerSocket, useNotify, useShippingType } from 'hooks';
 import { useOrders } from 'hooks/useOrders';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import React, {
@@ -64,6 +64,7 @@ const Delivery = () => {
   } = useCustomerSocket();
 
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const {
     orderItems: carts,
@@ -111,6 +112,7 @@ const Delivery = () => {
   const [orderDetailData, setOrderDetailData] = useState<IOrderDetail | null>(
     null,
   );
+  const [infoDriverDb, setInfoDriverDb] = useState();
 
   const [location, setLocation] = useState<ILongLocation | undefined>(
     cartLocation,
@@ -118,6 +120,8 @@ const Delivery = () => {
   const [driverLocation, setDriverLocation] = useState<
     ILongLocation | undefined
   >(undefined);
+
+  const { getInfoUser } = useAuth();
 
   useEffect(() => {
     if (orderDetailData && orderDetailData.driver?.user_id) {
@@ -134,6 +138,15 @@ const Delivery = () => {
       });
     }
   }, [orderDetailData]);
+
+  const getInfoDriver = (data: any) => {
+    if (data?.order?.driver) {
+      getInfoUser(data?.order?.driver?.user_id, res => {
+        const info = res?.data?.result?.[0];
+        setInfoDriverDb(info);
+      });
+    }
+  };
 
   const handleSocketLocationDriverMove = useCallback(
     (data?: { result: { lat: number; long: number; orderCode: string }[] }) => {
@@ -187,7 +200,7 @@ const Delivery = () => {
         break;
 
       case ScreenStepView.DRIVER_ARE_COMING:
-        rs = [222, '80%'];
+        rs = [280, '80%'];
         break;
       case ScreenStepView.CANNOT_FOUND_DRIVER:
         rs = [310, '30%'];
@@ -528,6 +541,15 @@ const Delivery = () => {
         return (
           <OrderOnProcess
             orderDetailData={orderDetailData}
+            infoDriverDb={infoDriverDb}
+            onMessageDetail={driverInfo => {
+              if (driverInfo) {
+                refContentBottom.current?.close();
+                NavigationService.push(Routes.MessageDetail, {
+                  partner: driverInfo,
+                });
+              }
+            }}
             onCancel={() => {
               if (orderDetailData?.order_code) {
                 onCancelOrderByCode(orderDetailData?.order_code, rs => {
@@ -555,6 +577,15 @@ const Delivery = () => {
         return (
           <DriverAreComing
             orderDetailData={orderDetailData}
+            infoDriverDb={infoDriverDb}
+            onMessageDetail={driverInfo => {
+              if (driverInfo) {
+                refContentBottom.current?.close();
+                NavigationService.push(Routes.MessageDetail, {
+                  partner: driverInfo,
+                });
+              }
+            }}
             onCancel={() => {
               // setStepView(ScreenStepView.CHOOSE_DELIVERY_OPTION);
               if (orderDetailData?.order_code) {
@@ -597,8 +628,11 @@ const Delivery = () => {
 
   //#region Watch change
   useEffect(() => {
-    refContentBottom.current?.show();
-  }, [stepView]);
+    if (isFocused) {
+      refContentBottom.current?.show();
+    }
+  }, [stepView, isFocused]);
+
   useEffect(() => {
     let funcRun: (() => void) | null = null;
     let timeOut = 1000;
@@ -696,6 +730,7 @@ const Delivery = () => {
   //#region Handle socket
   const handleCustomerSocketFoundDriver = args => {
     if (args.result) {
+      getInfoDriver(args?.result[0]);
       const code = args.result[0]?.order?.order_code;
       if (code === getCurrentOrderCode()) {
         reFetchOrderDetailData();

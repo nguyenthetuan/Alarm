@@ -262,6 +262,7 @@ export default {
     cancelOrder: 'Hủy đơn',
     driverAreComing: 'Tài xế đang đến',
     onProcessing: 'Đang xử lý',
+    driverAreComingStore: 'Tài xế đang đến nhà hàng',
     orderIsSending: 'Đang gửi đơn',
     cashPayment: 'Thanh toán tiền mặt',
     contactToCenterToCancelOrder: 'Liên hệ tổng đài để hủy đơn',
