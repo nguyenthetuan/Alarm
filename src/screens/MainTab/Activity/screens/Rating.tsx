@@ -72,8 +72,6 @@ const Rating: React.FC = () => {
         );
     }
   }, [route.params?.type, point, pointRes, pointBiker]);
-  console.log('route.params?.deliveryInfo', route.params?.deliveryInfo);
-
   return (
     <HomeLayout
       bgColor={Colors.main}
@@ -98,6 +96,7 @@ const Rating: React.FC = () => {
                   NavigationService.navigate(Routes.RatingBiker, {
                     point: point,
                     deliveryInfo: route.params?.deliveryInfo,
+                    type: route.params?.type,
                   })
                 }>
                 <ViewCus flex-row items-center>

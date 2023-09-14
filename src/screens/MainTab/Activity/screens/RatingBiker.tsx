@@ -19,7 +19,7 @@ type TFormRating = {
 };
 const RatingBiker: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'RatingBiker'>>();
-  const { ratingDriver } = useOrders();
+  const { ratingDriver, postRatingDiliveryFood } = useOrders();
   const { postRatingDriver } = useRequestDelivery();
   const { success, danger } = useNotify();
   const { control, handleSubmit, setValue } = useForm<TFormRating>({
@@ -54,12 +54,15 @@ const RatingBiker: React.FC = () => {
   const onRating = useCallback((value: TFormRating) => {
     const deliveryInfo = route.params?.deliveryInfo;
     const body = {
-      id: deliveryInfo?.motorcycleTaxi?.id || deliveryInfo?.id,
+      id:
+        deliveryInfo?.motorcycleTaxi?.id || route.params?.type === 'Food'
+          ? deliveryInfo?.order_code
+          : deliveryInfo?.id,
       rating: point,
       review: value.description,
     };
-    if (deliveryInfo?.id) {
-      postRatingDriver(body, res => {
+    if (route.params?.type === 'Food') {
+      postRatingDiliveryFood(body, res => {
         if (res.status === 200) {
           success('Đánh giá tài xế thành công');
           NavigationService.navigate(Routes.HomeTabs);
@@ -68,14 +71,25 @@ const RatingBiker: React.FC = () => {
         }
       });
     } else {
-      ratingDriver(body, res => {
-        if (res.status === 200) {
-          success('Đánh giá tài xế thành công');
-          NavigationService.navigate(Routes.HomeTabs);
-        } else {
-          danger('Đánh giá tài xế thất bại');
-        }
-      });
+      if (deliveryInfo?.id) {
+        postRatingDriver(body, res => {
+          if (res.status === 200) {
+            success('Đánh giá tài xế thành công');
+            NavigationService.navigate(Routes.HomeTabs);
+          } else {
+            danger('Đánh giá tài xế thất bại');
+          }
+        });
+      } else {
+        ratingDriver(body, res => {
+          if (res.status === 200) {
+            success('Đánh giá tài xế thành công');
+            NavigationService.navigate(Routes.HomeTabs);
+          } else {
+            danger('Đánh giá tài xế thất bại');
+          }
+        });
+      }
     }
   }, []);
   return (

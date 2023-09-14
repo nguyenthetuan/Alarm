@@ -34,7 +34,7 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
               resizeMode="cover"
             />
             <ViewCus fex-1 pb-10>
-              <TextCus heading5 useI18n>
+              <TextCus heading5 useI18n ml-5>
                 {item?.name}
               </TextCus>
               <ViewCus style={{ width: '60%' }}>

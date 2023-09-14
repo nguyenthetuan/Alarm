@@ -51,7 +51,6 @@ const Delivery = () => {
   const timeOutNotFoundDriver = 60_000;
   const { listData: listShippingType } = useShippingType();
   const route = useRoute<RouteProp<RootStackParamList, 'Delivery'>>();
-
   const {
     onConnect,
     onConnectError,
@@ -77,8 +76,6 @@ const Delivery = () => {
 
   const deliveryDriverOptions = useMemo(() => {
     return listShippingType.map(item => {
-      console.log('item', item);
-
       return {
         ...item,
         fast: item.name === 'Giao nhanh',
@@ -227,9 +224,6 @@ const Delivery = () => {
 
   //#region Render function
   const renderFooterModal = useCallback(() => {
-    console.log('deliveryDriverSelected', deliveryDriverSelected);
-    console.log('stepView', stepView);
-
     switch (stepView) {
       case ScreenStepView.CHOOSE_DELIVERY_OPTION:
         return (
@@ -265,10 +259,6 @@ const Delivery = () => {
                   isOrderLoading || carts.length === 0
                     ? () => {}
                     : () => {
-                        console.log(
-                          'deliveryDriverSelected1111',
-                          deliveryDriverSelected,
-                        );
                         if (deliveryDriverSelected !== null) {
                           onFindDriverClick();
                         } else {
@@ -457,6 +447,10 @@ const Delivery = () => {
                       },
                       {
                         name: Routes.Rating,
+                        params: {
+                          type: route.params?.type,
+                          deliveryInfo: orderDetailData,
+                        },
                       },
                     ],
                     1,
@@ -487,8 +481,6 @@ const Delivery = () => {
               NavigationService.replace(Routes.Categories);
             }}
             onSubmit={data => {
-              console.log('daaaa', data);
-
               setDeliveryDriverSelected(data);
             }}
           />
@@ -704,11 +696,6 @@ const Delivery = () => {
   };
   const handleCustomerSocketOrderDelivered = useCallback(
     (args: { order: IOrderDetail }) => {
-      console.log(
-        'customer:order-delivered:',
-        args.order.order_code,
-        getCurrentOrderCode(),
-      );
       if (args.order.order_code === getCurrentOrderCode()) {
         reFetchOrderDetailData();
       }
@@ -718,11 +705,6 @@ const Delivery = () => {
 
   const handleCustomerSocketOrderDelivering = useCallback(
     (args: { order: IOrderDetail }) => {
-      console.log(
-        'customer:order-delivering:',
-        args.order.order_code,
-        getCurrentOrderCode(),
-      );
       if (args.order.order_code === getCurrentOrderCode()) {
         reFetchOrderDetailData();
       }
@@ -751,12 +733,8 @@ const Delivery = () => {
   //#endregion
 
   //#region Handle event
-  useEffect(() => {
-    console.log('orderRequest');
-  }, [orderRequest]);
-  const onFindDriverClick = useCallback(() => {
-    console.log('onFindDriverClick', orderRequest);
 
+  const onFindDriverClick = useCallback(() => {
     if (orderRequest) {
       createOrder({
         ...orderRequest,

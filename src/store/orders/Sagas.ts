@@ -93,6 +93,10 @@ function* watchPostBaseActions() {
     OrdersActions.POST_BASE_ACTIONS as any,
     onPostBaseActionsRequested,
   );
+  yield takeEvery(
+    OrdersActions.POST_DELYVER_FOOD as any,
+    onPostBaseActionsRequested,
+  );
 }
 //#endregion
 
