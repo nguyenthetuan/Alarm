@@ -151,6 +151,20 @@ export const useRequestDelivery = () => {
     },
     [dispatch],
   );
+  const keepFindDriverForOrderByCode = useCallback(
+    (orderCode: string, cb?: ICallback) => {
+      dispatch(
+        RequestDeliveryAction.postBaseActionsRequest(
+          {
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.POST_KEEP_FIND_DRRIVER}/${orderCode}/find-driver`,
+            isPaginate: true,
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
   return {
     getListProductType,
     getListDeliveryMethod,
@@ -160,6 +174,7 @@ export const useRequestDelivery = () => {
     postRatingDriver,
     getOrderDetailByCode,
     putDeleteDelivery,
+    keepFindDriverForOrderByCode,
     listProductType,
     listDeliveryMethod,
     listAddon,

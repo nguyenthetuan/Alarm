@@ -150,6 +150,10 @@ function* watchPostBaseActions() {
     RequestDeliveryAction.POST_RATING as any,
     onPostBaseActionsRequested,
   );
+  yield takeEvery(
+    RequestDeliveryAction.POST_KEEP_FIND_DRIVER as any,
+    onPostBaseActionsRequested,
+  );
 }
 
 function* onPutBaseActionsRequested(action: IRequestActionPayload) {

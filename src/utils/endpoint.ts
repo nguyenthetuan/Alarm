@@ -8,6 +8,7 @@ export const API_ENDPOINT = {
     POST_DRLIVERY: 'customer/delivery',
     POST_RATING: 'customer/delivery',
     PUT_CANCEL: 'customer/delivery',
+    POST_KEEP_FIND_DRRIVER: 'customer/delivery',
   },
   AUTH: {
     REQUEST_OTP: 'authen/request-otp',

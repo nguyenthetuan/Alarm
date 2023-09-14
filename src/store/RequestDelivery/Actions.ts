@@ -9,6 +9,7 @@ export const RequestDeliveryAction = {
   POST_DELIVERY: 'POST_DELIVERY',
   POST_RATING: 'POST_RATING',
   PUT_CANCEL_DELIVERY: 'PUT_CANCEL_DELIVERY',
+  POST_KEEP_FIND_DRIVER: 'POST_KEEP_FIND_DRIVER',
 };
 
 export const getBaseActionsRequest = (

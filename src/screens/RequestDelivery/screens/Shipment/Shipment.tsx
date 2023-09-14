@@ -50,11 +50,8 @@ const Shipment = () => {
   const {
     onConnect,
     onConnectError,
-    onFoundDriver,
-    onNotFoundDriver,
     onOrderDelivered,
     onOrderDelivering,
-    onOrderDriverMoving,
 
     onFoundDriverDelivery,
     onNotFoundDriverDelivery,
@@ -73,12 +70,9 @@ const Shipment = () => {
     orderRequest,
   } = useCart();
 
-  const {
-    loading: isOrderLoading,
-    keepFindDriverForOrderByCode,
-    getDriverLocationByDriverId,
-  } = useOrders();
-  const { putDeleteDelivery } = useRequestDelivery();
+  const { loading: isOrderLoading, getDriverLocationByDriverId } = useOrders();
+  const { putDeleteDelivery, keepFindDriverForOrderByCode } =
+    useRequestDelivery();
   const { getOrderDetailByCode } = useRequestDelivery();
   const [infoDriverDb, setInfoDriverDb] = useState();
 
@@ -89,6 +83,8 @@ const Shipment = () => {
   const [orderDetailData, setOrderDetailData] = useState<IOrderDetail | null>(
     null,
   );
+  console.log('orderDetailData',orderDetailData);
+  
   const [status, setStatus] = useState(ScreenStepView.DRIVER_ARE_COMING);
   const [location, setLocation] = useState<ILongLocation | undefined>(
     cartLocation,
@@ -254,7 +250,7 @@ const Shipment = () => {
                 onPress={() => {
                   if (currentOrderCodeRef.current) {
                     keepFindDriverForOrderByCode(
-                      orderDetailData.order_code,
+                      currentOrderCodeRef.current,
                       rs => {
                         switch (rs.status) {
                           case 200:
