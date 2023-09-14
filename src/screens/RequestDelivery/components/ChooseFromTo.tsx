@@ -13,6 +13,7 @@ import { useGeo, useLocation } from 'hooks';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { Platform, TextInput, Keyboard, View } from 'react-native';
 import { BottomSheetView } from '@gorhom/bottom-sheet';
+import { width } from 'utils';
 
 interface LocationResult extends LocationFind {
   lat: number;
@@ -333,7 +334,7 @@ const ChooseFromTo = React.forwardRef<
   //#endregion
 
   return (
-    <View flex-1 style={[BaseStyle.wrapperMain]}>
+    <View flex-1 style={[BaseStyle.wrapperMain, { width: width }]}>
       <ViewCus style={[BaseStyle.flexRowCenter]}>
         <ViewCus mr-8>
           <Icon.CurrentLocation />
@@ -352,7 +353,6 @@ const ChooseFromTo = React.forwardRef<
               marginBottom: 0,
             }}
             autoFocus={false}
-            out
             onBlur={() => {
               Keyboard.dismiss();
               if (fromLocation?.structured_formatting?.main_text) {
@@ -408,8 +408,6 @@ const ChooseFromTo = React.forwardRef<
                 });
               }
               setAddress([]);
-            }}
-            onPress={()=>{console.log('xxxxx');
             }}
             onFocus={() => {
               setIsFocusOnFrom(false);

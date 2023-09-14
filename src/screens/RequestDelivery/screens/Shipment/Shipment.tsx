@@ -237,7 +237,7 @@ const Shipment = () => {
                 onPress={() => {
                   if (currentOrderCodeRef.current) {
                     keepFindDriverForOrderByCode(
-                      currentOrderCodeRef.current,
+                      orderDetailData.order_code,
                       rs => {
                         switch (rs.status) {
                           case 200:
@@ -362,7 +362,7 @@ const Shipment = () => {
                       {
                         name: Routes.Rating,
                         params: {
-                          type: 'car',
+                          type: 'bike',
                           deliveryInfo: DeliveryInfo,
                         },
                       },

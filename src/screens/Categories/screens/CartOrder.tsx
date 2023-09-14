@@ -56,7 +56,6 @@ const CartOrder: React.FC = () => {
       onNameByLatLng(
         { latitude: cartLocation.lat, longitude: cartLocation.long },
         from => {
-          
           setAddress(from);
         },
       );
@@ -321,7 +320,7 @@ const CartOrder: React.FC = () => {
           style={styles.btnAddFood}
           onPress={() => {
             user?.accessToken
-              ? NavigationService.navigate(Routes.Delivery)
+              ? NavigationService.navigate(Routes.Delivery, { type: 'Food' })
               : showLoginForm();
           }}
         />

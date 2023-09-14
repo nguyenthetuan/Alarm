@@ -80,8 +80,8 @@ export const useOrders = () => {
 
   const getInfoTaxiService = useCallback(
     (data: IBookTaxiRequest, cb?: ICallback) => {
-      console.log('dataxxxxx',data);
-      
+      console.log('dataxxxxx', data);
+
       dispatch(
         OrdersActions.postBaseActionsRequest(
           {
@@ -154,6 +154,24 @@ export const useOrders = () => {
     },
     [dispatch],
   );
+
+  const postRatingDiliveryFood = useCallback(
+    (data: any, cb?: ICallback) => {
+      dispatch(
+        OrdersActions.postBaseActionsRequest(
+          {
+            endPoint: `${API_ENDPOINT.CATEGORY.POST_RATING}/${data?.id}/evaluate`,
+            formData: {
+              rating: data.rating,
+              review: data.review,
+            },
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
   const getDriverLocationByDriverId = useCallback(
     (driverId: string, cb?: ICallback) => {
       dispatch(
@@ -181,6 +199,7 @@ export const useOrders = () => {
     onCalculate,
     ratingDriver,
     getDriverLocationByDriverId,
+    postRatingDiliveryFood,
   };
 };
 

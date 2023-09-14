@@ -1,5 +1,7 @@
 import { NavigationService, Routes } from 'navigation';
 import { FindCarType } from './enum';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
 export interface ICategory {
   icon: string;
   queue_number: string;
@@ -97,24 +99,33 @@ export const DATA_CATEGORY: Record<ETypeCategory, ITypeCategory> = {
   },
   [ETypeCategory.DRIVERBOOKING]: {
     icon: 'derviceCar',
-    onPress: () =>
-      NavigationService.navigate(Routes.FindCar, {
-        type: FindCarType.CAR_DRIVER,
-      }),
+    onPress: () => {
+      Toast.show({
+        text1: 'Tính năng đang được phát triển',
+        position: 'top',
+        type: 'error',
+      });
+    },
   },
   [ETypeCategory.CARRENTAL]: {
     icon: 'carRental',
-    onPress: () =>
-      NavigationService.navigate(Routes.FindCar, {
-        type: FindCarType.MOTORBIKE,
-      }),
+    onPress: () => {
+      Toast.show({
+        text1: 'Tính năng đang được phát triển',
+        position: 'top',
+        type: 'error',
+      });
+    },
   },
   [ETypeCategory.DELIVERYNATIONWIDE]: {
     icon: 'carDeliver',
-    onPress: () =>
-      NavigationService.navigate(Routes.FindCar, {
-        type: FindCarType.MOTORBIKE,
-      }),
+    onPress: () => {
+      Toast.show({
+        text1: 'Tính năng đang được phát triển',
+        position: 'top',
+        type: 'error',
+      });
+    },
   },
 };
 

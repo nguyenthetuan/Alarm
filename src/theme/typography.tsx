@@ -120,6 +120,7 @@ export const BaseStyle = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
     flex: 1,
+    width: '100%',
   },
   wrapperDisable: {
     paddingHorizontal: 16,

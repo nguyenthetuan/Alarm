@@ -12,10 +12,12 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useBackHandler } from '@react-native-community/hooks';
 import { NavigationService, Routes } from 'navigation';
 import {
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import ChooseFromTo from './components/ChooseFromTo';
 import EnterReceiver from './screens/EnterReceiver';
@@ -186,7 +188,6 @@ export default function RequestDelivery() {
             <ViewCus mt-16 mb-16>
               <Buttons
                 onPress={() => {
-                  console.log('inforOder', inforOder);
                   postDelivery(
                     {
                       pickupLocation: fromToData.from,
@@ -231,7 +232,9 @@ export default function RequestDelivery() {
     switch (viewStep) {
       case RequestDeliveryStep.CHOOSE_FROM_TO:
         return (
-          <ScrollView keyboardShouldPersistTaps="always">
+          <ScrollView
+            keyboardShouldPersistTaps="always"
+            onPointerUpCapture={() => Keyboard.dismiss()}>
             <ChooseFromTo ref={chooseFromToRef} fromToData={fromToData} />
           </ScrollView>
         );
@@ -317,22 +320,30 @@ export default function RequestDelivery() {
     updateLocation(fromToData?.to || locationUser);
   }, [getListProductType, getListDeliveryMethod, getListAddon, fromToData]);
   return (
-    <BottomSheetModalProvider>
-      <HomeLayout
-        bgColor={Colors.main}
-        header={{
-          title: titleView,
-          iconColor: Colors.white,
-          onPressLeft: onBackHandle,
+    // <BottomSheetModalProvider>
+    <HomeLayout
+      bgColor={Colors.main}
+      header={{
+        title: titleView,
+        iconColor: Colors.white,
+        onPressLeft: onBackHandle,
+      }}
+      f-1>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
         }}>
         <KeyboardAvoidingView
           style={[styles.content]}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          {mainView}
-          {bottomView}
+          <>
+            {mainView}
+            {bottomView}
+          </>
         </KeyboardAvoidingView>
-      </HomeLayout>
-    </BottomSheetModalProvider>
+      </TouchableWithoutFeedback>
+    </HomeLayout>
+    // </BottomSheetModalProvider>
   );
 }
 

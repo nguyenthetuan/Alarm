@@ -45,6 +45,7 @@ export const API_ENDPOINT = {
     LIST_FOOD_CATALOG: 'customer/food-catalog/list-food-catalog',
     LIST_FOOD: 'customer/food/list-food',
     CALCULATE_PRICE: 'customer/order/calculate',
+    POST_RATING: 'customer/order',
   },
   ORDER: {
     CREATE: 'customer/order/create',

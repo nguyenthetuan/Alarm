@@ -22,6 +22,12 @@ const FoodPromotion: React.FC<IProps> = ({ foods }) => {
   }, []);
   const renderItem: ListRenderItem<IFood> = useCallback(({ item, index }) => {
     const { images, base_price, food_name, id } = item;
+    console.log(
+      'getImage({ image: images[0] })',
+      getImage({ image: images[0] }),
+    );
+    console.log('item', item);
+
     return (
       <TouchCus
         onPress={() => onPressItem(id)}
