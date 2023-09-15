@@ -265,7 +265,7 @@ const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
                     onBlur={() => {
                       if (fromLocation?.structured_formatting?.main_text) {
                         setFromLocation({
-                          ...toLocation,
+                          ...fromLocation,
                           address:
                             fromLocation?.structured_formatting?.main_text,
                         });

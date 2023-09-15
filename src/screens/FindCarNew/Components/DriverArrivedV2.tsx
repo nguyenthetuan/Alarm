@@ -60,7 +60,7 @@ const DriverArrivedV2: React.FC<IProps> = props => {
               style={styles.headerStatus}>
               <Icon.IconClock />
               <TextCus color={Colors.black} useI18n heading4 medium ml-10>
-                Tài xế đang đến
+                Tài xế đã đến nơi
               </TextCus>
             </ViewCus>
           )}
