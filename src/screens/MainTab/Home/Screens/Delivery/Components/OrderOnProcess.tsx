@@ -32,6 +32,7 @@ interface IProps {
   onCancel: () => void;
   onMessageDetail?: (i: any) => void;
   infoDriverDb?: any;
+  priceDelivery?: any;
 }
 
 const OrderOnProcess: React.FC<IProps> = props => {
@@ -228,13 +229,25 @@ const OrderOnProcess: React.FC<IProps> = props => {
               </ViewCus>
 
               <TextCus heading5 bold color={Colors.main}>
-                {formatMoney(props.orderDetailData?.order_price)}
+                {formatMoney(
+                  props.orderDetailData?.order_price + props.priceDelivery,
+                )}
               </TextCus>
             </ViewCus>
+            <ViewCus flex-row justify-space-between>
+              <ViewCus flex-row>
+                <TextCus mainSize color={Colors.grey85} useI18n>
+                  category.special_fee
+                </TextCus>
+                <TextCus mainSize color={Colors.grey85}>
+                  :
+                </TextCus>
+              </ViewCus>
 
+              <TextCus heading8>{formatMoney(props.priceDelivery)}</TextCus>
+            </ViewCus>
             <ViewCus flex-row justify-space-between>
               <TextCus mainSize color={Colors.grey85} />
-
               <TextCus
                 heading5
                 bold

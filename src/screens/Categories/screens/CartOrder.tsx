@@ -9,7 +9,13 @@ import {
   ViewCus,
   BottomSheetCommon,
 } from 'components';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { InteractionManager, StyleSheet } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
 import { formatDistanceKm, formatMoney } from 'utils';
@@ -18,7 +24,14 @@ import { CategoryCartItem } from '../components';
 import { NavigationService, RootStackParamList, Routes } from 'navigation';
 import { useCart } from 'context/CartContext';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { useAuth, useGeo, useCategories, useLocation } from 'hooks';
+import {
+  useAuth,
+  useGeo,
+  useCategories,
+  useLocation,
+  useShippingType,
+  useOrders,
+} from 'hooks';
 import { IRefBottom } from 'types';
 import Icon from 'assets/svg/Icon';
 
@@ -33,16 +46,41 @@ const CartOrder: React.FC = () => {
     note,
     setNote,
     setOrderRequest,
+    distance,
+    orderRequest,
   } = useCart();
+  const { onCalculate } = useOrders();
   const [address, setAddress] = useState('');
   const { onNameByLatLng, searchDetail } = useGeo();
   const { selectedPromos, detailRestaurant, estimatePrices } = useCategories();
+  const { listData: listShippingType } = useShippingType();
+
+  const [totalPrice, setTotalPrice] = useState(price);
+  const [priceDelivery, setPriceDelivery] = useState(0);
+
   const { locationUser } = useLocation();
   const { user, userInfo } = useAuth();
   const refBottom = useRef<IRefBottom>(null);
   const showLoginForm = useCallback(() => {
     refBottom.current?.show();
   }, []);
+
+  useEffect(() => {
+    onCalculate(
+      { shippingTypeId: listShippingType[0]?.id, ...orderRequest },
+      rs => {
+        setPriceDelivery(
+          listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
+        );
+        setTotalPrice(
+          price +
+            listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
+        );
+      },
+    );
+    // setPriceDelivery(listShippingType[0]?.pricePerKm * distance);
+  }, [listShippingType, orderRequest]);
+
   useEffect(() => {
     if (!cartLocation || !cartLocation.lat || !cartLocation.long) {
       if (locationUser) {
@@ -103,7 +141,6 @@ const CartOrder: React.FC = () => {
           searchDetail({ place_id: ads?.place_id }, rs => {
             if (rs.result) {
               const { formatted_address, geometry } = rs.result;
-              console.log('formatted_address', formatted_address);
               if (geometry.location) {
                 updateLocation({
                   lat: geometry.location.lat,
@@ -179,93 +216,90 @@ const CartOrder: React.FC = () => {
     });
   }, []);
 
-  const ListComponentFooter = useCallback(
-    ({ setValue, value }) => {
-      return (
-        <ViewCus>
-          <ViewCus style={[[BaseStyle.wrapperDisable]]}>
-            <TextCus>Ghi chú (không bắt buộc)</TextCus>
-          </ViewCus>
-          <ViewCus style={[BaseStyle.wrapperMain]}>
-            <TextInputs
-              placeholder="category.service_note"
-              style={styles.input}
-              onChangeText={setValue}
-              value={value}
-            />
-          </ViewCus>
-          <Line />
-          <TouchCus style={[BaseStyle.wrapperMain]} onPress={onApplyPromotion}>
-            <TextCus heading5 mb-4 useI18n>
-              category.title_promotion
-            </TextCus>
-            <ViewCus>
-              {selectedPromos[0] && (
-                <ViewCus style={BaseStyle.flexRowSpaceBetwwen}>
-                  <TextCus useI18n>category.applied_promotion</TextCus>
-                  <TextCus>{selectedPromos[0].name}</TextCus>
-                </ViewCus>
-              )}
+  const ListComponentFooter = ({ setValue, value }) => {
+    return (
+      <ViewCus>
+        <ViewCus style={[[BaseStyle.wrapperDisable]]}>
+          <TextCus>Ghi chú (không bắt buộc)</TextCus>
+        </ViewCus>
+        <ViewCus style={[BaseStyle.wrapperMain]}>
+          <TextInputs
+            placeholder="category.service_note"
+            style={styles.input}
+            onChangeText={setValue}
+            value={value}
+          />
+        </ViewCus>
+        <Line />
+        <TouchCus style={[BaseStyle.wrapperMain]} onPress={onApplyPromotion}>
+          <TextCus heading5 mb-4 useI18n>
+            category.title_promotion
+          </TextCus>
+          <ViewCus>
+            {selectedPromos[0] && (
               <ViewCus style={BaseStyle.flexRowSpaceBetwwen}>
-                <TextCus color-blue47 useI18n>
-                  {selectedPromos[0]
-                    ? 'category.change_promotion'
-                    : 'category.enter_promotion'}
-                </TextCus>
-                <IconApp name={IconName.ChevronRight} color={Colors.blue47} />
+                <TextCus useI18n>category.applied_promotion</TextCus>
+                <TextCus>{selectedPromos[0].name}</TextCus>
               </ViewCus>
-            </ViewCus>
-          </TouchCus>
-          <Line />
-          <ViewCus style={[BaseStyle.wrapperMain]}>
-            <TextCus heading5 mb-4 useI18n>
-              category.title_payment
-            </TextCus>
-            <ViewCus style={styles.linePrice}>
-              <TextCus color-grey85 useI18n>
-                category.estimate
+            )}
+            <ViewCus style={BaseStyle.flexRowSpaceBetwwen}>
+              <TextCus color-blue47 useI18n>
+                {selectedPromos[0]
+                  ? 'category.change_promotion'
+                  : 'category.enter_promotion'}
               </TextCus>
-              <TextCus>{formatMoney(price)}</TextCus>
+              <IconApp name={IconName.ChevronRight} color={Colors.blue47} />
             </ViewCus>
-            {/* <ViewCus style={styles.linePrice}>
+          </ViewCus>
+        </TouchCus>
+        <Line />
+        <ViewCus style={[BaseStyle.wrapperMain]}>
+          <TextCus heading5 mb-4 useI18n>
+            category.title_payment
+          </TextCus>
+          <ViewCus style={styles.linePrice}>
+            <TextCus color-grey85 useI18n>
+              category.estimate
+            </TextCus>
+            <TextCus>{formatMoney(price)}</TextCus>
+          </ViewCus>
+          {/* <ViewCus style={styles.linePrice}>
               <TextCus color-grey85 useI18n paramI18n={{ number: 12 }}>
                 category.fee_delivery
               </TextCus>
               <TextCus>{formatMoney(0)}</TextCus>
             </ViewCus> */}
-            <ViewCus style={styles.linePrice}>
-              <TextCus color-grey85 useI18n>
-                category.special_fee
-              </TextCus>
-              <TextCus>{formatMoney(0)}</TextCus>
-            </ViewCus>
-          </ViewCus>
-          <Line />
-          <TouchCus
-            style={[BaseStyle.wrapperMain]}
-            disabled
-            onPress={() => NavigationService.navigate(Routes.MethodPayment)}>
-            <TextCus heading5 mb-4 useI18n>
-              category.payment
+          <ViewCus style={styles.linePrice}>
+            <TextCus color-grey85 useI18n>
+              category.special_fee
             </TextCus>
-            <ViewCus style={BaseStyle.flexRowSpaceBetwwen}>
-              <TextCus color-blue47>Thanh toán tiền mặt</TextCus>
-              {/* <IconApp name={IconName.ChevronRight} color={Colors.blue47} /> */}
-            </ViewCus>
-          </TouchCus>
-          <ViewCus style={[BaseStyle.wrapperDisable]}>
-            <TextCus>
-              <TextCus useI18n>category.agree</TextCus>
-              <TextCus color-blue00 useI18n>
-                category.term
-              </TextCus>
-            </TextCus>
+            <TextCus>{formatMoney(priceDelivery)}</TextCus>
           </ViewCus>
         </ViewCus>
-      );
-    },
-    [price],
-  );
+        <Line />
+        <TouchCus
+          style={[BaseStyle.wrapperMain]}
+          disabled
+          onPress={() => NavigationService.navigate(Routes.MethodPayment)}>
+          <TextCus heading5 mb-4 useI18n>
+            category.payment
+          </TextCus>
+          <ViewCus style={BaseStyle.flexRowSpaceBetwwen}>
+            <TextCus color-blue47>Thanh toán tiền mặt</TextCus>
+            {/* <IconApp name={IconName.ChevronRight} color={Colors.blue47} /> */}
+          </ViewCus>
+        </TouchCus>
+        <ViewCus style={[BaseStyle.wrapperDisable]}>
+          <TextCus>
+            <TextCus useI18n>category.agree</TextCus>
+            <TextCus color-blue00 useI18n>
+              category.term
+            </TextCus>
+          </TextCus>
+        </ViewCus>
+      </ViewCus>
+    );
+  };
 
   return (
     <HomeLayout
@@ -289,9 +323,7 @@ const CartOrder: React.FC = () => {
           data={carts}
           renderItem={renderItem}
           ListHeaderComponent={<ListComponentHeader />}
-          ListFooterComponent={
-            <ListComponentFooter setValue={setNote} value={note} />
-          }
+          ListFooterComponent={() => ListComponentFooter(setNote, note)}
         />
       </ViewCus>
       <ViewCus
@@ -308,7 +340,7 @@ const CartOrder: React.FC = () => {
           <TextCus useI18n>category.total</TextCus>
           <ViewCus flex-row>
             <TextCus bold main mr-4>
-              {formatMoney(price)}
+              {formatMoney(totalPrice)}
             </TextCus>
             <TextCus color-grey85 useI18n paramI18n={{ number: carts?.length }}>
               category.quantity
@@ -320,7 +352,10 @@ const CartOrder: React.FC = () => {
           style={styles.btnAddFood}
           onPress={() => {
             user?.accessToken
-              ? NavigationService.navigate(Routes.Delivery, { type: 'Food' })
+              ? NavigationService.navigate(Routes.Delivery, {
+                  type: 'Food',
+                  priceDelivery,
+                })
               : showLoginForm();
           }}
         />

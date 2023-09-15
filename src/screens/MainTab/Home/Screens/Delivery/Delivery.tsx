@@ -80,7 +80,7 @@ const Delivery = () => {
       return {
         ...item,
         fast: item.name === 'Giao nhanh',
-        price: item.pricePerKm * Number(formatDistanceKm(distance)).valueOf(),
+        price: item.pricePerKm * formatDistanceKm(distance),
         distance: formatDistanceKm(distance),
         orderRequest,
       };
@@ -181,6 +181,9 @@ const Delivery = () => {
   const [stepView, setStepView] = useState(ScreenStepView.NOT_READY);
   const [deliveryDriverSelected, setDeliveryDriverSelected] = useState(null);
 
+  useEffect(() => {
+    setDeliveryDriverSelected(deliveryDriverOptions[0]);
+  }, [deliveryDriverOptions]);
   const snapPointModal = useMemo(() => {
     let rs: [number | string, number | string] = ['25%', '25%'];
     switch (stepView) {
@@ -487,6 +490,7 @@ const Delivery = () => {
       case ScreenStepView.CHOOSE_DELIVERY_OPTION:
         return (
           <ChooseWayToDelivery
+            distance={distance}
             initialValue={deliveryDriverSelected}
             options={deliveryDriverOptions}
             onCancel={() => {
@@ -534,6 +538,7 @@ const Delivery = () => {
           <OrderOnProcess
             orderDetailData={orderDetailData}
             infoDriverDb={infoDriverDb}
+            priceDelivery={route.params?.priceDelivery}
             onMessageDetail={driverInfo => {
               if (driverInfo) {
                 refContentBottom.current?.close();
