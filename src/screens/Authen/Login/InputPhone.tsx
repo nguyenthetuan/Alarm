@@ -92,13 +92,13 @@ const InputPhone: React.FC = ({}) => {
             disabled={loading}
             loading={loading}
             icon={
-              <View>
+              <ViewCus ml-5>
                 <IconApp
                   name={IconName.ChevronRight}
-                  size={15}
+                  size={11}
                   color={Colors.white}
                 />
-              </View>
+              </ViewCus>
             }
           />
           <TextCus color-grey84>
