@@ -120,7 +120,7 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
                 </ViewCus>
               </ViewCus>
               <TextCus>
-                {val.time} phút - {val.distance}km
+                {val.time} phút - {formatMoney(val.distance)}km
               </TextCus>
             </TouchCus>
           );

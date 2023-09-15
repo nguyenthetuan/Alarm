@@ -21,7 +21,9 @@ export default function Nodata(props: INodata) {
     <View style={styles.padContentBtn}>
       <View style={styles.cenItem}>
         <IconApp />
-        <TextCus mt-20>{title ?? t('khong_co_du_lieu')}</TextCus>
+        <TextCus mt-20 useI18n>
+          {title ?? t('khong_co_du_lieu')}
+        </TextCus>
       </View>
     </View>
   );

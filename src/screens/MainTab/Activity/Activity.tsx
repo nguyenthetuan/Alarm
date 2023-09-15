@@ -62,20 +62,60 @@ const ListScreen = (props: { category: ICategory; status: OrderStatus[] }) => {
 
   const emptyListShow = useCallback(() => {
     switch (props.category.type) {
+      case ETypeCategory.DELIVERYNATIONWIDE:
+        return (
+          <Nodata
+            iconName={ENodata.NODATA_DELIVERYNATIONWIDE}
+            title="activity.nodataDeliveryNationWide"
+          />
+        );
+      case ETypeCategory.CARRENTAL:
+        return (
+          <Nodata
+            iconName={ENodata.NODATA_CARRENTAL}
+            title="activity.nodataCarRenral"
+          />
+        );
+      case ETypeCategory.DRIVERBOOKING:
+        return (
+          <Nodata
+            iconName={ENodata.NODATA_DRIVER}
+            title="activity.nodataDriver"
+          />
+        );
+      case ETypeCategory.CARBOOKING:
+        return (
+          <Nodata
+            iconName={ENodata.NODATA_CAR}
+            title="activity.nodataCarBooking"
+          />
+        );
       case ETypeCategory.BOOKING:
         return <Nodata iconName={ENodata.NODATA_BOOKING} />;
       case ETypeCategory.COSMETIC:
         return <Nodata iconName={ENodata.NODATA_COSMETIC} />;
       case ETypeCategory.DELIVERY:
-        return <Nodata iconName={ENodata.NODATA_DELIVERY} />;
+        return (
+          <Nodata
+            iconName={ENodata.NODATA_DELIVERY}
+            title="activity.nodataDelivery"
+          />
+        );
       case ETypeCategory.DOMESTIC_WOKER:
         return <Nodata iconName={ENodata.NODATA_DOMESTIC_WOKER} />;
       case ETypeCategory.DRINK:
         return <Nodata iconName={ENodata.NODATA_DRINK} />;
       case ETypeCategory.FOOD:
-        return <Nodata iconName={ENodata.NODATA_FOOD} />;
+        return (
+          <Nodata iconName={ENodata.NODATA_FOOD} title="activity.nodataFood" />
+        );
       case ETypeCategory.MOTORBIKE_BOOKING:
-        return <Nodata iconName={ENodata.NODATA_MOTORBIKE_BOOKING} />;
+        return (
+          <Nodata
+            iconName={ENodata.NODATA_MOTORBIKE_BOOKING}
+            title="activity.nodataMotobike"
+          />
+        );
       case ETypeCategory.PROMOTION:
         return <Nodata iconName={ENodata.NODATA_PROMOTION} />;
 
