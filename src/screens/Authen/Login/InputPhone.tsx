@@ -102,14 +102,13 @@ const InputPhone: React.FC = ({}) => {
             }
           />
           <TextCus color-grey84>
-            Tôi đồng ý những
+            Tôi đồng ý những{' '}
             <TextCus
               style={styles.textDk}
               color-blue47
               onPress={() => NavigationService.navigate(Routes.Term)}>
-              {' '}
-              điều khoản và điều kiện{' '}
-            </TextCus>
+              điều khoản và điều kiện
+            </TextCus>{' '}
             của ứng dụng để tiếp tục
           </TextCus>
         </ViewCus>
