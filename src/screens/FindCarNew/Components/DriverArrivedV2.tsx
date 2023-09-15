@@ -115,15 +115,14 @@ const DriverArrivedV2: React.FC<IProps> = props => {
                     />
                   )}
                 </ViewCus>
-                <ViewCus ml-10 mb-5>
+                <ViewCus ml-10 mb-5 style={{ width: '70%' }}>
                   <TextCus
                     numberOfLines={1}
                     color={'#2E2E2E'}
                     useI18n
                     heading5
                     regular
-                    mb-5
-                    style={{ width: '65%' }}>
+                    mb-5>
                     {`Tài xế ${infoDriverDb?.full_name}`}
                   </TextCus>
                   <StarsRating point={5} onChangePoint={() => {}} size={15} />

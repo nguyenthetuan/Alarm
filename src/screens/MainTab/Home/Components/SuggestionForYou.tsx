@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 16,
     overflow: 'visible',
-    marginVertical: 12,
+    marginBottom: 12,
     backgroundColor: Colors.white,
   },
 });

@@ -26,7 +26,7 @@ const ListCategories: React.FC<IProps> = ({ categories }) => {
           mb-16
           t-10
           onPress={item?.onPress ?? onPressCategoryItem}>
-          <ViewCus>
+          <ViewCus items-center justify-center>
             <ViewCus
               bg-pinkShadow45
               br-40
