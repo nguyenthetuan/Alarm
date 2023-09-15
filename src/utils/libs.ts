@@ -21,7 +21,7 @@ const isIos = Platform.OS === 'ios';
 
 const formatMoney = (value: number) => {
   if (value) {
-    const valueNew = parseInt(value, 10);
+    const valueNew = Number(value)?.toFixed?.(0);
     return valueNew.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
   }
   return 0 + 'đ';
