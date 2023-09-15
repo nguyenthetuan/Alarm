@@ -39,7 +39,10 @@ const InputPhone: React.FC = ({}) => {
   return (
     <View style={styles.image}>
       <StatusBar barStyle={'dark-content'} />
-      <ScrollView contentContainerStyle={styles.wrapper}>
+      <ScrollView
+        contentContainerStyle={styles.wrapper}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <ViewCus style={styles.flex04}>{/* <Icon.Logo /> */}</ViewCus>
         <ViewCus px-24 style={styles.flex06}>
           <TextCus

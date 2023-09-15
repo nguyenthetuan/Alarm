@@ -37,7 +37,7 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
               <TextCus heading5 useI18n ml-5>
                 {item?.name}
               </TextCus>
-              <ViewCus style={{ width: '90%' }}>
+              <ViewCus style={{ width: '95%' }}>
                 <TextCus useI18n l-5 numberOfLines={1}>
                   {item?.address}
                 </TextCus>

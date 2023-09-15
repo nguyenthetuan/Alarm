@@ -44,7 +44,14 @@ const InputPassword: React.FC = () => {
         if (!error) {
           NavigationService.navigate(Routes.HomeTabs);
         }
-        setError('password', { message: error });
+        // setError('password', { message: error });
+        if (error === 'Password is invalid') {
+          control.setError('password', {
+            message: 'Mật khẩu hiện tại không đúng',
+          });
+        } else {
+          danger(t('error'), error);
+        }
       },
     );
   }, []);
