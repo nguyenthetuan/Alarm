@@ -1,13 +1,15 @@
-import { Images } from 'assets';
+import { Images, IconName } from 'assets';
 import {
   HomeLayout,
   ImageCus,
   ScrollViewCus,
   TextCus,
+  TouchCus,
   ViewCus,
+  IconApp,
 } from 'components';
 import { useAuth, useHome } from 'hooks';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { Image } from 'react-native';
 import { Colors } from 'theme';
 import { DATA_CATEGORY, IPage } from 'types';
@@ -28,6 +30,11 @@ const Home: React.FC = () => {
     listRestaurantNearMe,
   } = useHome();
   const { userInfo } = useAuth();
+  const [isShowSearch, setIsShowSearch] = useState(false);
+  const [textSearch, setTextSearch] = useState('');
+  const onHandleSearch = useCallback(() => {
+    setIsShowSearch(true);
+  }, []);
   useEffect(() => {
     getListCategories();
     // BottomSheetController.showModal({
@@ -74,7 +81,20 @@ const Home: React.FC = () => {
       ],
     };
   }, [listCategories]);
-
+  const onClearInput = useCallback(() => {
+    setIsShowSearch(false);
+    setTextSearch('');
+  }, []);
+  const renderRight = useCallback(() => {
+    if (!isShowSearch) {
+      return null;
+    }
+    return (
+      <TouchCus onPress={onClearInput} style={styles.btnClear}>
+        <IconApp name={IconName.Remove} size={20} color={Colors.disable} />
+      </TouchCus>
+    );
+  }, [isShowSearch]);
   return (
     <HomeLayout
       bgColor={isIos ? Colors.main : Colors.white}
@@ -108,7 +128,15 @@ const Home: React.FC = () => {
             </ViewCus>
           </ViewCus>
           <ViewCus t-35>
-            <InputSearch />
+            <InputSearch
+              renderRight={renderRight}
+              onPress={text => {
+                setTextSearch(text);
+                setIsShowSearch(true);
+              }}
+              value={textSearch}
+              isShowSearch={isShowSearch}
+            />
           </ViewCus>
         </ViewCus>
         <ViewCus f-1 t-20>
