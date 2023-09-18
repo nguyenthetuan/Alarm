@@ -50,7 +50,7 @@ const InputPassword: React.FC = () => {
             message: 'Mật khẩu hiện tại không đúng',
           });
         } else {
-          danger(t('error'), error);
+          setError('password', { message: error });
         }
       },
     );
