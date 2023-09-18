@@ -69,17 +69,19 @@ const CartOrder: React.FC = () => {
     onCalculate(
       { shippingTypeId: listShippingType[0]?.id, ...orderRequest },
       rs => {
-        setPriceDelivery(
-          listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
-        );
-        setTotalPrice(
-          price +
+        if (rs.status === 200) {
+          setPriceDelivery(
             listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
-        );
+          );
+          setTotalPrice(
+            price +
+              listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
+          );
+        }
       },
     );
     // setPriceDelivery(listShippingType[0]?.pricePerKm * distance);
-  }, [listShippingType, orderRequest]);
+  }, [listShippingType.length, orderRequest]);
 
   useEffect(() => {
     if (!cartLocation || !cartLocation.lat || !cartLocation.long) {
