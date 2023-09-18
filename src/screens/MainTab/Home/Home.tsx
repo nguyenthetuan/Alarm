@@ -140,7 +140,7 @@ const Home: React.FC = () => {
             />
           </ViewCus>
         </ViewCus>
-        <ViewCus f-1 t-30>
+        <ViewCus f-1 t-30 mb-30>
           <ScrollViewCus>
             {categories.length > 0 && (
               <ListCategories categories={categories} />
