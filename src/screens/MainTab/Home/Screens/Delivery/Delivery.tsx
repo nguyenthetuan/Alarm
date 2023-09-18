@@ -74,7 +74,6 @@ const Delivery = () => {
     orderRequest,
     distance,
   } = useCart();
-
   const deliveryDriverOptions = useMemo(() => {
     return listShippingType.map(item => {
       return {
