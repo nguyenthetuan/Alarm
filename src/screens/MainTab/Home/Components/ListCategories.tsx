@@ -6,6 +6,7 @@ import { NavigationService, Routes } from 'navigation';
 import { ICategory } from 'types';
 import { Images } from 'assets';
 import { getImage } from 'utils';
+import {Colors} from "theme";
 interface IProps {
   categories: ICategory[];
 }
@@ -28,7 +29,9 @@ const ListCategories: React.FC<IProps> = ({ categories }) => {
           onPress={item?.onPress ?? onPressCategoryItem}>
           <ViewCus items-center justify-center>
             <ViewCus
-              bg-pinkShadow45
+              style={{
+                backgroundColor: Colors.seashellPeach,
+              }}
               br-40
               h-62
               w-62
@@ -41,12 +44,15 @@ const ListCategories: React.FC<IProps> = ({ categories }) => {
                     ? { uri: getImage({ image: item.icon }) }
                     : defaultIcon
                 }
-                style={styles.categoryImage}
+                style={[
+                  styles.categoryImage,
+                  name?.includes('Tất cả') && styles.allImage,
+                ]}
                 resizeMode="contain"
               />
             </ViewCus>
-            <ViewCus mt-10>
-              <TextCus bold color-black22 textAlign="center">
+            <ViewCus mt-16>
+              <TextCus regular color-black22 textAlign="center">
                 {name}
               </TextCus>
             </ViewCus>

@@ -14,7 +14,22 @@ const InputSearch: React.FC<IProps> = props => {
         rightIcon=""
         leftIcon={IconName.Search}
         styleInput={[styleSpacing('px-8')]}
-        style={[{ backgroundColor: Colors.greyF5 }]}
+        style={[
+          {
+            height: 56,
+            borderRadius: 16,
+            paddingHorizontal: 12,
+            backgroundColor: Colors.white,
+            shadowColor: Colors.black3A,
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowRadius: 8,
+            shadowOpacity: 0.12,
+            elevation: 8,
+          },
+        ]}
         placeholder="search"
         onChangeText={text => props.onPress(text)}
         onSubmitEditing={({ nativeEvent: { text } }) =>
