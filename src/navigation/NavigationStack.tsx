@@ -208,6 +208,16 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
           name={Routes.ModalScreen}
           component={Screens.ModalScreen}
         />
+        <Stack.Screen name={Routes.Wallet} component={Screens.Wallet} />
+        <Stack.Screen
+          name={Routes.WithdrawPoints}
+          component={Screens.WithdrawPoints}
+        />
+        <Stack.Screen
+          name={Routes.HistoryWallet}
+          component={Screens.HistoryWallet}
+        />
+        <Stack.Screen name={Routes.TopUpPoint} component={Screens.TopUpPoint} />
       </Stack.Group>
     </Stack.Navigator>
   );

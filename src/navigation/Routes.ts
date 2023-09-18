@@ -61,4 +61,9 @@ export enum Routes {
   RatingRestaurant = 'RatingRestaurant',
 
   ModalScreen = 'ModalScreen',
+
+  Wallet = 'Wallet',
+  HistoryWallet = 'HistoryWallet',
+  WithdrawPoints = 'WithdrawPoints',
+  TopUpPoint = 'TopUpPoint',
 }
