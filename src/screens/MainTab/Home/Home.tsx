@@ -10,7 +10,7 @@ import {
 } from 'components';
 import { useAuth, useHome } from 'hooks';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
-import {Image, StatusBar} from 'react-native';
+import {Alert, Image, StatusBar} from 'react-native';
 import { Colors } from 'theme';
 import { DATA_CATEGORY, IPage } from 'types';
 import { getImage, isIos } from 'utils';

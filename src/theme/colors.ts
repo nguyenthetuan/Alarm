@@ -72,8 +72,8 @@ export interface IColors {
 }
 
 export const Colors: IColors = {
-  main: '#F3602B',
-  home: Platform.OS === 'android' ? '#ff916b' : '#ff8b63',
+  main: Platform.OS === 'android' ? '#ff7c4e' : '#F3602B',
+  home: Platform.OS === 'android' ? '#ff7c4e' : '#F86F3E',
   white: '#FFFFFF',
   black: '#000000',
   grey84: '#848589',
