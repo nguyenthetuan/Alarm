@@ -1,9 +1,11 @@
 /**
  * @description define all colors value used in project
  */
+import {Platform} from "react-native";
 
 export interface IColors {
   main: string;
+  home: string;
   disable: string;
   white: string;
   black: string;
@@ -71,6 +73,7 @@ export interface IColors {
 
 export const Colors: IColors = {
   main: '#F3602B',
+  home: Platform.OS === 'android' ? '#ff916b' : '#ff8b63',
   white: '#FFFFFF',
   black: '#000000',
   grey84: '#848589',

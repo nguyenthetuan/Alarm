@@ -10,7 +10,7 @@ import {
 } from 'components';
 import { useAuth, useHome } from 'hooks';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
-import { Image } from 'react-native';
+import {Image, StatusBar} from 'react-native';
 import { Colors } from 'theme';
 import { DATA_CATEGORY, IPage } from 'types';
 import { getImage, isIos } from 'utils';
@@ -97,25 +97,26 @@ const Home: React.FC = () => {
   }, [isShowSearch]);
   return (
     <HomeLayout
-      bgColor={isIos ? Colors.main : Colors.white}
+      bgColor={isIos ? Colors.home : Colors.home}
       header={{
         notGoBack: true,
       }}>
+      <StatusBar backgroundColor={Colors.home} barStyle={'light-content'} />
       <ViewCus f-1 bg-white>
-        <ViewCus bg-main>
-          <ViewCus flex-row justify-space-between px-16 py-12 items-center>
+        <ViewCus style={{ backgroundColor: Colors.home }}>
+          <ViewCus flex-row justify-space-between px-16 pt-12 items-center>
             <ViewCus>
-              <ViewCus f-1 flex-row>
-                <TextCus useI18n subhead color-white bold>
+              <ViewCus flex-row mb-12>
+                <TextCus useI18n color-white bold heading1 style={{ lineHeight: 26 }}>
                   hi
                 </TextCus>
-                <TextCus subhead l-10 color-white bold>
+                <TextCus l-5 color-white bold heading1 style={{ lineHeight: 26 }}>
                   {userInfo?.full_name}
                 </TextCus>
               </ViewCus>
-              <ViewCus f-1 flex-row>
+              <ViewCus flex-row items-center>
                 <Image source={Images.location} />
-                <TextCus l-10 color-white bold>
+                <TextCus l-10 color-white bold f-1 numberOfLines={1}>
                   {userInfo?.address}
                 </TextCus>
               </ViewCus>
@@ -139,7 +140,7 @@ const Home: React.FC = () => {
             />
           </ViewCus>
         </ViewCus>
-        <ViewCus f-1 t-20>
+        <ViewCus f-1 t-30>
           <ScrollViewCus>
             {categories.length > 0 && (
               <ListCategories categories={categories} />
