@@ -105,7 +105,7 @@ const Home: React.FC = () => {
       <ViewCus f-1 bg-white>
         <ViewCus style={{ backgroundColor: Colors.home }}>
           <ViewCus flex-row justify-space-between px-16 pt-12 items-center>
-            <ViewCus>
+            <ViewCus f-8>
               <ViewCus flex-row mb-12>
                 <TextCus
                   useI18n
@@ -116,6 +116,7 @@ const Home: React.FC = () => {
                   hi
                 </TextCus>
                 <TextCus
+                  numberOfLines={1}
                   l-5
                   color-white
                   bold
@@ -131,7 +132,7 @@ const Home: React.FC = () => {
                 </TextCus>
               </ViewCus>
             </ViewCus>
-            <ViewCus f-1 items-flex-end>
+            <ViewCus f-2 items-flex-end>
               <ImageCus
                 style={styles.image}
                 source={{ uri: getImage({ image: userInfo?.avatar }) }}
