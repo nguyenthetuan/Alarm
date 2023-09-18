@@ -21,10 +21,10 @@ export const useMotorcycleTaxi = () => {
               customer: {
                 ...data.customer,
                 // TODO: uncomment on real PR
-                // ...locationUser,
+                ...locationUser,
                 // TODO: remove on real PR
-                long: 106.64354939796388,
-                lat: 10.864089278331392,
+                // long: 106.64354939796388,
+                // lat: 10.864089278331392,
               },
             },
           },
