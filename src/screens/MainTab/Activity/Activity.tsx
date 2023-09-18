@@ -21,6 +21,8 @@ import {
 import { ActivityCategories, ActivityItem2 } from './components';
 
 const ListScreen = (props: { category: ICategory; status: OrderStatus[] }) => {
+  console.log('category', props.category);
+
   const { listData, fetchData, refreshData, isLoading } = useListOrder({
     customerCatalogId: props.category.id,
     status: props.status,
@@ -195,6 +197,9 @@ const ListScreen = (props: { category: ICategory; status: OrderStatus[] }) => {
 
 export default function Activity() {
   const [category, setCategory] = useState<ICategory | null>(null);
+              
+  console.log('category',category);
+  
   return (
     <HomeLayout
       bgColor={Colors.main}
