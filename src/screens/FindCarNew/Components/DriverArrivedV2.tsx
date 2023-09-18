@@ -174,106 +174,105 @@ const DriverArrivedV2: React.FC<IProps> = props => {
               type: props.type,
             })}
           </BottomSheetView>
-        </View>
-
-        {isShowDetail && (
-          <>
-            <ViewCus mt-20 pl-30 pr-30>
-              <TextCus mb-10 color={'#6D7E91'}>
-                Điểm bắt đầu:
-              </TextCus>
-              <ViewCus items-center flex-row>
-                <Icon.CurrentLocation color={'#24c062'} />
-                <TextCus ml-10 fl-1 numberOfLines={1}>
-                  {props.fromToData.from.address}
+          {isShowDetail && (
+            <>
+              <ViewCus mt-20 pl-30 pr-30>
+                <TextCus mb-10 color={'#6D7E91'}>
+                  Điểm bắt đầu:
                 </TextCus>
+                <ViewCus items-center flex-row>
+                  <Icon.CurrentLocation color={'#24c062'} />
+                  <TextCus ml-10 fl-1 numberOfLines={1}>
+                    {props.fromToData.from.address}
+                  </TextCus>
+                </ViewCus>
               </ViewCus>
-            </ViewCus>
 
-            <ViewCus mt-20 pl-30 pr-30>
-              <TextCus mb-10 color={'#6D7E91'}>
-                Điểm đến:
-              </TextCus>
-              <ViewCus items-center flex-row>
-                <Icon.IconLocationActive color={'#24c062'} />
-                <TextCus ml-10 fl-1 numberOfLines={1}>
-                  {props?.fromToData?.to?.address}
+              <ViewCus mt-20 pl-30 pr-30>
+                <TextCus mb-10 color={'#6D7E91'}>
+                  Điểm đến:
                 </TextCus>
-              </ViewCus>
-            </ViewCus>
-
-            <ViewCus
-              mt-12
-              mb-12
-              style={[styles.w100, { backgroundColor: '#EEEEEE', height: 4 }]}
-            />
-
-            <ViewCus pl-30 pr-30>
-              <TextCus heading5 color={'#6D7E91'}>
-                Thông tin cuốc
-              </TextCus>
-              <ViewCus mt-10 flex-row items-center justify-space-between>
-                <TextCus>Loại dịch vụ</TextCus>
-                <TextCus>Tài xế ce máy</TextCus>
-              </ViewCus>
-              <ViewCus mt-10 flex-row items-center justify-space-between>
-                <TextCus>Loại xe</TextCus>
-                <TextCus>Honde Air Black</TextCus>
+                <ViewCus items-center flex-row>
+                  <Icon.IconLocationActive color={'#24c062'} />
+                  <TextCus ml-10 fl-1 numberOfLines={1}>
+                    {props?.fromToData?.to?.address}
+                  </TextCus>
+                </ViewCus>
               </ViewCus>
 
-              <ViewCus mt-10 flex-row items-center justify-space-between>
-                <TextCus>Biển số xe</TextCus>
-                <TextCus>99-H7 7060</TextCus>
-              </ViewCus>
+              <ViewCus
+                mt-12
+                mb-12
+                style={[styles.w100, { backgroundColor: '#EEEEEE', height: 4 }]}
+              />
 
-              <ViewCus mt-10 flex-row items-center justify-space-between>
-                <TextCus>Cước phí</TextCus>
-                <TextCus>
+              <ViewCus pl-30 pr-30>
+                <TextCus heading5 color={'#6D7E91'}>
+                  Thông tin cuốc
+                </TextCus>
+                <ViewCus mt-10 flex-row items-center justify-space-between>
+                  <TextCus>Loại dịch vụ</TextCus>
+                  <TextCus>Tài xế ce máy</TextCus>
+                </ViewCus>
+                <ViewCus mt-10 flex-row items-center justify-space-between>
+                  <TextCus>Loại xe</TextCus>
+                  <TextCus>Honde Air Black</TextCus>
+                </ViewCus>
+
+                <ViewCus mt-10 flex-row items-center justify-space-between>
+                  <TextCus>Biển số xe</TextCus>
+                  <TextCus>99-H7 7060</TextCus>
+                </ViewCus>
+
+                <ViewCus mt-10 flex-row items-center justify-space-between>
+                  <TextCus>Cước phí</TextCus>
+                  <TextCus>
+                    {formatMoney(
+                      props?.DeliveryInfo?.motorcycleTaxi?.price?.toFixed(0),
+                    )}
+                  </TextCus>
+                </ViewCus>
+
+                <ViewCus mt-10 flex-row items-center justify-space-between>
+                  <TextCus>Ưu đãi</TextCus>
+                  <TextCus>-0đ</TextCus>
+                </ViewCus>
+              </ViewCus>
+              <ViewCus
+                btw-1
+                style={{ borderColor: '#EEEEEE' }}
+                mt-10
+                flex-row
+                pl-30
+                pr-30
+                items-center
+                pt-10
+                justify-space-between>
+                <TextCus>Thanh toán tiền mặt</TextCus>
+                <TextCus bold color={Colors.main}>
                   {formatMoney(
                     props?.DeliveryInfo?.motorcycleTaxi?.price?.toFixed(0),
                   )}
                 </TextCus>
               </ViewCus>
 
-              <ViewCus mt-10 flex-row items-center justify-space-between>
-                <TextCus>Ưu đãi</TextCus>
-                <TextCus>-0đ</TextCus>
+              <ViewCus mt-30 items-center>
+                <TouchCus
+                  items-center
+                  pt-10
+                  pb-10
+                  br-10
+                  disabled={true}
+                  style={{ backgroundColor: '#ADB1B9', width: width - 30 }}>
+                  <TextCus color={Colors.white}>Huỷ đơn</TextCus>
+                </TouchCus>
+                <TextCus color={'#4772D7'} mt-12>
+                  Liên hệ tổng đài để hủy đơn
+                </TextCus>
               </ViewCus>
-            </ViewCus>
-            <ViewCus
-              btw-1
-              style={{ borderColor: '#EEEEEE' }}
-              mt-10
-              flex-row
-              pl-30
-              pr-30
-              items-center
-              pt-10
-              justify-space-between>
-              <TextCus>Thanh toán tiền mặt</TextCus>
-              <TextCus bold color={Colors.main}>
-                {formatMoney(
-                  props?.DeliveryInfo?.motorcycleTaxi?.price?.toFixed(0),
-                )}
-              </TextCus>
-            </ViewCus>
-
-            <ViewCus mt-30 items-center>
-              <TouchCus
-                items-center
-                pt-10
-                pb-10
-                br-10
-                disabled={true}
-                style={{ backgroundColor: '#ADB1B9', width: width - 30 }}>
-                <TextCus color={Colors.white}>Huỷ đơn</TextCus>
-              </TouchCus>
-              <TextCus color={'#4772D7'} mt-12>
-                Liên hệ tổng đài để hủy đơn
-              </TextCus>
-            </ViewCus>
-          </>
-        )}
+            </>
+          )}
+        </View>
       </ScrollView>
     </ViewCus>
   );
