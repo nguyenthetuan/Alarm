@@ -80,7 +80,7 @@ const Delivery = () => {
         ...item,
         fast: item.name === 'Giao nhanh',
         price: item.pricePerKm * formatDistanceKm(distance),
-        distance: formatDistanceKm(distance),
+        distance: distance,
         orderRequest,
       };
     });

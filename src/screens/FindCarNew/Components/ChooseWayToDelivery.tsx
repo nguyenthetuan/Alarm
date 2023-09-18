@@ -130,6 +130,8 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
                             ]}
                           />
                           {(item.type === 'CAR4SEATS' ||
+                            item.type === 'CARSHARE' ||
+                            item.type === 'CARLUXURY' ||
                             item.type === 'CAR7SEATS') && (
                             <ImageCus
                               source={Images.car4Seat}
@@ -154,7 +156,8 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
                               resizeMode="contain"
                             />
                           )}
-                          {item.type === 'MOTORBIKE' && (
+                          {(item.type === 'MOTORBIKE' ||
+                            item.type === 'MOTORBIKE_AUTOMATIC') && (
                             <ImageCus
                               source={Images.bike}
                               style={[

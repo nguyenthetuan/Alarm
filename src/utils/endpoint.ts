@@ -55,8 +55,11 @@ export const API_ENDPOINT = {
     KEEP_FIND_DRIVER: 'customer/order',
     GET_FOOD_DETAIL: 'customer/food/get-detail',
     GET_ORDER_LIST: 'customer/order/list-orders',
+    GET_DELIVERY_LIST: 'customer/delivery/get-all',
     CALCULATE: 'customer/order/calculate',
     MOTORCYCLE_TAXI: 'customer/motorcycle-taxi/get-all',
+    CAR_TAXI:
+      'customer/motorcycle-taxi/get-all/?vehicle=CAR4SEATS&vehicle=CAR7SEATS&vehicle=CARLUXURY&vehicle=CARSHARE',
   },
 
   MOTORCYCLE_TAXI: {

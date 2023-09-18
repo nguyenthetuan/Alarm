@@ -111,6 +111,15 @@ const FindCar = () => {
     },
     {
       id: 2,
+      title: 'Xe tay ga',
+      subTitle: '',
+      type: 'MOTORBIKE_AUTOMATIC',
+      price: '0',
+      distance: '0',
+      vehicle: true,
+    },
+    {
+      id: 3,
       title: 'Ô tô 4 chỗ',
       subTitle: 'Thoải mái với 4 chỗ ngồi',
       type: 'CAR4SEATS',
@@ -119,7 +128,7 @@ const FindCar = () => {
       vehicle: true,
     },
     {
-      id: 3,
+      id: 4,
       title: 'Ô tô 7 chỗ',
       subTitle: 'Thoải mái với 7 chỗ ngồi',
       type: 'CAR7SEATS',
@@ -128,7 +137,25 @@ const FindCar = () => {
       vehicle: true,
     },
     {
-      id: 4,
+      id: 5,
+      title: 'Xe vip',
+      subTitle: 'Thoải mái với xe vip',
+      type: 'CARLUXURY',
+      price: '0',
+      distance: '0',
+      vehicle: true,
+    },
+    {
+      id: 6,
+      title: 'Xe ghép',
+      subTitle: 'Tiết kiệm hơn với xe ghép',
+      type: 'CARSHARE',
+      price: '0',
+      distance: '0',
+      vehicle: true,
+    },
+    {
+      id: 7,
       title: 'Tài xế ô tô',
       subTitle: '',
       type: 'DRIVER',
@@ -166,17 +193,18 @@ const FindCar = () => {
               vehicle: _rs[i]?.type?.toString(),
             },
             res => {
+              console.log('_rs', _rs);
               if (res.data.result?.length > 0) {
                 _rs[i].price = res.data.result[0].price?.toFixed(0);
                 _rs[i].distance = res.data.result[0].distanceKm;
                 _rs[i].distanceText = res.data.result[0].distanceText;
               }
-              console.log('_rs', _rs);
-
               if (
                 _rs[0].distance === _rs[1].distance &&
                 _rs[0].distance === _rs[2].distance &&
                 _rs[0].distance === _rs[3].distance &&
+                _rs[0].distance === _rs[4].distance &&
+                _rs[0].distance === _rs[5].distance &&
                 parseInt(_rs[0].distance) > 0
               ) {
                 setDeliveryOptions(deliveryDriverOptions => _rs);

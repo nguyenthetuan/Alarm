@@ -225,9 +225,20 @@ export const useListOrder = ({
           ? API_ENDPOINT.ORDER.MOTORCYCLE_TAXI
           : type === 'FOOD'
           ? API_ENDPOINT.ORDER.GET_ORDER_LIST
+          : type === 'DELIVERY'
+          ? API_ENDPOINT.ORDER.GET_DELIVERY_LIST
+          : type === 'CAR_BOOKING'
+          ? API_ENDPOINT.ORDER.CAR_TAXI
           : '';
 
-      const _data = type === 'MOTORBIKE_BOOKING' ? {} : data;
+      const _data =
+        type === 'MOTORBIKE_BOOKING'
+          ? {}
+          : type === 'DELIVERY'
+          ? { page: data.page, limit: data.limit, status: data.status }
+          : type === 'CAR_BOOKING'
+          ? {}
+          : data;
       dispatch(
         OrdersActions.getBaseActionsRequest(
           {

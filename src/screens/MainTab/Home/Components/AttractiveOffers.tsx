@@ -22,7 +22,7 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
       distance: item?.distance,
     });
   }, []);
-  
+
   const renderItem = useCallback(
     ({ item }) => {
       return (
@@ -31,7 +31,6 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
             <ImageCus
               source={{ uri: getImage({ image: `${item.avatar}` }) }}
               style={styles.imagePromotion}
-              resizeMode="cover"
             />
             <ViewCus fex-1 pb-10>
               <TextCus heading5 useI18n ml-5>
@@ -84,6 +83,7 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
     />
   );
 };
+
 const styles = StyleSheet.create({
   mr5: {
     marginHorizontal: 10,

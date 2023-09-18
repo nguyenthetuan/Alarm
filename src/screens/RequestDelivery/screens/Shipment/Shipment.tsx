@@ -83,8 +83,8 @@ const Shipment = () => {
   const [orderDetailData, setOrderDetailData] = useState<IOrderDetail | null>(
     null,
   );
-  console.log('orderDetailData',orderDetailData);
-  
+  console.log('orderDetailData', orderDetailData);
+
   const [status, setStatus] = useState(ScreenStepView.DRIVER_ARE_COMING);
   const [location, setLocation] = useState<ILongLocation | undefined>(
     cartLocation,

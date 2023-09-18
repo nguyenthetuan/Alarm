@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { ImageCus, TextCus, TouchCus, ViewCus } from 'components';
-import { formatMoney } from 'utils';
+import { formatDistanceKm, formatMoney } from 'utils';
 import styles from './styles';
 import { IOrderRequest, IShippingType } from 'types';
 import { Images } from 'assets';
@@ -120,7 +120,7 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
                 </ViewCus>
               </ViewCus>
               <TextCus>
-                {val.time} phút - {formatMoney(val.distance)}km
+                {val.time} phút - {val.distance}km
               </TextCus>
             </TouchCus>
           );
