@@ -210,7 +210,6 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
               <ViewCus
                 flex-row
                 f-1
-                // eslint-disable-next-line react-native/no-inline-styles
                 style={{
                   marginRight: 16,
                 }}>

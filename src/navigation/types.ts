@@ -85,6 +85,10 @@ export type RootStackParamList = {
     phoneNumber: string;
     typeCheck: EnumOTP.FORGOT | EnumOTP.REGISTER;
   };
+  Wallet: undefined;
+  HistoryWallet: undefined;
+  WithdrawPoints: undefined;
+  TopUpPoint: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

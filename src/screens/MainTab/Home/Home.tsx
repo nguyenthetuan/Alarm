@@ -10,7 +10,7 @@ import {
 } from 'components';
 import { useAuth, useHome } from 'hooks';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
-import {Alert, Image, StatusBar} from 'react-native';
+import { Alert, Image, StatusBar } from 'react-native';
 import { Colors } from 'theme';
 import { DATA_CATEGORY, IPage } from 'types';
 import { getImage, isIos } from 'utils';
@@ -107,10 +107,20 @@ const Home: React.FC = () => {
           <ViewCus flex-row justify-space-between px-16 pt-12 items-center>
             <ViewCus>
               <ViewCus flex-row mb-12>
-                <TextCus useI18n color-white bold heading1 style={{ lineHeight: 26 }}>
+                <TextCus
+                  useI18n
+                  color-white
+                  bold
+                  heading1
+                  style={{ lineHeight: 26 }}>
                   hi
                 </TextCus>
-                <TextCus l-5 color-white bold heading1 style={{ lineHeight: 26 }}>
+                <TextCus
+                  l-5
+                  color-white
+                  bold
+                  heading1
+                  style={{ lineHeight: 26 }}>
                   {userInfo?.full_name}
                 </TextCus>
               </ViewCus>

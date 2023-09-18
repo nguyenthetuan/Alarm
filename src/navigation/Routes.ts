@@ -64,4 +64,9 @@ export enum Routes {
   MessageDetail = 'MessageDetail',
 
   ModalScreen = 'ModalScreen',
+
+  Wallet = 'Wallet',
+  HistoryWallet = 'HistoryWallet',
+  WithdrawPoints = 'WithdrawPoints',
+  TopUpPoint = 'TopUpPoint',
 }

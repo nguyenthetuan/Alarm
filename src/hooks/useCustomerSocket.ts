@@ -79,7 +79,7 @@ export const useCustomerSocket = () => {
   );
 
   const connect = useCallback(() => {
-    console.log('connect');
+    //console.log('connect');
 
     socket.connect();
     socket.on('connect');

@@ -142,7 +142,6 @@ export default class ScrollPicker extends Component<any, any> {
     const { header, footer } = this.renderPlaceHolder();
     return (
       <View
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           height: this.props.wrapperHeight,
           flex: 1,
@@ -152,7 +151,6 @@ export default class ScrollPicker extends Component<any, any> {
           backgroundColor: this.props.wrapperBackground,
         }}>
         <View
-          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             position: 'absolute',
             top: (this.props.wrapperHeight - this.props.itemHeight) / 2,
@@ -198,7 +196,6 @@ export default class ScrollPicker extends Component<any, any> {
     );
     return (
       <View
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           justifyContent: 'center',
           alignItems: 'center',

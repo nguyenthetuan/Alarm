@@ -50,7 +50,6 @@ export const useKey = () => {
   };
 
   const resetKeyStore = async (service?: string) => {
-    console.log('======service======', service);
     if (service) {
       await Keychain.resetGenericPassword({ service });
     }

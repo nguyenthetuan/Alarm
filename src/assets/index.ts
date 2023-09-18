@@ -69,6 +69,27 @@ export const Images = {
   lock: require('./images/lock.png'),
   //
 };
+
+export const Icons = {
+  IconArrowRight: require('./icons/ArrowRight.png'),
+  CircleLock: require('./icons/CircleLock.png'),
+  IconHome: require('./icons/Home.png'),
+  HomePriceWallet: require('./icons/HomePriceWallet.png'),
+  IconWallet: require('./icons/iconWallet.png'),
+  IconWalletAdd: require('./icons/iconWalletAdd.png'),
+  IconWalletHistory: require('./icons/iconWalletHistory.png'),
+  IconWalletIn: require('./icons/iconWalletIn.png'),
+  IconWalletOut: require('./icons/iconWalletOut.png'),
+  IconWalletPromotion: require('./icons/iconWalletPromotion.png'),
+  IconWalletSp: require('./icons/iconWalletSp.png'),
+  IconTech: require('./icons/IconTech.png'),
+  IconTechChoose: require('./icons/IconTechChoose.png'),
+  IconVCB: require('./icons/IconVCB.png'),
+  IconVCBChoose: require('./icons/IconVCBChoose.png'),
+  IconCopyContent: require('./icons/IconCopyContent.png'),
+  IconMbBank: require('./icons/MBBank.png'),
+  wallet: require('./icons/wallet.png'),
+};
 export const IconName = {
   Activity: 'diamond',
   Homepage: 'homepage',

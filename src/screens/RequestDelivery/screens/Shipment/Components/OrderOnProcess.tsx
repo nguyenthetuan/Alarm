@@ -149,7 +149,10 @@ const OrderOnProcess: React.FC<IProps> = props => {
                 </TextCus>
               </ViewCus>
               <TextCus bold>
-                {formatMoney(props.orderDetailData?.price-props.orderDetailData?.addon.price)}
+                {formatMoney(
+                  props.orderDetailData?.price -
+                    props.orderDetailData?.addon.price,
+                )}
               </TextCus>
             </ViewCus>
             <ViewCus flex-row justify-space-between pl-20 pr-20 mt-2>

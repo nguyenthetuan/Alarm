@@ -299,6 +299,8 @@ export const useAuth = () => {
           }
         })
         .catch(err => {
+          if (err) {
+          }
           danger(t('error'), 'Vui lòng thử lại');
         });
     },
