@@ -6,7 +6,7 @@ import { NavigationService, Routes } from 'navigation';
 import { ICategory } from 'types';
 import { Images } from 'assets';
 import { getImage } from 'utils';
-import {Colors} from "theme";
+import { Colors } from 'theme';
 interface IProps {
   categories: ICategory[];
 }

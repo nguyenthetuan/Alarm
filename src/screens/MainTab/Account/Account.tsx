@@ -13,7 +13,7 @@ import {
 import { BaseStyle, Colors } from 'theme';
 import { ListItem } from './components';
 import { NavigationService, Routes } from 'navigation';
-import { IconName } from 'assets';
+import { IconName, Icons } from 'assets';
 import { useAuth } from 'hooks';
 import { IRefBottom } from 'types';
 import Icon from 'assets/svg/Icon';
@@ -49,6 +49,13 @@ export default function Account() {
           onPress={() => NavigationService.navigate(Routes.KYC)}
           icon={IconName.CreditCard}
           isHiden={Boolean(user?.accessToken)}
+        />
+        <ListItem
+          name="Ví điểm"
+          onPress={() => NavigationService.navigate(Routes.Wallet)}
+          icon={Icons.wallet}
+          isHiden={Boolean(user?.accessToken)}
+          isImage={true}
         />
         <ListItem
           name="account.support"

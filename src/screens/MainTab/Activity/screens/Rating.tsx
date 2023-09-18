@@ -49,7 +49,9 @@ const Rating: React.FC = () => {
               subtitle="Bạn đánh các món tại Cơm Gà Xối Mỡ 142 - Đinh Tiên Hoàng như thế nào"
               title="Đánh giá nhà hàng"
               onPress={() =>
-                NavigationService.navigate(Routes.RatingRestaurant, { point: pointRes })
+                NavigationService.navigate(Routes.RatingRestaurant, {
+                  point: pointRes,
+                })
               }
               point={pointRes}
               onChangePoint={p => {

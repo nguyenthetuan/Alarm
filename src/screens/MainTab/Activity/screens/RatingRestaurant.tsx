@@ -21,7 +21,7 @@ const RatingRestaurant: React.FC = ({ route }) => {
     },
   });
   const [point, setPoint] = useState(route.params?.point || 5);
-  
+
   const onRating = useCallback((value: TFormRating) => {
     console.log('value', value);
     NavigationService.navigate(Routes.HomeTabs, {

@@ -1,7 +1,7 @@
 /**
  * @description define all colors value used in project
  */
-import {Platform} from "react-native";
+import { Platform } from 'react-native';
 
 export interface IColors {
   main: string;
@@ -69,6 +69,12 @@ export interface IColors {
   gallery: string;
   greenHaze: string;
   pumice: string;
+  received: string;
+  shadow: string;
+  blueED: string;
+  redFF: string;
+  redAF: string;
+  greyD9: string;
 }
 
 export const Colors: IColors = {
@@ -137,4 +143,10 @@ export const Colors: IColors = {
   gallery: '#EDEDED',
   greenHaze: '#02B250',
   pumice: '#D7DBD9',
+  blueED: '#EDF7FA',
+  redAF: '#AF0D0E',
+  received: '#09A322D1',
+  shadow: '#3C454F',
+  redFF: '#FF0B0B',
+  greyD9: '#D9D5D2',
 };

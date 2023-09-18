@@ -5,7 +5,6 @@ import { useAuth } from './useAuth';
 
 export const useSocket = (props: IUseSocket) => {
   const { user } = useAuth();
-  console.log('props.uri', props.uri);
   const socket: Socket = useMemo(() => {
     return io(props.uri, {
       extraHeaders: {
@@ -49,8 +48,6 @@ export const useSocket = (props: IUseSocket) => {
       socket.disconnect();
     };
   }, []);
-
-  console.log('soccket', socket);
 
   return {
     socket,

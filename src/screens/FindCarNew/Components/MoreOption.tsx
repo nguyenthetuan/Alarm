@@ -72,7 +72,6 @@ const MoreOption: React.FC<IProps> = props => {
                   // props.onSubmit(val);
                 }}>
                 <ViewCus
-                  // eslint-disable-next-line react-native/no-inline-styles
                   style={{
                     paddingVertical: 16,
                     borderTopWidth: index === 0 ? 0 : 1,
