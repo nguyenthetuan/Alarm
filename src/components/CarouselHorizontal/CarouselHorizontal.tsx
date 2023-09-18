@@ -15,7 +15,7 @@ const CarouselHorizontal = <T extends object | number>(props: IProps<T>) => {
     <ViewCus mt-25>
       {title && (
         <ViewCus flex-row items-center justify-space-between mb-16 px-10>
-          <TextCus heading2 useI18n>
+          <TextCus heading3 useI18n>
             {title}
           </TextCus>
           <TouchCus onPress={onPress!} flex-row items-center>
