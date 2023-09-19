@@ -11,7 +11,7 @@ import {
   TouchCus,
   ViewCus,
 } from 'components';
-import { useGeo } from 'hooks';
+import { useGeo, useLocation } from 'hooks';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
@@ -43,6 +43,7 @@ type LocationFind = {
 const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
   console.log('ref', ref);
   const { searchDetail, searchAutoComplete, onNameByLatLng } = useGeo();
+  const { locationUser } = useLocation();
 
   const [fromLocation, setFromLocation] = useState<LocationFind | null>({
     address: '',
@@ -104,9 +105,9 @@ const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
   };
 
   const getPosition = () => {
-    Geolocation.getCurrentPosition(({ coords }) => {
+    if (locationUser) {
       onNameByLatLng(
-        { latitude: coords?.latitude, longitude: coords?.longitude },
+        { latitude: locationUser.lat, longitude: locationUser.long },
         result => {
           searchAutoComplete(
             {
@@ -121,7 +122,37 @@ const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
           );
         },
       );
-    });
+    } else {
+      Geolocation.getCurrentPosition(
+        ({ coords }) => {
+          onNameByLatLng(
+            { latitude: coords?.latitude, longitude: coords?.longitude },
+            result => {
+              searchAutoComplete(
+                {
+                  input: result,
+                  options: {
+                    limit: 1,
+                  },
+                },
+                res => {
+                  setFromLocation({ ...res[0], address: res[0]?.description });
+                },
+              );
+            },
+          );
+        },
+        error => {
+          // Alert.alert('Permission denied');
+          console.log('Tom log  => error getPosition', error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 10000,
+        },
+      );
+    }
   };
 
   useEffect(() => {
@@ -172,6 +203,7 @@ const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
         <ViewCus key={index}>
           <TouchCus
             onPress={() => {
+              console.log('Tom log  => item', item);
               if (isFocusOnFrom) {
                 setFromLocation({
                   address: item?.structured_formatting?.main_text,

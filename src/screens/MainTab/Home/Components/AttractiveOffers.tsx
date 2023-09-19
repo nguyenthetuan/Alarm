@@ -54,7 +54,7 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
                   pt-5
                   pb-5>
                   <Image source={Images.map} />
-                  <TextCus l-3>
+                  <TextCus l-3 ml-2>
                     {Number(item?.distance || 0).toFixed(0)}km
                   </TextCus>
                 </ViewCus>
@@ -70,7 +70,9 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
                   pt-5
                   pb-5>
                   <Image source={Images.clock} />
-                  <TextCus l-3>{item?.open_time?.time}</TextCus>
+                  <TextCus l-3 ml-2>
+                    {item?.open_time?.time}
+                  </TextCus>
                 </ViewCus>
               </ViewCus>
             </ViewCus>
