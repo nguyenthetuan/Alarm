@@ -43,10 +43,15 @@ const Rating: React.FC = () => {
         );
 
       default:
+        const title =
+          'Bạn đánh các món tại ' +
+            `${route.params?.deliveryInfo?.restaurant?.name}` &&
+          +`${route.params?.deliveryInfo?.restaurant?.address}` +
+            '- như thế nào';
         return (
           <>
             <ContentRating
-              subtitle="Bạn đánh các món tại Cơm Gà Xối Mỡ 142 - Đinh Tiên Hoàng như thế nào"
+              subtitle={title}
               title="Đánh giá nhà hàng"
               onPress={() =>
                 NavigationService.navigate(Routes.RatingRestaurant, {

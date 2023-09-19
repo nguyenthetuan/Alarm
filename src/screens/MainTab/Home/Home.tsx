@@ -95,6 +95,16 @@ const Home: React.FC = () => {
       </TouchCus>
     );
   }, [isShowSearch]);
+
+  const length = userInfo?.full_name?.split(' ').length;
+  const fullName =
+    `${
+      (!!userInfo?.full_name?.split(' ')[length - 2] &&
+        userInfo?.full_name?.split(' ')[length - 2]) ||
+      ' '
+    }` +
+    ' ' +
+    userInfo?.full_name?.split(' ')[length - 1];
   return (
     <HomeLayout
       bgColor={isIos ? Colors.home : Colors.home}
@@ -122,7 +132,7 @@ const Home: React.FC = () => {
                   bold
                   heading1
                   style={{ lineHeight: 26 }}>
-                  {userInfo?.full_name}
+                  {fullName}
                 </TextCus>
               </ViewCus>
               <ViewCus flex-row items-center>
@@ -145,7 +155,7 @@ const Home: React.FC = () => {
               onPress={text => {
                 setTextSearch(text);
                 setIsShowSearch(true);
-              }}
+              }} 
               value={textSearch}
               isShowSearch={isShowSearch}
             />
