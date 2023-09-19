@@ -155,7 +155,7 @@ const Home: React.FC = () => {
               onPress={text => {
                 setTextSearch(text);
                 setIsShowSearch(true);
-              }}
+              }} 
               value={textSearch}
               isShowSearch={isShowSearch}
             />

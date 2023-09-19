@@ -45,9 +45,9 @@ const Rating: React.FC = () => {
       default:
         const title =
           'Bạn đánh các món tại ' +
-          `${route.params?.deliveryInfo.restaurant.name}` +
-          `${route.params?.deliveryInfo.restaurant.address}` +
-          '- như thế nào';
+            `${route.params?.deliveryInfo?.restaurant?.name}` &&
+          +`${route.params?.deliveryInfo?.restaurant?.address}` +
+            '- như thế nào';
         return (
           <>
             <ContentRating
