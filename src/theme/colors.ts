@@ -1,9 +1,11 @@
 /**
  * @description define all colors value used in project
  */
+import { Platform } from 'react-native';
 
 export interface IColors {
   main: string;
+  home: string;
   disable: string;
   white: string;
   black: string;
@@ -67,10 +69,17 @@ export interface IColors {
   gallery: string;
   greenHaze: string;
   pumice: string;
+  received: string;
+  shadow: string;
+  blueED: string;
+  redFF: string;
+  redAF: string;
+  greyD9: string;
 }
 
 export const Colors: IColors = {
-  main: '#F3602B',
+  main: Platform.OS === 'android' ? '#ff7c4e' : '#F3602B',
+  home: Platform.OS === 'android' ? '#ff7c4e' : '#F86F3E',
   white: '#FFFFFF',
   black: '#000000',
   grey84: '#848589',
@@ -134,4 +143,10 @@ export const Colors: IColors = {
   gallery: '#EDEDED',
   greenHaze: '#02B250',
   pumice: '#D7DBD9',
+  blueED: '#EDF7FA',
+  redAF: '#AF0D0E',
+  received: '#09A322D1',
+  shadow: '#3C454F',
+  redFF: '#FF0B0B',
+  greyD9: '#D9D5D2',
 };

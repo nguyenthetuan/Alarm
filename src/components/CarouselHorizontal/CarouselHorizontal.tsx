@@ -12,19 +12,19 @@ interface IProps<T> extends FlatListProps<T> {
 const CarouselHorizontal = <T extends object | number>(props: IProps<T>) => {
   const { renderItem, title, onPress, data, ...rest } = props;
   return (
-    <ViewCus mb-16>
+    <ViewCus mt-25>
       {title && (
         <ViewCus flex-row items-center justify-space-between mb-16 px-10>
-          <TextCus heading5 useI18n>
+          <TextCus heading3 useI18n>
             {title}
           </TextCus>
           <TouchCus onPress={onPress!} flex-row items-center>
-            <TextCus useI18n color={Colors.main}>
+            <TextCus useI18n color={Colors.main} mainSize mr-5>
               all
             </TextCus>
             <IconApp
               name={IconName.ChevronRight}
-              size={16}
+              size={12}
               color={Colors.yellowF8}
             />
           </TouchCus>

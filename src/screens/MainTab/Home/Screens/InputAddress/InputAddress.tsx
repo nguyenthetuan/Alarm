@@ -26,7 +26,7 @@ const InputAddress = () => {
   const getNameLocation = ({ coords: { latitude, longitude } }) => {
     onNameByLatLng(
       { latitude, longitude },
-      from => console.log(from),
+      from => {},
       // setAddress({ ...address }),
     );
   };

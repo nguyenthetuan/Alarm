@@ -80,4 +80,5 @@ export const API_ENDPOINT = {
     AUTOCOMPLEATE:
       'https://maps.googleapis.com/maps/api/place/autocomplete/json',
   },
+  WALLET_HISTORY: 'walletHistory',
 };

@@ -239,7 +239,11 @@ const MessageDetail = ({ route }) => {
 
   return (
     <SafeAreaViewCus bgColor={Colors.white}>
-      <SafeAreaStatusBar modeContent={'dark-content'} />
+      <SafeAreaStatusBar
+        modeContent={
+          Platform.OS === 'android' ? 'light-content' : 'dark-content'
+        }
+      />
       {renderHeader()}
       <ChatContent
         refChat={refChat}

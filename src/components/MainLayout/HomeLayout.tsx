@@ -62,7 +62,7 @@ const HomeLayout = (props: IMainLayoutProps) => {
     return {
       modeContent:
         Platform.OS === 'android'
-          ? 'dark-content'
+          ? 'light-content'
           : isDark
           ? 'dark-content'
           : 'light-content',
@@ -70,7 +70,10 @@ const HomeLayout = (props: IMainLayoutProps) => {
   }, [isDark]);
   return (
     <SafeAreaViewCus bgColor={bgColor ?? Colors.white}>
-      <SafeAreaStatusBar modeContent={modeContent as TmodeContent} />
+      <SafeAreaStatusBar
+        modeContent={modeContent as TmodeContent}
+        backgroundColor={Colors.main}
+      />
       {headerCustom()}
       {isForForm ? (
         <KeyboardScrollView textBtn={textBtn} {...rest} iconRight={iconRight}>

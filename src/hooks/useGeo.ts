@@ -16,7 +16,7 @@ export const useGeo = () => {
         .then(res => {
           callback?.(res?.data?.results?.[0]?.formatted_address);
         })
-        .catch(err => console.log('ERROR---', err));
+        .catch(err => {});
     },
     [],
   );
@@ -83,10 +83,8 @@ export const useGeo = () => {
         .catch(error => {
           if (axios.isCancel(error)) {
             // Request was canceled
-            console.log('Request canceled:', error.message);
           } else {
             // Handle other errors
-            console.log('Error:', error.message);
           }
         });
     },
@@ -113,9 +111,7 @@ export const useGeo = () => {
         .then(res => {
           callback?.(res);
         })
-        .catch(error => {
-          console.log('error', error);
-        });
+        .catch(error => {});
     },
     [],
   );

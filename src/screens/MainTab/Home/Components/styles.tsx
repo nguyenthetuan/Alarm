@@ -5,6 +5,10 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
   },
+  allImage: {
+    width: 28,
+    height: 28,
+  },
   flex025: {
     flex: 1 / 4,
   },

@@ -15,10 +15,11 @@ import {
 } from 'types';
 
 import { API_ENDPOINT, axiosClient } from 'utils';
+import { useLocation } from 'hooks/useLocation';
 // import { useLocation } from './useLocation';
 export const useCategories = () => {
   const dispatch = useDispatch();
-  // const { locationUser } = useLocation();
+  const { locationUser } = useLocation();
   const loading = useSelector(CategoriesSelectors.getLoading);
   const listRestaurants: null | { result: IRestaurantDetail[] } = useSelector(
     CategoriesSelectors.getAttrByKey('listRestaurants'),
@@ -73,8 +74,9 @@ export const useCategories = () => {
             // Hardcode for location because api just show with these paramsß
             // params: { ...locationUser, ...rest },
             params: {
-              long: 106.64354939796388,
-              lat: 10.864089278331392,
+              // long: 106.64354939796388,
+              // lat: 10.864089278331392,
+              ...locationUser,
               ...rest,
             },
           },

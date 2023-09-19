@@ -10,7 +10,7 @@ import { NavigationService, Routes } from 'navigation';
 import React, { useCallback } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Colors } from 'theme';
-import { getImage, isIos } from 'utils';
+import { getImage, width } from 'utils';
 interface IProps {
   promotions: [];
   title: string;
@@ -32,34 +32,40 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
               source={{ uri: getImage({ image: `${item.avatar}` }) }}
               style={styles.imagePromotion}
             />
-            <ViewCus fex-1 pb-10>
-              <TextCus heading5 useI18n ml-5>
+            <ViewCus fex-1 p-18>
+              <TextCus heading5 useI18n numberOfLines={1}>
                 {item?.name}
               </TextCus>
               <ViewCus style={{ width: '95%' }}>
-                <TextCus useI18n l-5 numberOfLines={1}>
+                <TextCus useI18n numberOfLines={1}>
                   {item?.address}
                 </TextCus>
               </ViewCus>
-              <ViewCus flex-row justify-space-between pl-5 pr-5>
+              <ViewCus flex-row justify-space-between mt-24>
                 <ViewCus
+                  style={{
+                    width: '48%',
+                  }}
                   flex-row
                   items-center
+                  justify-center
                   bg-seashellPeach
-                  pl-20
-                  pr-20
                   br-6
                   pt-5
                   pb-5>
                   <Image source={Images.map} />
-                  <TextCus l-3>{item?.distance}</TextCus>
+                  <TextCus l-3>
+                    {Number(item?.distance || 0).toFixed(0)}km
+                  </TextCus>
                 </ViewCus>
                 <ViewCus
+                  style={{
+                    width: '48%',
+                  }}
                   flex-row
                   items-center
+                  justify-center
                   bg-seashellPeach
-                  pl-30
-                  pr-20
                   br-6
                   pt-5
                   pb-5>
@@ -87,22 +93,27 @@ const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
 const styles = StyleSheet.create({
   mr5: {
     marginHorizontal: 10,
+    marginBottom: 10,
     borderRadius: 16,
   },
   imagePromotion: {
-    height: 148,
+    height: 158,
     width: '100%',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
   container: {
-    shadowOffset: { width: 1, height: 1 },
-    shadowColor: 'rgba(171, 78, 43, 0.16)',
-    shadowOpacity: 1,
-    elevation: 10,
-    shadowRadius: 1,
-    borderRadius: 16,
+    width: width / 1.4,
+    shadowColor: '#8a8989',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 10.24,
     backgroundColor: Colors.white,
+    elevation: 5,
+    borderRadius: 16,
   },
 });
 export default AttractiveOffers;

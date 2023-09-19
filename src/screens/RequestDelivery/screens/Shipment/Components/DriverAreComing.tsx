@@ -139,12 +139,7 @@ const DriverAreComing: React.FC<IProps> = props => {
             });
             setListItemDetail(rs);
           })
-          .catch((e: TypeError) => {
-            console.log(
-              '🚀 ~ file: DriverAreComing.tsx:63 ~ useEffect ~ e:',
-              e,
-            );
-          });
+          .catch((e: TypeError) => {});
       }
     }
   }, [props.orderDetailData]);
