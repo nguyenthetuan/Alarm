@@ -95,6 +95,16 @@ const Home: React.FC = () => {
       </TouchCus>
     );
   }, [isShowSearch]);
+
+  const length = userInfo?.full_name.split(' ').length;
+  const fullName =
+    `${
+      (!!userInfo?.full_name.split(' ')[length - 2] &&
+        userInfo?.full_name.split(' ')[length - 2]) ||
+      ' '
+    }` +
+    ' ' +
+    userInfo?.full_name.split(' ')[length - 1];
   return (
     <HomeLayout
       bgColor={isIos ? Colors.main : Colors.white}
@@ -110,7 +120,7 @@ const Home: React.FC = () => {
                   hi
                 </TextCus>
                 <TextCus subhead l-10 color-white bold>
-                  {userInfo?.full_name}
+                  {fullName}
                 </TextCus>
               </ViewCus>
               <ViewCus f-1 flex-row>
