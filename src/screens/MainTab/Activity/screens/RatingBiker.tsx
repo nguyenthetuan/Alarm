@@ -54,13 +54,17 @@ const RatingBiker: React.FC = () => {
   const onRating = useCallback((value: TFormRating) => {
     const deliveryInfo = route.params?.deliveryInfo;
     const body = {
-      id:
-        deliveryInfo?.motorcycleTaxi?.id || route.params?.type === 'Food'
-          ? deliveryInfo?.order_code
-          : deliveryInfo?.id,
+      id: deliveryInfo?.motorcycleTaxi?.id
+        ? deliveryInfo?.motorcycleTaxi?.id
+        : route.params?.type === 'Food'
+        ? deliveryInfo?.order_code
+        : deliveryInfo?.id,
       rating: point,
       review: value.description,
     };
+    console.log('route.params?.deliveryInfo', deliveryInfo?.motorcycleTaxi?.id);
+    console.log('bodyzzz', body);
+
     if (route.params?.type === 'Food') {
       postRatingDiliveryFood(body, res => {
         if (res.status === 200) {
