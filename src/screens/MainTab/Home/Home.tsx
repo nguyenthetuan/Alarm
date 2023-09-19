@@ -96,15 +96,15 @@ const Home: React.FC = () => {
     );
   }, [isShowSearch]);
 
-  const length = userInfo?.full_name.split(' ').length;
+  const length = userInfo?.full_name?.split(' ').length;
   const fullName =
     `${
-      (!!userInfo?.full_name.split(' ')[length - 2] &&
-        userInfo?.full_name.split(' ')[length - 2]) ||
+      (!!userInfo?.full_name?.split(' ')[length - 2] &&
+        userInfo?.full_name?.split(' ')[length - 2]) ||
       ' '
     }` +
     ' ' +
-    userInfo?.full_name.split(' ')[length - 1];
+    userInfo?.full_name?.split(' ')[length - 1];
   return (
     <HomeLayout
       bgColor={isIos ? Colors.home : Colors.home}
