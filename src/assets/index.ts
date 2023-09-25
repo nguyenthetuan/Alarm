@@ -67,6 +67,9 @@ export const Images = {
   bikeDriverAvatar: require('./images/bikeDriverAvatar.png'),
   arrowUp: require('./images/arrowUp.png'),
   lock: require('./images/lock.png'),
+  iconClothes: require('./images/iconClothes.png'),
+  iconPhoneDelivery: require('./images/iconPhoneDelivery.png'),
+  iconFragile: require('./images/iconFragile.png'),
   //
 };
 
