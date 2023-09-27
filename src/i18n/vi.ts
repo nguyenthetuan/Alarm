@@ -203,6 +203,7 @@ export default {
   home: {
     title_promotion: 'Ưu đãi hấp dẫn',
     title_porposed: 'Đề xuất cho bạn',
+    title_pomotion: 'Ưu đãi tháng',
     home_tab: {
       history: 'Lịch sử',
     },

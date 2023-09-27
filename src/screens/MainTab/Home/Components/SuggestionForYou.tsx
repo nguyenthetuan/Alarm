@@ -15,8 +15,11 @@ import { StyleSheet } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
 import { IRestaurant, ISuggestRestaurant } from 'types';
 import { formatDistanceKm, getImage, width } from 'utils';
+import { useTranslation } from 'react-i18next';
+
 interface IProps {}
 const SuggestionForYou: React.FC<IProps> = () => {
+  const { t } = useTranslation();
   const { locationUser } = useLocation();
   const { listSuggests, reloadSuggestHome } = useHome();
   const { setSelectedRestaurant } = useCart();
@@ -76,11 +79,12 @@ const SuggestionForYou: React.FC<IProps> = () => {
   useEffect(() => {
     reloadSuggestHome();
   }, [locationUser]);
-
+  const month =
+    `${t('home.title_pomotion')}` + ' ' + `${new Date().getMonth()}`;
   return (
     <CarouselHorizontal
       data={listSuggests}
-      title={'home.title_porposed'}
+      title={month}
       onPress={() => NavigationService.navigate(Routes.SuggestForYou)}
       renderItem={renderItem}
       horizontal={false}

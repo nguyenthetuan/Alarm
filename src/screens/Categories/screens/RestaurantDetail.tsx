@@ -57,7 +57,7 @@ const RestaurantDetail: React.FC = () => {
     if (listFoodCatalog?.length === 0) {
       return;
     }
-
+    fetchFoodData(route.params.restaurantId);
     refreshFoodData(route.params.restaurantId);
   }, [route.params.restaurantId, listFoodCatalog]);
 
@@ -136,7 +136,6 @@ const RestaurantDetail: React.FC = () => {
     },
     [route.params?.restaurantId],
   );
-
   return (
     <ViewCus f-1 bg-white>
       <StatusBar barStyle={height > 0 ? EStatusBar.DARK : EStatusBar.LIGHT} />

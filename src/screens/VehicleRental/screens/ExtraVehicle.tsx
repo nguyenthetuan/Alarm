@@ -40,8 +40,6 @@ import { Images } from 'assets';
 const ExtraVehicle: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'ExtraFood'>>();
   const { getExtraVehicle, listExtraVehicle, loading } = useVehicleRental();
-  console.log('listExtraVehicle', listExtraVehicle);
-
   const {
     addItemToOrder: onAddToCart,
     updateOrderItems: onUpdateFromCart,
