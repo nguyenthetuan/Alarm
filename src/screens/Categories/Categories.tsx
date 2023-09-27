@@ -21,6 +21,7 @@ import { SkeletonLoadingItem } from 'screens/MainTab/Home/Components';
 import { Colors } from 'theme';
 import { ENodata, IRestaurantDetail } from 'types';
 import { CategoryItem } from './components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Categories: React.FC = () => {
   const { setSelectedPromos } = useCategories();
@@ -98,6 +99,7 @@ const Categories: React.FC = () => {
 
   const goToRestaurant = useCallback((item: IRestaurantDetail) => {
     setSelectedRestaurant(item.id);
+    AsyncStorage.setItem('restaurantSelected', item.id);
     setDistance(item.distance ?? 0);
     NavigationService.navigate(Routes.RestaurantDetail, {
       restaurantId: item.id,
@@ -106,8 +108,11 @@ const Categories: React.FC = () => {
   }, []);
 
   const handleChooseRestaurant = useCallback(
-    (item: IRestaurantDetail) => () => {
-      if (carts.length && item.id !== selectedRestaurant) {
+    (item: IRestaurantDetail) => async () => {
+      const idRestaurantSelected = await AsyncStorage.getItem(
+        'restaurantSelected',
+      );
+      if (carts.length && item.id !== idRestaurantSelected) {
         Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
           {
             text: t('cancel'),
@@ -124,7 +129,6 @@ const Categories: React.FC = () => {
         ]);
         return;
       }
-
       goToRestaurant(item);
     },
     [carts, selectedRestaurant],
@@ -148,6 +152,9 @@ const Categories: React.FC = () => {
         iconColor: Colors.white,
         renderRight: renderRight,
         renderCenter: () => renderSearchInput(),
+        onPressLeft: () => {
+          NavigationService.goBack();
+        },
         style: {
           height: 45,
         },

@@ -99,6 +99,7 @@ const VehicleRental: React.FC = () => {
 
   const goToRestaurant = useCallback((item: IRestaurantDetail) => {
     setSelectedRestaurant(item.id);
+    AsyncStorage.setItem('garageSelected', item.id);
     setDistance(item.distance ?? 0);
     NavigationService.navigate(Routes.DetailGarage, {
       garageId: item.id,
@@ -107,8 +108,9 @@ const VehicleRental: React.FC = () => {
   }, []);
 
   const handleChooseRestaurant = useCallback(
-    (item: IRestaurantDetail) => () => {
-      if (carts.length && item.id !== selectedRestaurant) {
+    (item: IRestaurantDetail) => async () => {
+      const idGarageSelected = await AsyncStorage.getItem('garageSelected');
+      if (carts.length && item.id !== idGarageSelected) {
         Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
           {
             text: t('cancel'),

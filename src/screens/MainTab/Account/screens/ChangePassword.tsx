@@ -44,7 +44,7 @@ const ChangePassword: React.FC<PageProps> = () => {
             },
             rs => {
               if (rs.status === 200) {
-                success(t('success'), 'Đổi mật khẩu thành công');
+                success(t('Thành công'), 'Đổi mật khẩu thành công');
                 control._reset();
               } else {
                 danger(t('error'), rs.errorMessage);

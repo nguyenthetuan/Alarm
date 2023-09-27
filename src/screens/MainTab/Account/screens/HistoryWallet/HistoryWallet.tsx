@@ -222,7 +222,7 @@ export default function HistoryWallet() {
       <BottomSheetCommon ref={refDateFrom} hideBackdrop={false}>
         <SelecterPicker
           selectType={SELECT_OPTION.DATE_PICKER}
-          selectOptionTitle="account.choose_birthday"
+          selectOptionTitle="account.choose_day_filter"
           onConfirmSelect={date => {
             refDateFrom.current?.close();
             // setDateFrom(moment(date).format('DD/MM/YYYY'));

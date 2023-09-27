@@ -160,11 +160,7 @@ export default function WithdrawPoints({ route }) {
                 keyboardType={'numeric'}
                 value={point}
                 onChangeText={value => {
-                  if (value > wallet?.total_amount) {
-                    return;
-                  } else {
-                    setPoint(value);
-                  }
+                  setPoint(value);
                 }}
               />
             </ViewCus>

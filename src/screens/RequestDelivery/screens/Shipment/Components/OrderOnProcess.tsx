@@ -99,10 +99,10 @@ const OrderOnProcess: React.FC<IProps> = props => {
           </TextCus>
         </ViewCus>
 
-        <ViewCus f-1 mt-10 mb-10 flex-row justify-space-between>
+        {/* <ViewCus f-1 mt-10 mb-10 flex-row justify-space-between>
           <TextCus style={styles.editDetail}>Chỉnh sửa chi tiết</TextCus>
           <IconCus name={'arrow-right'} size={15} color={Colors.grey85} />
-        </ViewCus>
+        </ViewCus> */}
       </>
     );
   };
@@ -169,7 +169,7 @@ const OrderOnProcess: React.FC<IProps> = props => {
               </TextCus>
             </ViewCus>
 
-            <ViewCus flex-row justify-space-between pl-20 pr-20 mt-30>
+            {/* <ViewCus flex-row justify-space-between pl-20 pr-20 mt-30>
               <ViewCus flex-row>
                 <TextCus mainSize color={Colors.grey85} useI18n>
                   Người gưi trả tiền mặt
@@ -181,7 +181,7 @@ const OrderOnProcess: React.FC<IProps> = props => {
               <TextCus bold style={styles.change}>
                 Thay đổi
               </TextCus>
-            </ViewCus>
+            </ViewCus> */}
           </ViewCus>
         </BottomSheetScrollView>
       </ViewCus>
