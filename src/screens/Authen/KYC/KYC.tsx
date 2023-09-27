@@ -104,7 +104,7 @@ export default function KYC() {
         password: route.params?.password,
       },
       () => {
-        NavigationService.navigate(Routes.HomeTabs);
+        NavigationService.replace(Routes.HomeTabs);
         refCreateAccount.current?.close();
       },
     );

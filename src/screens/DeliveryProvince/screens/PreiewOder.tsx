@@ -3,6 +3,7 @@ import {
   Buttons,
   IconApp,
   ImageCus,
+  ScrollViewCus,
   TextCus,
   TouchCus,
   ViewCus,
@@ -17,7 +18,7 @@ import { BaseStyle, Colors } from 'theme';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { IconName, Images } from 'assets';
-import { useAuth, useRequestDelivery } from 'hooks';
+import { useAuth, useDeliveryProvince, useRequestDelivery } from 'hooks';
 import {
   Image,
   Modal,
@@ -83,14 +84,14 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
   const [showInputPriceModal, setShowInputPriceModal] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { userInfo } = useAuth();
-  console.log('userInfo', userInfo);
 
   const {
     listProductType,
+    listSpecificationType,
     listDeliveryMethod,
     listAddon,
     postDeliveryDistance,
-  } = useRequestDelivery();
+  } = useDeliveryProvince();
   const [deliveryMethod, setDeliveryMethod] = useState(
     listDeliveryMethod?.result.find(
       elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
@@ -103,6 +104,7 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
     weight: props.inforOder.weight,
     productType: props.inforOder.productType,
     addon: props.inforOder.addon,
+    specification: props.inforOder.specification,
     postDeliveryDistance: props.inforOder.postDeliveryDistance,
     deliveryMethod: props.inforOder.deliveryMethod,
   });
@@ -124,6 +126,15 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
     };
   });
 
+  const dumpDataLoaiQuyCach =
+    listSpecificationType?.result?.map(elm => {
+      const item = type.find(e => e.code === elm.code);
+      return {
+        ...item,
+        ...elm,
+      };
+    }) || [];
+
   const dumpDataListOptions = listAddon?.result.map(elm => {
     return {
       ...elm,
@@ -137,7 +148,7 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
       !formData.deliveryMethod ||
       !formData.postDeliveryDistance ||
       !formData.weight ||
-      !formData.addon
+      !formData.specification
     ) {
       result = false;
     }
@@ -341,6 +352,62 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
     );
   };
 
+  const renderStandard = () => {
+    return (
+      <ScrollViewCus
+        horizontal
+        contentContainerStyle={{ marginLeft: 14 }}
+        f-2
+        flex-row
+        items-center
+        px-16>
+        <SelectedGroupItems
+          disable
+          wrapperStyle={styles.wrapItem}
+          items={dumpDataLoaiQuyCach}
+          initValue={
+            listSpecificationType?.result?.find(
+              elm => elm.code === formData?.specification?.code,
+            ) || {}
+          }
+          flatListProps={{
+            horizontal: true,
+          }}
+          onChange={(item: any) => {
+            setFormData(data => {
+              return {
+                ...data,
+                specification: item,
+              };
+            });
+          }}
+          renderItemFunc={(data, index, isSelected) => {
+            return (
+              <ViewCus
+                key={index}
+                px-16
+                py-8
+                mr-16
+                style={
+                  isSelected ? styles.itemActiveStandard : styles.itemStandard
+                }>
+                <TextCus
+                  semiBold
+                  heading5
+                  color={isSelected ? Colors.white : Colors.main}>
+                  {data.name}
+                </TextCus>
+                <TextCus color={isSelected ? Colors.white : Colors.black3A}>
+                  {data.price ? formatMoney(data.price) : 'Mặt định'}
+                </TextCus>
+              </ViewCus>
+            );
+          }}
+        />
+      </ScrollViewCus>
+    );
+  };
+
   const renderAddon = () => {
     return (
       <ViewCus px-16 f-1 items-center flex-row>
@@ -498,6 +565,12 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
           Loại hàng hóa
         </TextCus>
         {renderProductType()}
+      </ViewCus>
+      <ViewCus>
+        <TextCus px-16 mb-8 color-black style={styles.text}>
+          Quy cách
+        </TextCus>
+        {renderStandard()}
       </ViewCus>
       <ViewCus mt-16>
         <TextCus px-16 mb-8 color-black style={styles.text}>
@@ -695,5 +768,21 @@ const styles = StyleSheet.create({
   imageDelivery: {
     width: 32,
     height: 32,
+  },
+  itemStandard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.redF3,
+    backgroundColor: '#FFF9F2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  itemActiveStandard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.redF3,
+    backgroundColor: Colors.main,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -2,7 +2,8 @@ import Icon from 'assets/svg/Icon';
 import {
   Buttons,
   IconApp,
-  ImageCus, ScrollViewCus,
+  ImageCus,
+  ScrollViewCus,
   TextCus,
   TouchCus,
   ViewCus,
@@ -17,8 +18,9 @@ import React, {
 import { BaseStyle, Colors } from 'theme';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { IconName, Images } from 'assets';
-import { useRequestDelivery } from 'hooks';
+import { useDeliveryProvince, useRequestDelivery } from 'hooks';
 import {
+  Alert,
   Image,
   Modal,
   StyleSheet,
@@ -85,11 +87,11 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
   const { setDistance, distance } = useCart();
   const {
     listProductType,
+    listSpecificationType,
     listDeliveryMethod,
     listAddon,
     postDeliveryDistance,
-  } = useRequestDelivery();
-  console.log('Tom log  => listProductType', listProductType);
+  } = useDeliveryProvince();
   const [deliveryMethod, setDeliveryMethod] = useState(
     listDeliveryMethod?.result?.find(
       elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
@@ -101,6 +103,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     dropoffLocation: props.fromToData.to,
     weight: props.inforOder.weight,
     productType: props.inforOder.productType,
+    specification: props.inforOder.specification,
     addon: props.inforOder.addon,
     postDeliveryDistance: props.inforOder.postDeliveryDistance,
     deliveryMethod: props.inforOder.deliveryMethod,
@@ -125,6 +128,15 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
       };
     }) || [];
 
+  const dumpDataLoaiQuyCach =
+    listSpecificationType?.result?.map(elm => {
+      const item = type.find(e => e.code === elm.code);
+      return {
+        ...item,
+        ...elm,
+      };
+    }) || [];
+
   const dumpDataListOptions =
     listAddon?.result?.map(elm => {
       return {
@@ -140,7 +152,8 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
       !formData.postDeliveryDistance ||
       !formData.weight ||
       !formData.productType ||
-      !formData.addon
+      !formData.specification
+      // || !formData.addon
     ) {
       result = false;
     }
@@ -266,7 +279,13 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
 
   const renderProductType = () => {
     return (
-      <ScrollViewCus horizontal contentContainerStyle={{ marginLeft: 14, }} f-2 flex-row items-center px-16>
+      <ScrollViewCus
+        horizontal
+        contentContainerStyle={{ marginLeft: 14 }}
+        f-2
+        flex-row
+        items-center
+        px-16>
         <SelectedGroupItems
           wrapperStyle={styles.wrapItem}
           items={dumpDataLoaiHinhThuc}
@@ -301,6 +320,69 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
                 />
                 <TextCus color={isSelected ? Colors.white : Colors.black3A}>
                   {data.title}
+                </TextCus>
+              </ViewCus>
+            );
+          }}
+        />
+      </ScrollViewCus>
+    );
+  };
+
+  const renderStandard = () => {
+    return (
+      <ScrollViewCus
+        horizontal
+        contentContainerStyle={{ marginLeft: 14 }}
+        f-2
+        flex-row
+        items-center
+        px-16>
+        <SelectedGroupItems
+          wrapperStyle={styles.wrapItem}
+          items={dumpDataLoaiQuyCach}
+          initValue={
+            listSpecificationType?.result?.find(
+              elm => elm.code === formData?.specification?.code,
+            ) || {}
+          }
+          flatListProps={{
+            horizontal: true,
+          }}
+          onChange={(item: any) => {
+            setFormData(data => {
+              postDeliveryDistance(
+                {
+                  ...data,
+                  specification: item,
+                },
+                respose => setFormDataDistance(respose),
+              );
+              return {
+                ...data,
+                specification: item,
+                postDeliveryDistance: item.id,
+              };
+            });
+          }}
+          renderItemFunc={(data, index, isSelected) => {
+            return (
+              <ViewCus
+                key={index}
+                px-16
+                py-8
+                mr-16
+                style={
+                  isSelected ? styles.itemActiveStandard : styles.itemStandard
+                }>
+                <TextCus
+                  semiBold
+                  heading5
+                  color={isSelected ? Colors.white : Colors.main}>
+                  {data.name}
+                </TextCus>
+                <TextCus color={isSelected ? Colors.white : Colors.black3A}>
+                  {data.price ? formatMoney(data.price) : 'Mặt định'}
                 </TextCus>
               </ViewCus>
             );
@@ -474,6 +556,12 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
         </TextCus>
         {renderProductType()}
       </ViewCus>
+      <ViewCus>
+        <TextCus heading5 px-16 mb-8 color-black style={styles.text}>
+          Quy cách
+        </TextCus>
+        {renderStandard()}
+      </ViewCus>
       <ViewCus mt-16>
         <TextCus heading5 px-16 mb-8 color-black style={styles.text}>
           Dịch vụ thêm
@@ -632,6 +720,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.redF3,
     backgroundColor: Colors.main,
+  },
+  itemStandard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.redF3,
+    backgroundColor: '#FFF9F2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  itemActiveStandard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.redF3,
+    backgroundColor: Colors.main,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     fontWeight: '600',

@@ -150,8 +150,8 @@ const OrderOnProcess: React.FC<IProps> = props => {
               </ViewCus>
               <TextCus bold>
                 {formatMoney(
-                  props.orderDetailData?.price -
-                    props.orderDetailData?.addon.price,
+                  Number(props.orderDetailData?.price || 0) -
+                    Number(props.orderDetailData?.addon?.price || 0),
                 )}
               </TextCus>
             </ViewCus>

@@ -11,6 +11,9 @@ export const useDeliveryProvince = () => {
   const listProductType = useSelector(
     RequestDeliverySelector.getAttrByKey('listProductType'),
   );
+  const listSpecificationType = useSelector(
+    RequestDeliverySelector.getAttrByKey('listSpecificationType'),
+  );
   const listDeliveryMethod = useSelector(
     RequestDeliverySelector.getAttrByKey('listDeliveryMethod'),
   );
@@ -32,7 +35,25 @@ export const useDeliveryProvince = () => {
         RequestDeliveryAction.getBaseActionsRequest(
           {
             dataKey: 'listProductType',
-            endPoint: API_ENDPOINT.REQUESTDELIVERY.GET_PRODUCT_TYPE,
+            endPoint: API_ENDPOINT.REQUESTDELIVERY_PROVINCE.GET_PRODUCT_TYPE,
+            // endPoint: API_ENDPOINT.REQUESTDELIVERY.GET_PRODUCT_TYPE,
+            isPaginate: true,
+          },
+          cb,
+        ),
+      );
+    },
+    [dispatch],
+  );
+
+  const getListSpecificationType = useCallback(
+    ({ ...rest }: IPage, cb?: IRequestActionPayload['callback']) => {
+      dispatch(
+        RequestDeliveryAction.getBaseActionsRequest(
+          {
+            dataKey: 'listSpecificationType',
+            endPoint:
+              API_ENDPOINT.REQUESTDELIVERY_PROVINCE.GET_SPECIFICATION_TYPE,
             isPaginate: true,
           },
           cb,
@@ -48,7 +69,7 @@ export const useDeliveryProvince = () => {
         RequestDeliveryAction.getBaseActionsRequest(
           {
             dataKey: 'listDeliveryMethod',
-            endPoint: API_ENDPOINT.REQUESTDELIVERY.GET_DELIVERY_METHOD,
+            endPoint: API_ENDPOINT.REQUESTDELIVERY_PROVINCE.GET_DELIVERY_METHOD,
             isPaginate: true,
           },
           cb,
@@ -64,7 +85,7 @@ export const useDeliveryProvince = () => {
         RequestDeliveryAction.getBaseActionsRequest(
           {
             dataKey: 'listAddon',
-            endPoint: API_ENDPOINT.REQUESTDELIVERY.GET_ADDON,
+            endPoint: API_ENDPOINT.REQUESTDELIVERY_PROVINCE.GET_ADDON,
             isPaginate: true,
           },
           cb,
@@ -80,7 +101,7 @@ export const useDeliveryProvince = () => {
         RequestDeliveryAction.getBaseActionsRequest(
           {
             dataKey: 'oderDetail',
-            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.GET_DETAIL_DELIVERY}/${orderCode}`,
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY_PROVINCE.GET_DETAIL_DELIVERY}/${orderCode}`,
           },
           cb,
         ),
@@ -93,7 +114,7 @@ export const useDeliveryProvince = () => {
       dispatch(
         RequestDeliveryAction.postBaseActionsRequest(
           {
-            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.POST_RATING}/${data?.id}/evaluate`,
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY_PROVINCE.POST_RATING}/${data?.id}/evaluate`,
             formData: {
               rating: data.rating,
               review: data.review,
@@ -111,7 +132,7 @@ export const useDeliveryProvince = () => {
         RequestDeliveryAction.postBaseActionsRequest(
           {
             dataKey: 'distance',
-            endPoint: API_ENDPOINT.REQUESTDELIVERY.POST_DELIVERY_FEE,
+            endPoint: API_ENDPOINT.REQUESTDELIVERY_PROVINCE.POST_DELIVERY_FEE,
             formData: params,
           },
           cb,
@@ -126,7 +147,7 @@ export const useDeliveryProvince = () => {
         RequestDeliveryAction.postBaseActionsRequest(
           {
             dataKey: 'delivery',
-            endPoint: API_ENDPOINT.REQUESTDELIVERY.POST_DRLIVERY,
+            endPoint: API_ENDPOINT.REQUESTDELIVERY_PROVINCE.POST_DRLIVERY,
             isPaginate: true,
             formData: data,
           },
@@ -142,7 +163,7 @@ export const useDeliveryProvince = () => {
         RequestDeliveryAction.putBaseActionsRequest(
           {
             dataKey: 'deleteDelivery',
-            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.POST_DRLIVERY}/${orderCode}/cancel`,
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY_PROVINCE.POST_DRLIVERY}/${orderCode}/cancel`,
             isPaginate: true,
           },
           cb,
@@ -156,7 +177,7 @@ export const useDeliveryProvince = () => {
       dispatch(
         RequestDeliveryAction.postBaseActionsRequest(
           {
-            endPoint: `${API_ENDPOINT.REQUESTDELIVERY.POST_KEEP_FIND_DRRIVER}/${orderCode}/find-driver`,
+            endPoint: `${API_ENDPOINT.REQUESTDELIVERY_PROVINCE.POST_KEEP_FIND_DRRIVER}/${orderCode}/find-driver`,
             isPaginate: true,
           },
           cb,
@@ -167,6 +188,7 @@ export const useDeliveryProvince = () => {
   );
   return {
     getListProductType,
+    getListSpecificationType,
     getListDeliveryMethod,
     getListAddon,
     postDeliveryDistance,
@@ -176,6 +198,7 @@ export const useDeliveryProvince = () => {
     putDeleteDelivery,
     keepFindDriverForOrderByCode,
     listProductType,
+    listSpecificationType,
     listDeliveryMethod,
     listAddon,
     distance,

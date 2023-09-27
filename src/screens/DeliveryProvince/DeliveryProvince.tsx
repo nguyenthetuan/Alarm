@@ -26,6 +26,7 @@ import PreviewOder from './screens/PreiewOder';
 import { IPage, location } from 'types';
 import { formatMoney } from 'utils';
 import { useCart } from 'context/CartContext';
+import Toast from 'react-native-toast-message';
 
 enum DeliveryProvinceStep {
   CHOOSE_FROM_TO,
@@ -36,6 +37,7 @@ enum DeliveryProvinceStep {
 export default function DeliveryProvince() {
   const {
     getListProductType,
+    getListSpecificationType,
     getListDeliveryMethod,
     getListAddon,
     distance,
@@ -136,9 +138,39 @@ export default function DeliveryProvince() {
             <ViewCus mt-16 mb-16>
               <Buttons
                 onPress={() => {
-                  if (setUpOderRef.current?.isValid?.()) {
+                    console.log('Tom log  => setUpOderRef.current?.getValue?.()?.specification', setUpOderRef.current?.getValue?.()?.specification);
+                    
+                  if (setUpOderRef?.current?.isValid?.()) {
                     setInforOder(setUpOderRef.current?.getValue?.());
                     setViewStep(DeliveryProvinceStep.ENTER_RECEIVER);
+                  } else if (
+                    !setUpOderRef.current?.getValue?.()?.deliveryMethod
+                  ) {
+                    Toast.show({
+                      text1: 'Vui lòng chọn hình thức vận chuyển',
+                      position: 'top',
+                      type: 'error',
+                    });
+                  } else if (!setUpOderRef.current?.getValue?.()?.weight) {
+                    Toast.show({
+                      text1: 'Vui lòng nhập khối lượng',
+                      position: 'top',
+                      type: 'error',
+                    });
+                  } else if (!setUpOderRef.current?.getValue?.()?.productType) {
+                    Toast.show({
+                      text1: 'Vui lòng chọn loại hàng hóa',
+                      position: 'top',
+                      type: 'error',
+                    });
+                  } else if (
+                    !setUpOderRef.current?.getValue?.()?.specification
+                  ) {
+                    Toast.show({
+                      text1: 'Vui lòng chọn loại quy cách',
+                      position: 'top',
+                      type: 'error',
+                    });
                   }
                 }}
                 disabled={false}
@@ -192,6 +224,7 @@ export default function DeliveryProvince() {
                       addon: inforOder.addon,
                       vehicle: 'MOTORBIKE',
                       productType: inforOder.productType,
+                      specification: inforOder.specification,
                       deliveryMethod: inforOder.deliveryMethod,
                       distance: inforOder.distance,
                       weight: inforOder.weight,
@@ -203,9 +236,22 @@ export default function DeliveryProvince() {
                     },
                     response => {
                       if (response.status === 200) {
-                        setDeliveryFee(response.data.result[0].price);
-                        NavigationService.navigate(Routes.shipment, {
-                          order_code: response.data.result[0].id,
+                        Toast.show({
+                          text1: 'Tạo đơn hàng thành công',
+                          position: 'top',
+                          type: 'success',
+                        });
+                        NavigationService.navigate(Routes.HomeTabs);
+                        // setDeliveryFee(response.data.result[0].price);
+                        // NavigationService.navigate(Routes.shipment, {
+                        //   order_code: response.data.result[0].id,
+                        // });
+                      } else {
+                        Toast.show({
+                          text1: 'Tạo đơn hàng thất bại',
+                          text2: 'Vui lòng thử lại sau',
+                          position: 'top',
+                          type: 'error',
                         });
                       }
                     },
@@ -299,6 +345,14 @@ export default function DeliveryProvince() {
       () => {},
     );
     getListProductType(
+      {
+        page: 1,
+        limit: 1,
+        search: '',
+      } as IPage,
+      () => {},
+    );
+    getListSpecificationType(
       {
         page: 1,
         limit: 1,

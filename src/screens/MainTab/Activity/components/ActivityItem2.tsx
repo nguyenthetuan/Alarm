@@ -99,7 +99,7 @@ const ActivityItem2: React.FC<IProps> = props => {
         <ViewCus style={styles.line} />
         <ViewCus flex-row justify-space-between items-center>
           <TextCus color={color} medium>
-            {statusName}
+            {props.type !== 'DELIVERY_NATIONWIDE' && statusName}
           </TextCus>
           <TextCus medium>{formatMoney(props.data.price)}</TextCus>
         </ViewCus>
