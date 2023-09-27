@@ -75,6 +75,8 @@ export interface IColors {
   redFF: string;
   redAF: string;
   greyD9: string;
+  frenchGray: string;
+  transparent07: string;
 }
 
 export const Colors: IColors = {
@@ -90,6 +92,7 @@ export const Colors: IColors = {
   orange: '#D6681E',
   black22: '#22242A',
   grey85: '#858688',
+  frenchGray: '#B5B5BE',
   blue47: '#4772D7',
   black01: '#010101',
   black3A: '#3A3A3C',
@@ -109,6 +112,7 @@ export const Colors: IColors = {
   greyF7: '#F7F7F7',
   yellowFB: '#FBB862',
   transparent: 'transparent',
+  transparent07: 'rgba(0, 0, 0, 0.7)',
   successRgba: 'rgba(33, 150, 83, 0.2)',
   errorRgba: 'rgba(235, 87, 87, 0.2)',
   shadow15: 'rgba(0, 0, 0, 0.15)',

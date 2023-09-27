@@ -4,14 +4,15 @@
  */
 
 import { createSelector } from 'reselect';
-import { ICategoriesState } from 'types';
+import { IVehicleCategoryState } from 'types';
 
-const selector = (state: { categories: ICategoriesState }) => state.categories;
+const selector = (state: { categories: IVehicleCategoryState }) =>
+  state.categories;
 
 export const getLoading = createSelector(
   selector,
-  ({ loading }: ICategoriesState) => loading,
+  ({ loading }: IVehicleCategoryState) => loading,
 );
 
-export const getAttrByKey = (k: keyof ICategoriesState) =>
+export const getAttrByKey = (k: keyof IVehicleCategoryState) =>
   createSelector(selector, app => app[k]);
