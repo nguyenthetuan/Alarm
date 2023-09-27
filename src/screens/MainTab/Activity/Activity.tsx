@@ -187,7 +187,7 @@ const ListScreen = (props: { category: ICategory; status: OrderStatus[] }) => {
       }}
       renderSectionHeader={({ section: { title } }) => (
         <TextCus semiBold heading5 color={Colors.black3A}>
-          {title}
+          {props?.category?.type !== 'DELIVERY_NATIONWIDE' && title}
         </TextCus>
       )}
       ListEmptyComponent={emptyListShow}
@@ -197,7 +197,7 @@ const ListScreen = (props: { category: ICategory; status: OrderStatus[] }) => {
 
 export default function Activity() {
   const [category, setCategory] = useState<ICategory | null>(null);
-              
+  
   console.log('category',category);
   
   return (

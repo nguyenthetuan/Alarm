@@ -227,6 +227,8 @@ export const useListOrder = ({
           ? API_ENDPOINT.ORDER.GET_ORDER_LIST
           : type === 'DELIVERY'
           ? API_ENDPOINT.ORDER.GET_DELIVERY_LIST
+          : type === 'DELIVERY_NATIONWIDE'
+          ? API_ENDPOINT.ORDER.GET_DELIVERY_PROVINCE_LIST
           : type === 'CAR_BOOKING'
           ? API_ENDPOINT.ORDER.CAR_TAXI
           : '';
@@ -234,7 +236,7 @@ export const useListOrder = ({
       const _data =
         type === 'MOTORBIKE_BOOKING'
           ? {}
-          : type === 'DELIVERY'
+          : type === 'DELIVERY' || type === 'DELIVERY_NATIONWIDE'
           ? { page: data.page, limit: data.limit, status: data.status }
           : type === 'CAR_BOOKING'
           ? {}

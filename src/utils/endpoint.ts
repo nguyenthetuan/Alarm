@@ -10,6 +10,18 @@ export const API_ENDPOINT = {
     PUT_CANCEL: 'customer/delivery',
     POST_KEEP_FIND_DRRIVER: 'customer/delivery',
   },
+  REQUESTDELIVERY_PROVINCE: {
+    GET_PRODUCT_TYPE: 'customer/interprovincial-delivery/product-type',
+    GET_SPECIFICATION_TYPE: 'customer/interprovincial-delivery/specification',
+    GET_DELIVERY_METHOD: 'customer/interprovincial-delivery/delivery-method',
+    GET_ADDON: 'customer/interprovincial-delivery/addon',
+    GET_DETAIL_DELIVERY: 'customer/interprovincial-delivery',
+    POST_DELIVERY_FEE: 'customer/interprovincial-delivery/delivery-fee',
+    POST_DRLIVERY: 'customer/interprovincial-delivery',
+    POST_RATING: 'customer/interprovincial-delivery',
+    PUT_CANCEL: 'customer/interprovincial-delivery',
+    POST_KEEP_FIND_DRRIVER: 'customer/interprovincial-delivery',
+  },
   AUTH: {
     REQUEST_OTP: 'authen/request-otp',
     VERIFY_OTP: 'authen/verify-otp',
@@ -65,6 +77,7 @@ export const API_ENDPOINT = {
     GET_FOOD_DETAIL: 'customer/food/get-detail',
     GET_ORDER_LIST: 'customer/order/list-orders',
     GET_DELIVERY_LIST: 'customer/delivery/get-all',
+    GET_DELIVERY_PROVINCE_LIST: 'customer/interprovincial-delivery/get-all',
     CALCULATE: 'customer/order/calculate',
     MOTORCYCLE_TAXI: 'customer/motorcycle-taxi/get-all',
     CAR_TAXI:

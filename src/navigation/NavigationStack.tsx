@@ -220,6 +220,10 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
           name={Routes.RequestDelivery}
           component={Screens.RequestDelivery}
         />
+        <Stack.Screen
+          name={Routes.DeliveryProvince}
+          component={Screens.DeliveryProvince}
+        />
         <Stack.Screen name={Routes.Rating} component={Screens.Rating} />
         <Stack.Screen
           name={Routes.RatingBiker}

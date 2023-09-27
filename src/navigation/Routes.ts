@@ -62,6 +62,7 @@ export enum Routes {
   InfoUser = 'InfoUser',
   Term = 'Term',
   RequestDelivery = 'RequestDelivery',
+  DeliveryProvince = 'DeliveryProvince',
   Rating = 'Rating',
   RatingBiker = 'RatingBiker',
   RatingRestaurant = 'RatingRestaurant',

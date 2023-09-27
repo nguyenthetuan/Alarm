@@ -1,6 +1,7 @@
 export interface requestDelivery {
   loading: boolean;
   listProductType: ItemProductType[];
+  listSpecificationType: ItemProductType[];
   listDeliveryMethod: ItemProductType[];
   listAddon: itemAddon[];
   distance: [];

@@ -132,7 +132,7 @@ const Home: React.FC = () => {
                   bold
                   heading1
                   style={{ lineHeight: 26 }}>
-                  {fullName}
+                  {fullName?.trim()}
                 </TextCus>
               </ViewCus>
               <ViewCus flex-row items-center>
@@ -155,7 +155,7 @@ const Home: React.FC = () => {
               onPress={text => {
                 setTextSearch(text);
                 setIsShowSearch(true);
-              }} 
+              }}
               value={textSearch}
               isShowSearch={isShowSearch}
             />
