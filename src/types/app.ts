@@ -1,5 +1,11 @@
 import { ReactNode } from 'react';
-import { EnumOTP, ICategoriesState, IHomeState, IOrdersState } from 'types';
+import {
+  EnumOTP,
+  ICategoriesState,
+  IHomeState,
+  IOrdersState,
+  IVehicleCategoryState,
+} from 'types';
 import { IFormImgData, IUser, IUserInfo } from './user';
 import { Source } from 'react-native-fast-image';
 import { ViewStyle, StyleProp, TextStyle } from 'react-native';
@@ -38,7 +44,8 @@ export interface IPayloadHome {
     | keyof IDriverState
     | keyof IHomeState
     | keyof ICategoriesState
-    | keyof IOrdersState;
+    | keyof IOrdersState
+    | keyof IVehicleCategoryState;
   isPagination?: boolean;
   type?: string | undefined | null;
   endPoint?: string;

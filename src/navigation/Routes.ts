@@ -2,6 +2,8 @@
  * @description define the navigation routes name by key
  */
 export enum Routes {
+  DetailGarage = 'DetailGarage',
+  VehicleRental = 'VehicleRental',
   AllCategories = 'AllCategories',
   InputPhone = 'InputPhone',
   Register = 'Register',
@@ -44,8 +46,10 @@ export enum Routes {
   Porposed = 'Porposed',
   Categories = 'Categories',
   CartOrder = 'CartOrder',
+  CartOrderVehicle = 'CartOrderVehicle',
   CheckOrder = 'CheckOrder',
   ExtraFood = 'ExtraFood',
+  ExtraVehicle = 'ExtraVehicle',
   MethodPayment = 'MethodPayment',
   BikeMethodPayment = 'BikeMethodPayment',
   Promotion = 'Promotion',

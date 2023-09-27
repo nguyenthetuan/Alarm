@@ -149,14 +149,27 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
         />
         <Stack.Screen name={Routes.Categories} component={Screens.Categories} />
         <Stack.Screen name={Routes.CartOrder} component={Screens.CartOrder} />
+        <Stack.Screen
+          name={Routes.CartOrderVehicle}
+          component={Screens.CartOrderVehicle}
+        />
         <Stack.Screen name={Routes.CheckOrder} component={Screens.CheckOrder} />
         <Stack.Screen name={Routes.ExtraFood} component={Screens.ExtraFood} />
+        <Stack.Screen
+          name={Routes.ExtraVehicle}
+          component={Screens.ExtraVehicle}
+        />
         <Stack.Screen name={Routes.Delivery} component={Screens.Delivery} />
         <Stack.Screen name={Routes.shipment} component={Screens.Shipment} />
         <Stack.Screen name={Routes.FindCar} component={Screens.FindCar} />
         <Stack.Screen
           name={Routes.SuggestForYou}
           component={Screens.SuggestForYou}
+        />
+        {/* VehicleRental */}
+        <Stack.Screen
+          name={Routes.VehicleRental}
+          component={Screens.VehicleRental}
         />
 
         <Stack.Screen
@@ -171,6 +184,10 @@ const StackNavigator: React.FC<IProps> = ({ inititalRoute }) => {
         <Stack.Screen
           name={Routes.RestaurantDetail}
           component={Screens.RestaurantDetail}
+        />
+        <Stack.Screen
+          name={Routes.DetailGarage}
+          component={Screens.DetailGarage}
         />
         <Stack.Screen
           name={Routes.DeliveryAddress}

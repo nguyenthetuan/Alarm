@@ -10,3 +10,4 @@ export * from './DeliveryProvince';
 export * from './FindCarNew';
 export * from './BikePaymentMethod';
 export * from './Modal';
+export * from './VehicleRental';

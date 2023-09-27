@@ -2,6 +2,10 @@
  * @description define English language resource
  */
 export default {
+  openDood: 'Giờ mở cửa',
+  infor: 'Thông tin',
+  vehicleRental: 'Thuê xe',
+  withDrawPoints: 'Rút điểm',
   refreshRequire: 'Đặt lại',
   cencalRequire: 'Huỷ yêu cầu',
   cancelDrive: 'Huỷ tìm tài xế',
@@ -184,6 +188,7 @@ export default {
     birthday: 'Ngày sinh',
     gender: 'Giới tính',
     choose_birthday: 'Chọn ngày sinh',
+    choose_day_filter: 'Chọn ngày',
     choose_gender: 'Chọn giới tính',
   },
   intro: {
@@ -198,8 +203,14 @@ export default {
   home: {
     title_promotion: 'Ưu đãi hấp dẫn',
     title_porposed: 'Đề xuất cho bạn',
+    home_tab: {
+      history: 'Lịch sử',
+    },
   },
   Allcategories: 'Tất cả danh mục',
+  vehicle: {
+    place_search: 'Tìm theo tên xe hoặc nhà xe',
+  },
   category: {
     coupon: '{{number}} ưu đãi đang chờ bạn',
     seen: 'Xem ngay',

@@ -106,13 +106,7 @@ export const DATA_CATEGORY: Record<ETypeCategory, ITypeCategory> = {
   },
   [ETypeCategory.CARRENTAL]: {
     icon: 'carRental',
-    onPress: () => {
-      Toast.show({
-        text1: 'Tính năng đang được phát triển',
-        position: 'top',
-        type: 'error',
-      });
-    },
+    onPress: () => NavigationService.navigate(Routes.VehicleRental),
   },
   [ETypeCategory.DELIVERYNATIONWIDE]: {
     icon: 'carDeliver',

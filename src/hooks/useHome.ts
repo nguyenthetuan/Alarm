@@ -54,8 +54,8 @@ export const useHome = () => {
       dispatch(
         HomeActions.getBaseActionsRequest({
           dataKey: 'listSuggests',
-          // endPoint: API_ENDPOINT.HOME.SUGGEST_RESTAURANTS,
-          endPoint: API_ENDPOINT.CATEGORY.RESTAURANT,
+          endPoint: API_ENDPOINT.HOME.SUGGEST_RESTAURANTS,
+          // endPoint: API_ENDPOINT.CATEGORY.RESTAURANT,
           isPaginate: true,
           params: {
             page: 1,
@@ -72,8 +72,8 @@ export const useHome = () => {
       dispatch(
         HomeActions.getBaseActionsRequest(
           {
-            // endPoint: API_ENDPOINT.HOME.SUGGEST_RESTAURANTS,
-            endPoint: API_ENDPOINT.CATEGORY.RESTAURANT,
+            endPoint: API_ENDPOINT.HOME.SUGGEST_RESTAURANTS,
+            // endPoint: API_ENDPOINT.CATEGORY.RESTAURANT,
             isPaginate: true,
             params: {
               page,

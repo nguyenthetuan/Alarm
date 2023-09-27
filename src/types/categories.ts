@@ -10,6 +10,15 @@ export interface ICategoriesState {
   selectedPromos: IPromotion[];
 }
 
+export interface IVehicleCategoryState {
+  loading: boolean;
+  listGarages: IGarageDetail[];
+  listExtraVehicle: IExtraVehicle;
+  listVehicles: IFood[];
+  detailGarage: IGarageDetail;
+  listVehicleCatalog: IVehicleCatalog[];
+  selectedPromos: IPromotion[];
+}
 export interface IRestaurant {
   distance: number;
   roundedDistance: number;
@@ -27,6 +36,24 @@ export interface IRestaurant {
 }
 
 export interface IRestaurantDetail {
+  distance: any;
+  open_time: OpenTime;
+  contact: Contact;
+  status: boolean;
+  stop_time: any;
+  avatar: string;
+  address: string;
+  name: string;
+  location: Location;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  bank_information: BankInformation;
+  average_rating: number;
+  total_reviews: number;
+}
+
+export interface IGarageDetail {
   distance: any;
   open_time: OpenTime;
   contact: Contact;
@@ -74,7 +101,32 @@ export interface IListFoodParams {
   restaurantId: string;
 }
 
+export interface IListVehicleParams {
+  page: number;
+  limit: number;
+  vehicleCatalogId?: string;
+  garagetId: string;
+}
 export interface IExtraFood {
+  desc: string;
+  extra_option_group_id: any;
+  base_price: number;
+  status: string;
+  order_count: number;
+  images: string[];
+  currency_type: string;
+  food_catalog_id: string;
+  food_name: string;
+  price: number;
+  image: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  restaurant_id: string;
+  extra_options_group: ExtraOptionsGroup[];
+}
+
+export interface IExtraVehicle {
   desc: string;
   extra_option_group_id: any;
   base_price: number;
@@ -141,6 +193,15 @@ export interface IFoodCatalog {
   updatedAt: string;
 }
 
+export interface IVehicleCatalog {
+  desc: string;
+  status: boolean;
+  restaurant_id: string;
+  food_catalog_name: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+}
 export interface ISuggestRestaurant {
   location_v2: LocationV2;
   open_time: OpenTime;

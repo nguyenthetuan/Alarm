@@ -14,4 +14,6 @@ export * from './useCustomerSocket';
 export * from './useShippingType';
 export * from './usePromotions';
 export * from './userRequestDelivery';
+export * from './useVehicleRental';
+export * from './useListGarage';
 export * from './useDeliveryProvince';
