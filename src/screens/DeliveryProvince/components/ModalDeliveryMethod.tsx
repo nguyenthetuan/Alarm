@@ -66,7 +66,7 @@ const ModalDeliveryMethod = (props: any, ref) => {
             <Text style={styles.textSubtitle}>Giao vào 14:00 - Siêu tốc</Text>
           </ViewCus>
         </ViewCus>
-        <Text style={styles.price}>Từ {formatMoney(item.price)}</Text>
+        <Text style={styles.price}>Từ {formatMoney(item.price)}/km</Text>
       </TouchCus>
     );
   };
