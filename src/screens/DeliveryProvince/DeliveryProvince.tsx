@@ -1,4 +1,4 @@
-import { Buttons, HomeLayout, TextCus, ViewCus } from 'components';
+import { Buttons, HomeLayout, ImageCus, TextCus, TouchCus, ViewCus } from 'components';
 import React, {
   useCallback,
   useMemo,
@@ -11,12 +11,14 @@ import { Colors } from 'theme';
 import { useBackHandler } from '@react-native-community/hooks';
 import { NavigationService, Routes } from 'navigation';
 import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TouchableWithoutFeedback,
+    Alert,
+    Keyboard,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import ChooseFromTo from './components/ChooseFromTo';
 import EnterReceiver from './screens/EnterReceiver';
@@ -27,6 +29,7 @@ import { IPage, location } from 'types';
 import { formatMoney } from 'utils';
 import { useCart } from 'context/CartContext';
 import Toast from 'react-native-toast-message';
+import { Images } from 'assets';
 
 enum DeliveryProvinceStep {
   CHOOSE_FROM_TO,
@@ -60,6 +63,7 @@ export default function DeliveryProvince() {
   const [fromToData, setFromToData] = useState<location>(null);
   const [receiverInfo, setReceiverInfo] = useState<any>(null);
   const [inforOder, setInforOder] = useState<any>({});
+  const [visiableSuccess, setVisiableSuccess] = useState(false);
   const { locationUser } = useLocation();
   const titleView = useMemo(() => {
     switch (viewStep) {
@@ -138,8 +142,6 @@ export default function DeliveryProvince() {
             <ViewCus mt-16 mb-16>
               <Buttons
                 onPress={() => {
-                    console.log('Tom log  => setUpOderRef.current?.getValue?.()?.specification', setUpOderRef.current?.getValue?.()?.specification);
-                    
                   if (setUpOderRef?.current?.isValid?.()) {
                     setInforOder(setUpOderRef.current?.getValue?.());
                     setViewStep(DeliveryProvinceStep.ENTER_RECEIVER);
@@ -236,12 +238,7 @@ export default function DeliveryProvince() {
                     },
                     response => {
                       if (response.status === 200) {
-                        Toast.show({
-                          text1: 'Tạo đơn hàng thành công',
-                          position: 'top',
-                          type: 'success',
-                        });
-                        NavigationService.navigate(Routes.HomeTabs);
+                        setVisiableSuccess(true);
                         // setDeliveryFee(response.data.result[0].price);
                         // NavigationService.navigate(Routes.shipment, {
                         //   order_code: response.data.result[0].id,
@@ -393,6 +390,27 @@ export default function DeliveryProvince() {
           </>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
+      <Modal visible={visiableSuccess} transparent>
+        <ViewCus style={styles.modalSuccess}>
+          <ViewCus style={styles.contentModal}>
+            <ImageCus source={Images.iconSuccess} size={90} />
+            <TextCus heading3 color={Colors.main} mb-3 mt-10>
+              Gửi yêu cầu đặt đơn hàng thành công
+            </TextCus>
+            <TextCus color-grey84>Yêu cầu của bãn đã hoàn thành!</TextCus>
+            <ViewCus flex-row justify-space-between mt-20>
+              <Buttons
+                textBtn="bottom.home"
+                style={styles.btnHome}
+                onPress={() => {
+                  setVisiableSuccess(false);
+                  NavigationService.navigate(Routes.HomeTabs);
+                }}
+              />
+            </ViewCus>
+          </ViewCus>
+        </ViewCus>
+      </Modal>
     </HomeLayout>
     // </BottomSheetModalProvider>
   );
@@ -426,5 +444,33 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
     elevation: 20,
+  },
+  modalSuccess: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: Colors.transparent07,
+  },
+  contentModal: {
+    height: 300,
+    backgroundColor: Colors.white,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnCancle: {
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.main,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 50,
+  },
+  btnHome: {
+    paddingHorizontal: 40,
+    borderRadius: 10,
+    marginLeft: 30,
   },
 });
