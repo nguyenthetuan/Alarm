@@ -81,7 +81,7 @@ export default function WithdrawPoints({ route }) {
       bgColor={Colors.main}
       header={{
         notGoBack: false,
-        title: 'withDrawPoints',
+        title: 'Rút điểm',
         iconColor: Colors.white,
       }}>
       <ViewCus

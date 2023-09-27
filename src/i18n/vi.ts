@@ -184,6 +184,7 @@ export default {
     birthday: 'Ngày sinh',
     gender: 'Giới tính',
     choose_birthday: 'Chọn ngày sinh',
+    choose_day_filter: 'Chọn ngày',
     choose_gender: 'Chọn giới tính',
   },
   intro: {
