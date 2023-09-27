@@ -54,6 +54,8 @@ export enum FindCarScreenStepView {
 
 let TimeOutCancel = null;
 const FindCar = () => {
+  console.log('FindCarxxx');
+
   //#region Static
   const route = useRoute<RouteProp<RootStackParamList, 'FindCar'>>();
   const { locationUser } = useLocation();
@@ -95,7 +97,6 @@ const FindCar = () => {
   );
   const { getInfoTaxiService, findCarAction, cancleFindDriver, loading } =
     useOrders();
-  console.log('loading', loading);
 
   const [refresh, setRefresh] = useState(1);
   const [infoDriverDb, setInfoDriverDb] = useState();
@@ -164,7 +165,6 @@ const FindCar = () => {
       vehicle: false,
     },
   ]);
-
   useEffect(() => {
     const { from, to } = fromToData;
     let _rs = _.cloneDeep(deliveryDriverOptions);
@@ -191,6 +191,7 @@ const FindCar = () => {
                 lat: to.lat,
               },
               vehicle: _rs[i]?.type?.toString(),
+              hour: `${new Date().getHours()}`,
             },
             res => {
               console.log('_rs', _rs);
@@ -321,15 +322,10 @@ const FindCar = () => {
     return rs;
   }, [stepView, heightChooseWayDelivery, heightSheet]);
 
-  //#endregion
-
-  //#region Ref value
   const refTimeOutCacheRunningFunction = useRef<ReturnType<
     typeof setTimeout
   > | null>(null);
-  //#endregion
 
-  //#region Screen function
   const onChooseFromToChange = useCallback((fromData, toData) => {
     setFromToData({
       from: fromData,

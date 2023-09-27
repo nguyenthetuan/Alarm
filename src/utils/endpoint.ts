@@ -48,6 +48,15 @@ export const API_ENDPOINT = {
     CALCULATE_PRICE: 'customer/order/calculate',
     POST_RATING: 'customer/order',
   },
+  RENTAL_VEHICLE: {
+    GARAGE: 'customer/garage/list-garages',
+    DETAIL_GARAGE: 'customer/garage/get-detail',
+    LIST_VEHICLE_CATALOG: 'customer/garage/list-vehicle-catalog',
+    LIST_VEHICLE: 'customer/garage/list-vehicle',
+    EXTRA_VEHICLE: 'customer/garage/vehicle-get-detail',
+    ODER_VEHICLE: 'customer/order/create-garage',
+    CALCULATE_PRICE: 'customer/order/calculate-garage',
+  },
   ORDER: {
     CREATE: 'customer/order/create',
     DETAIL: 'customer/order/get-detail',

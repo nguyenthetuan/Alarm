@@ -9,3 +9,4 @@ export * from './RequestDelivery';
 export * from './FindCarNew';
 export * from './BikePaymentMethod';
 export * from './Modal';
+export * from './VehicleRental';

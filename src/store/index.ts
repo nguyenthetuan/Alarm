@@ -6,6 +6,8 @@ import user from './user/Reducer';
 import orders from './orders/Reducer';
 import promotions from './promotions/Reducer';
 import requestDelivery from './RequestDelivery/Reducer';
+import vehicleRental from './vehicleRental/Reducer';
+
 // import { persistReducer } from 'redux-persist';
 // const categoriesPersistConfig = {
 //   key: 'categories',
@@ -34,6 +36,7 @@ const reducer = {
   orders,
   promotions: promotions.reducer,
   requestDelivery: requestDelivery.reducer,
+  vehicleRental,
 };
 
 const apiReducer = {
