@@ -24,6 +24,8 @@ const PromotionItem: React.FC<IProps> = ({ onPress, item, isAppliable }) => {
     if (item && !isApplied) {
       setPromotions([item]);
       return;
+    } else {
+      setPromotions([]);
     }
     // setSelectedPromos([]);
   }, [item, isApplied]);
