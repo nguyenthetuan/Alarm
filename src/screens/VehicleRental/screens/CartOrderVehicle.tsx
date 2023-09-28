@@ -58,6 +58,7 @@ const CartOrderVehicle: React.FC = () => {
   const [visiableSuccess, setVisiableSuccess] = useState(false);
   const { locationUser } = useLocation();
   const { user, userInfo } = useAuth();
+
   const refBottom = useRef<IRefBottom>(null);
   const showLoginForm = useCallback(() => {
     refBottom.current?.show();
@@ -162,7 +163,6 @@ const CartOrderVehicle: React.FC = () => {
     const extraOptions =
       item.extraOptions?.reduce((prev, curr) => prev + curr.price, 0) ?? 0;
     const calculatedPrice = (item.price + extraOptions) * item.quantity;
-
     return (
       <VehicleCategoryCartItem
         key={index}

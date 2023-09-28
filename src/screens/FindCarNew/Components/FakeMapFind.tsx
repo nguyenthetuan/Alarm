@@ -82,7 +82,7 @@ export const FakeMapFind = ({
         FindCarScreenStepView.ORDER_IS_SUCCESS,
       ].includes(stepView)
     ) {
-      return Array(10)
+      return Array(5)
         .fill(1)
         .map((_, index) => {
           return (

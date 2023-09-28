@@ -2,6 +2,8 @@
  * @description define English language resource
  */
 export default {
+  rentalCar: 'Đặt Ô tô',
+  rentalDriver: 'Đặt tài xế',
   openDood: 'Giờ mở cửa',
   infor: 'Thông tin',
   vehicleRental: 'Thuê xe',
@@ -99,6 +101,7 @@ export default {
     status_restaurant: 'Trạng thái nhà hàng',
     restaurant_information: 'Thông tin nhà hàng',
     add_menu: 'Thêm món',
+    add_Require: 'Thêm yêu cầu',
     update_menu: 'Cập nhật',
     new_food: 'Đơn mới',
     closed_food: 'Tạm ngưng',
