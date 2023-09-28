@@ -21,6 +21,7 @@ import { SkeletonLoadingItem } from 'screens/MainTab/Home/Components';
 import { Colors } from 'theme';
 import { ENodata, IRestaurantDetail } from 'types';
 import { VehicleCategoryItem } from './components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const VehicleRental: React.FC = () => {
   const { setSelectedPromos } = useCategories();
