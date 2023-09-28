@@ -838,6 +838,7 @@ const FindCar = () => {
         lat: to.lat,
       },
       vehicle: deliveryDriverSelected?.type,
+      hour: `${new Date().getHours()}`,
     };
     findCarAction(data, response => {
       if (response.status === 200) {

@@ -213,13 +213,13 @@ export default {
   },
   Allcategories: 'Tất cả danh mục',
   vehicle: {
-    place_search: 'Tìm theo tên xe hoặc nhà xe',
+    place_search: 'Tìm theo nhà xe',
   },
   category: {
     coupon: '{{number}} ưu đãi đang chờ bạn',
     seen: 'Xem ngay',
     for_you: 'Dành cho bạn',
-    place_search: 'Tìm theo tên món hoặc nhà hàng',
+    place_search: 'Tìm theo tên nhà hàng',
     note: 'Ghi chú cho sản phẩm',
     buy: 'Đã bán {{number}}',
     noted: 'Ghi chú',
