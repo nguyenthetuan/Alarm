@@ -9,32 +9,6 @@ import { Colors, FontWeight } from 'theme';
 import { IRestaurant, IUserInfo } from 'types';
 import { formatMoney } from 'utils';
 import { getWalletProfileAPI } from 'utils/APIManager';
-
-// const DataFunction = [
-//   {
-//     id: 1,
-//     Icon: Icons.IconWalletOut,
-//     title: 'Nạp điểm',
-//     action: () => NavigationService.navigate(Routes.TopUpPoint, {}),
-//   },
-//   {
-//     id: 2,
-//     Icon: Icons.IconWalletIn,
-//     title: 'Rút điểm',
-//     action: () => NavigationService.navigate(Routes.WithdrawPoints, {}),
-//   },
-//   {
-//     id: 3,
-//     Icon: Icons.IconWalletHistory,
-//     title: 'Lịch sử',
-//     action: () => NavigationService.navigate(Routes.HistoryWallet, {}),
-//   },
-//   {
-//     id: 4,
-//     Icon: Icons.IconWalletSp,
-//     title: 'Thiện Nguyện',
-//   },
-// ];
 interface wallet {
   id?: string;
   user_name?: string;
@@ -70,11 +44,11 @@ export default function Wallet() {
       title: 'Lịch sử',
       action: () => NavigationService.navigate(Routes.HistoryWallet, {}),
     },
-    {
-      id: 4,
-      Icon: Icons.IconWalletSp,
-      title: 'Thiện Nguyện',
-    },
+    // {
+    //   id: 4,
+    //   Icon: Icons.IconWalletSp,
+    //   title: 'Thiện Nguyện',
+    // },
   ];
 
   const getWalletProfile = async () => {

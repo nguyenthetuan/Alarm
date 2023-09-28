@@ -40,8 +40,6 @@ import { Images } from 'assets';
 const ExtraVehicle: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'ExtraFood'>>();
   const { getExtraVehicle, listExtraVehicle, loading } = useVehicleRental();
-  console.log('listExtraVehicle', listExtraVehicle);
-
   const {
     addItemToOrder: onAddToCart,
     updateOrderItems: onUpdateFromCart,
@@ -167,7 +165,7 @@ const ExtraVehicle: React.FC = () => {
           itemId: listExtraVehicle?.id,
           quantity: countValue,
           itemName: listExtraVehicle?.name,
-          image: listExtraVehicle.images?.[0],
+          image: listExtraVehicle.avatar?.[0],
           price: listExtraVehicle.price,
           vehicle: listExtraVehicle?.vehicle,
         },
@@ -394,7 +392,7 @@ const ExtraVehicle: React.FC = () => {
           </ViewCus>
           <Buttons
             textBtn={
-              (isUpdate ? t('title.update_menu') : t('title.add_menu')) ?? ''
+              (isUpdate ? t('title.update_menu') : t('title.add_Require')) ?? ''
             }
             style={styles.btnAddFood}
             onPress={onHandleExtraVehicle}

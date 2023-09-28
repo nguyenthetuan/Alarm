@@ -265,9 +265,9 @@ const DriverAreComing: React.FC<IProps> = props => {
             <Image source={Images.code} />
           </ViewCus>
           <ViewCus mt-12 style={styles.lineBack} />
-          <Card mt-10 pt-5 pb-5 mr-16 ml-16 hasShadow={true}>
+          {/* <Card mt-10 pt-5 pb-5 mr-16 ml-16 hasShadow={true}>
             <TextCus bold>Chỉnh sửa chi tiết</TextCus>
-          </Card>
+          </Card> */}
         </BottomSheetView>
         <ViewCus>
           <ViewCus p-16>

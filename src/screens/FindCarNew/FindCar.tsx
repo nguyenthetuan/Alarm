@@ -396,7 +396,11 @@ const FindCar = () => {
                   onFindDriverClick();
                 }}>
                 <TextCus useI18n bold semiBold color={Colors.white}>
-                  Đặt TasCaree
+                  {route?.params?.type === FindCarType.CAR_DRIVER
+                    ? 'rentalDriver'
+                    : route?.params?.type === FindCarType.CAR
+                    ? 'rentalCar'
+                    : 'Đặt TasCaree'}
                 </TextCus>
               </Buttons>
             </ViewCus>
@@ -834,6 +838,7 @@ const FindCar = () => {
         lat: to.lat,
       },
       vehicle: deliveryDriverSelected?.type,
+      hour: `${new Date().getHours()}`,
     };
     findCarAction(data, response => {
       if (response.status === 200) {

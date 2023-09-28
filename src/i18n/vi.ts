@@ -2,6 +2,8 @@
  * @description define English language resource
  */
 export default {
+  rentalCar: 'Đặt Ô tô',
+  rentalDriver: 'Đặt tài xế',
   openDood: 'Giờ mở cửa',
   infor: 'Thông tin',
   vehicleRental: 'Thuê xe',
@@ -99,6 +101,7 @@ export default {
     status_restaurant: 'Trạng thái nhà hàng',
     restaurant_information: 'Thông tin nhà hàng',
     add_menu: 'Thêm món',
+    add_Require: 'Thêm yêu cầu',
     update_menu: 'Cập nhật',
     new_food: 'Đơn mới',
     closed_food: 'Tạm ngưng',
@@ -203,19 +206,20 @@ export default {
   home: {
     title_promotion: 'Ưu đãi hấp dẫn',
     title_porposed: 'Đề xuất cho bạn',
+    title_pomotion: 'Ưu đãi tháng',
     home_tab: {
       history: 'Lịch sử',
     },
   },
   Allcategories: 'Tất cả danh mục',
   vehicle: {
-    place_search: 'Tìm theo tên xe hoặc nhà xe',
+    place_search: 'Tìm theo nhà xe',
   },
   category: {
     coupon: '{{number}} ưu đãi đang chờ bạn',
     seen: 'Xem ngay',
     for_you: 'Dành cho bạn',
-    place_search: 'Tìm theo tên món hoặc nhà hàng',
+    place_search: 'Tìm theo tên nhà hàng',
     note: 'Ghi chú cho sản phẩm',
     buy: 'Đã bán {{number}}',
     noted: 'Ghi chú',
