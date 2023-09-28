@@ -64,13 +64,17 @@ export const useDeliveryProvince = () => {
   );
 
   const getListDeliveryMethod = useCallback(
-    ({ ...rest }: IPage, cb?: IRequestActionPayload['callback']) => {
+    (data: any, cb?: IRequestActionPayload['callback']) => {
       dispatch(
-        RequestDeliveryAction.getBaseActionsRequest(
+        RequestDeliveryAction.postBaseActionsRequest(
           {
             dataKey: 'listDeliveryMethod',
             endPoint: API_ENDPOINT.REQUESTDELIVERY_PROVINCE.GET_DELIVERY_METHOD,
             isPaginate: true,
+            formData: {
+              pickupLocation: data?.pickupLocation,
+              dropoffLocation: data?.dropoffLocation,
+            },
           },
           cb,
         ),

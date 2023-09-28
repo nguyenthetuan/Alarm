@@ -1,4 +1,12 @@
-import { Buttons, HomeLayout, ImageCus, TextCus, TouchCus, ViewCus } from 'components';
+import {
+  Buttons,
+  HomeLayout,
+  ImageCus,
+  ScrollViewCus,
+  TextCus,
+  TouchCus,
+  ViewCus,
+} from 'components';
 import React, {
   useCallback,
   useMemo,
@@ -11,14 +19,14 @@ import { Colors } from 'theme';
 import { useBackHandler } from '@react-native-community/hooks';
 import { NavigationService, Routes } from 'navigation';
 import {
-    Alert,
-    Keyboard,
-    KeyboardAvoidingView,
-    Modal,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    TouchableWithoutFeedback,
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import ChooseFromTo from './components/ChooseFromTo';
 import EnterReceiver from './screens/EnterReceiver';
@@ -213,7 +221,7 @@ export default function DeliveryProvince() {
                 Tổng cộng{' '}
               </TextCus>
               <TextCus heading1 bold color={Colors.main}>
-                {formatMoney(distance[0]?.price || 0)}
+                {formatMoney(distance?.[0]?.price || 0)}
               </TextCus>
             </ViewCus>
             <ViewCus mt-16 mb-16>
@@ -316,7 +324,6 @@ export default function DeliveryProvince() {
             <ScrollView>
               <PreviewOder
                 fromToData={fromToData}
-                ref={setUpOderRef}
                 inforOder={inforOder}
                 receiverInfo={receiverInfo}
               />
@@ -338,6 +345,8 @@ export default function DeliveryProvince() {
         page: 1,
         limit: 1,
         search: '',
+        pickupLocation: fromToData?.from,
+        dropoffLocation: fromToData?.to,
       } as IPage,
       () => {},
     );

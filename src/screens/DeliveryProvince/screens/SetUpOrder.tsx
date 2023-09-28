@@ -93,9 +93,11 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     postDeliveryDistance,
   } = useDeliveryProvince();
   const [deliveryMethod, setDeliveryMethod] = useState(
-    listDeliveryMethod?.result?.find(
-      elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
-    ) || {},
+    listDeliveryMethod?.find(
+      elm =>
+        `${elm.id}` === props.inforOder.postDeliveryDistance ||
+        elm?.detail?.some(i => i.id === props.inforOder.postDeliveryDistance),
+    ),
   );
 
   const [formData, setFormData] = useState({
@@ -110,7 +112,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
   });
 
   const dumpDataHinhThuc =
-    listDeliveryMethod?.result?.map(elm => {
+    listDeliveryMethod?.map(elm => {
       return {
         ...elm,
         icon: 'bike',
@@ -196,7 +198,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
           onChange={(item: any) => {
             setDeliveryMethod(item);
             setFormData;
-            if (item.detail) {
+            if (item.detail?.length) {
               refModalDeliveryMethod.current?.show();
               setFormData(data => {
                 return {
@@ -574,7 +576,6 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
         animationType="fade"
         style={{
           flex: 1,
-          backgroundColor: 'red',
         }}
         transparent={true}>
         <ViewCus
@@ -583,7 +584,6 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: '#40000000',
             },
           ]}>
           <ViewCus

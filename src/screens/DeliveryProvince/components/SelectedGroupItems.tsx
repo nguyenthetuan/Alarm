@@ -33,7 +33,7 @@ const SelectedGroupItems = React.forwardRef<IRef, IProps>((props, ref) => {
           <TouchCus
             key={i}
             style={[props.wrapperStyle]}
-            disabled={props?.disable}
+            disabled={!!props?.disable}
             onPress={() => {
               setSelected(x);
               if (props.onChange) {

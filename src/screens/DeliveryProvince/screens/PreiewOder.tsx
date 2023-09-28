@@ -39,17 +39,17 @@ const type = [
     code: 'FOOD',
   },
   {
-    icon: 'deliveryStuff', //
+    icon: 'iconClothes', //
     title: 'Quần áo',
     code: 'CLOTHES',
   },
   {
-    icon: 'bike', //
+    icon: 'iconPhoneDelivery', //
     title: 'Điện tử',
     code: 'ELECTRONIC',
   },
   {
-    icon: 'bike', //
+    icon: 'iconFragile', //
     title: 'Dễ vỡ',
     code: 'FRAGILE',
   },
@@ -93,8 +93,10 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
     postDeliveryDistance,
   } = useDeliveryProvince();
   const [deliveryMethod, setDeliveryMethod] = useState(
-    listDeliveryMethod?.result.find(
-      elm => `${elm.id}` === props.inforOder.postDeliveryDistance,
+    listDeliveryMethod?.find(
+      elm =>
+        `${elm.id}` === props.inforOder.postDeliveryDistance ||
+        elm?.detail?.some(i => i.id === props.inforOder.postDeliveryDistance),
     ),
   );
 
@@ -109,7 +111,7 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
     deliveryMethod: props.inforOder.deliveryMethod,
   });
 
-  const dumpDataHinhThuc = listDeliveryMethod?.result.map(elm => {
+  const dumpDataHinhThuc = listDeliveryMethod?.map(elm => {
     return {
       ...elm,
       icon: 'bike',
@@ -217,48 +219,13 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
     return (
       <ViewCus>
         <SelectedGroupItems
-          disable
+          disable={true}
           items={dumpDataHinhThuc}
           flatListProps={{
             horizontal: false,
           }}
           initValue={deliveryMethod}
-          onChange={(item: any) => {
-            setDeliveryMethod(item);
-            setFormData;
-            if (item.detail) {
-              refModalDeliveryMethod.current?.show();
-              setFormData(data => {
-                return {
-                  ...data,
-                  postDeliveryDistance: item.id,
-                };
-              });
-            } else {
-              setFormData(data => {
-                postDeliveryDistance(
-                  {
-                    ...data,
-                    deliveryMethod: {
-                      id: item.id,
-                      name: item.name,
-                      price: item.price,
-                    },
-                  },
-                  respose => setDistance(respose),
-                );
-                return {
-                  ...data,
-                  deliveryMethod: {
-                    id: item.id,
-                    name: item.name,
-                    price: item.price,
-                  },
-                  postDeliveryDistance: item.id,
-                };
-              });
-            }
-          }}
+          onChange={(item: any) => {}}
           renderItemFunc={(data, index, isSelected) => {
             return (
               <ViewCus key={index} style={[]}>
@@ -309,9 +276,15 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
 
   const renderProductType = () => {
     return (
-      <ViewCus f-2 flex-row style={styles.wrapProduct} items-center px-16>
+      <ScrollViewCus
+        horizontal
+        contentContainerStyle={{ marginLeft: 14 }}
+        f-2
+        flex-row
+        items-center
+        px-16>
         <SelectedGroupItems
-          disable
+          disable={true}
           wrapperStyle={styles.wrapItem}
           items={dumpDataLoaiHinhThuc}
           initValue={listProductType?.result.find(
@@ -336,9 +309,9 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
                 py-8
                 mr-16
                 style={isSelected ? styles.itemActive : styles.item}>
-                <ImageCus
+                <Image
                   source={Images[data.icon]}
-                  style={styles.image}
+                  style={isSelected ? styles.imageActive : styles.image}
                   resizeMode="contain"
                 />
                 <TextCus color={isSelected ? Colors.white : Colors.black3A}>
@@ -348,7 +321,7 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
             );
           }}
         />
-      </ViewCus>
+      </ScrollViewCus>
     );
   };
 
@@ -362,7 +335,7 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
         items-center
         px-16>
         <SelectedGroupItems
-          disable
+          disable={true}
           wrapperStyle={styles.wrapItem}
           items={dumpDataLoaiQuyCach}
           initValue={
@@ -413,7 +386,7 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
       <ViewCus px-16 f-1 items-center flex-row>
         <ViewCus f-1>
           <SelectedGroupItems
-            disable
+            disable={true}
             wrapperStyle={styles.wrapItem}
             items={dumpDataListOptions}
             flatListProps={{
@@ -531,6 +504,7 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
               </ViewCus>
               <ViewCus f-1 flex-row>
                 <TextInput
+                  editable={false}
                   keyboardType="number-pad"
                   style={[
                     BaseStyle.textInput,
@@ -755,6 +729,13 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: 8,
+    tintColor: Colors.main,
+  },
+  imageActive: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    tintColor: Colors.white,
   },
   wrapProduct: {
     flexWrap: 'wrap',
