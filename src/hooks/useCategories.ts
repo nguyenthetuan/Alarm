@@ -77,9 +77,9 @@ export const useCategories = () => {
             // Hardcode for location because api just show with these paramsß
             // params: { ...locationUser, ...rest },
             params: {
-              long: 106.64354939796388,
-              lat: 10.864089278331392,
-              // ...locationUser,
+              // long: 106.64354939796388,
+              // lat: 10.864089278331392,
+              ...locationUser,
               ...rest,
             },
           },
