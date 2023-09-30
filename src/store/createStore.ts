@@ -11,13 +11,8 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   timeout: 100000,
-  whitelist: ['user', 'location', 'home'], // Saved State when open inital app
-  blackList: [
-    'categories',
-    'orders',
-    'requestDelivery',
-    'categoriesVehicleSlice',
-  ], // Don't Saved State
+  whitelist: ['user', 'location', 'home', 'categories'], // Saved State when open inital app
+  blackList: ['orders', 'requestDelivery', 'categoriesVehicleSlice'], // Don't Saved State
 };
 
 export const configStore = () => {

@@ -20,7 +20,6 @@ const Promotion = () => {
   }, []);
   const isBackable = !!route?.params?.backPath;
   const handleBack = useCallback(() => {
-    console.log('isBackable', isBackable);
     NavigationService.goBack();
     if (isBackable) {
       NavigationService.navigate(route.params.backPath, route.params.params);
@@ -35,7 +34,9 @@ const Promotion = () => {
             isAppliable={isBackable}
             item={item}
             key={item.id}
-            onPress={() => onPressItem(item)}
+            onPress={() =>{
+              onPressItem(item)
+            }}
           />
         );
       }

@@ -114,8 +114,7 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
                 </ViewCus>
                 <ViewCus>
                   <TextCus>
-                    Giao {val.fast ? 'nhanh' : 'chậm'}{' '}
-                    {formatMoney(val.pricePerKm * val.distance)}
+                    {val.fast} {formatMoney(val.pricePerKm * val.distance)}
                   </TextCus>
                 </ViewCus>
               </ViewCus>

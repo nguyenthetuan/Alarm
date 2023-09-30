@@ -33,6 +33,9 @@ export const useCategories = () => {
   const listFoods = useSelector(
     CategoriesSelectors.getAttrByKey('listFoods'),
   ) as IFood[];
+  const listDiscoutFood = useSelector(
+    CategoriesSelectors.getAttrByKey('listDiscoutFood'),
+  ) as IFood[];
   const listExtraFood = useSelector(
     CategoriesSelectors.getAttrByKey('listExtraFood'),
   ) as IExtraFood;
@@ -132,6 +135,20 @@ export const useCategories = () => {
     [],
   );
 
+  const getListDiscountFood = useCallback((rest, cb) => {
+    dispatch(
+      CategoriesActions.getBaseActionsRequest(
+        {
+          endPoint: API_ENDPOINT.CATEGORY.LIST_DISCOUNT_FOOD,
+          params: { ...rest },
+          dataKey: 'listDiscoutFood',
+          type: CategoriesActions.CategoriesActions.GET_LIST_DISCOUNT_FOOD,
+        },
+        cb,
+      ),
+    );
+  }, []);
+
   const getExtraFood = useCallback((foodId: string) => {
     dispatch(
       CategoriesActions.getBaseActionsRequest({
@@ -151,6 +168,8 @@ export const useCategories = () => {
       listRestaurants && listRestaurants?.result ? listRestaurants?.result : [],
     selectedPromos,
     loading,
+    estimatedPrice,
+    listDiscoutFood,
     getListRestaurants,
     getDetailRestaurant,
     getListFoodCatalog,
@@ -158,6 +177,6 @@ export const useCategories = () => {
     getExtraFood,
     setSelectedPromos,
     estimatePrices,
-    estimatedPrice,
+    getListDiscountFood,
   };
 };

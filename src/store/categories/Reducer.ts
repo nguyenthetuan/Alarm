@@ -54,6 +54,7 @@ const initialState: ICategoriesState = {
     average_rating: 0,
     total_reviews: 0,
   },
+  listDiscoutFood: [],
 };
 
 const categoriesSlice = createSlice({

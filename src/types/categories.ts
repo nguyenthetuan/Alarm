@@ -8,6 +8,7 @@ export interface ICategoriesState {
   detailRestaurant: IRestaurantDetail;
   listFoodCatalog: IFoodCatalog[];
   selectedPromos: IPromotion[];
+  listDiscoutFood: [];
 }
 
 export interface IVehicleCategoryState {

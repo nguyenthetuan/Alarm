@@ -34,7 +34,7 @@ import styles from './styles';
 import _ from 'lodash';
 import DriverArrivedV2 from 'screens/FindCarNew/Components/DriverArrivedV2';
 import DriverAreComingV2 from 'screens/FindCarNew/Components/DriverAreComingV2';
-
+import { useCart } from 'context/CartContext';
 export enum FindCarScreenStepView {
   QUESTION_CHOOSE_FROM_TO,
   CHOOSE_FROM_TO,
@@ -54,8 +54,7 @@ export enum FindCarScreenStepView {
 
 let TimeOutCancel = null;
 const FindCar = () => {
-  console.log('FindCarxxx');
-
+  const { setPromotions } = useCart();
   //#region Static
   const route = useRoute<RouteProp<RootStackParamList, 'FindCar'>>();
   const { locationUser } = useLocation();
@@ -194,7 +193,6 @@ const FindCar = () => {
               hour: `${new Date().getHours()}`,
             },
             res => {
-              console.log('_rs', _rs);
               if (res.data.result?.length > 0) {
                 _rs[i].price = res.data.result[0].price?.toFixed(0);
                 _rs[i].distance = res.data.result[0].distanceKm;
@@ -584,8 +582,6 @@ const FindCar = () => {
     }
   }, [stepView, deliveryDriverSelected, fromToData]);
 
-  console.log('route?.params?.type', route?.params?.type);
-
   const renderContentModal = (step: FindCarScreenStepView) => {
     switch (step) {
       case FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO:
@@ -758,8 +754,7 @@ const FindCar = () => {
   }) => {
     if (data && Array.isArray(data?.result) && data?.result.length > 0) {
       const sockerData = data?.result[0];
-      const { lat, long, motorcycleTaxiId } = sockerData;
-      console.log('motorcycleTaxiId', motorcycleTaxiId);
+      const { lat, long } = sockerData;
       setDriverLocation({
         lat,
         long,
@@ -862,8 +857,10 @@ const FindCar = () => {
         break;
 
       default:
+        setPromotions([]);
         refContentBottom.current?.close();
         NavigationService.replace(Routes.HomeTabs);
+
         break;
     }
   }, [stepView]);

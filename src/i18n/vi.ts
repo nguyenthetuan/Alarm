@@ -241,6 +241,9 @@ export default {
     alert: 'Cảnh báo',
     reset_wishlist:
       'Bạn vừa chọn một nhà hàng khác, giỏ hàng hiện tại của bạn sẽ bị xoá.\nTiếp tục? ',
+    reset_Gara:
+      'Bạn vừa chọn một nhà xe khác, giỏ hàng hiện tại của bạn sẽ bị xoá.\nTiếp tục? ',
+    alertPromotion: 'Mã giảm giá lớn sơn số tiền đơn hàng',
     applied_promotion: 'Đã áp dụng',
     change_promotion: 'Đổi ưu đãi',
   },

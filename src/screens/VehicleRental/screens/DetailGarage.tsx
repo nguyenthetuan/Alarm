@@ -58,6 +58,8 @@ const DetailVehicle: React.FC = () => {
     getListVehicleCatalog,
     detailGarage,
     listVehicleCatalog,
+    getListDiscountVehicle,
+    listDiscoutVehicle,
   } = useVehicleRental();
   const { listPromotions, getListPromotions } = useHome();
   const { listVehicleData, fetchVehicleData, refreshVehicleData, isLoading } =
@@ -68,7 +70,15 @@ const DetailVehicle: React.FC = () => {
     { key: 'moneyOut', title: 'Thông tin' },
   ]);
   useEffect(() => {
-    getDetailGarage(route.params?.garageId);
+    getListDiscountVehicle(
+      {
+        page: 1,
+        limit: 10,
+        garageId: route.params?.garageId,
+      },
+      () => {},
+    );
+    getDetailGarage(route.params?.garageId, () => {});
     getListVehicleCatalog(route.params?.garageId);
   }, [route.params.garageId, getListVehicleCatalog, getDetailGarage]);
 
@@ -199,7 +209,7 @@ const DetailVehicle: React.FC = () => {
         return (
           <ViewCus f-1>
             <ViewCus style={styles.content}>
-              <VehiclePromotion foods={listVehicleData?.slice(0, 5)} />
+              <VehiclePromotion foods={listDiscoutVehicle?.slice(0, 5)} />
               <TextCus heading5 px-16 useI18n>
                 category.for_you
               </TextCus>
@@ -347,11 +357,6 @@ const DetailVehicle: React.FC = () => {
               size={16}
               color={Colors.white}
             />
-          </AnimatedTouch>
-          <AnimatedTouch
-            onPress={onGoBack}
-            style={[styles.coverIcon, hideOpacity]}>
-            <IconApp name={IconName.Search} size={16} color={Colors.white} />
           </AnimatedTouch>
         </Animated.View>
         <ViewCus style={styles.flexEmpty} />

@@ -92,10 +92,6 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
               keyExtractor={(item, index) => `${index.toString()}`}
               renderItem={({ item, index }) => {
                 const _item = { ...item };
-                console.log('item', _item);
-                console.log('item.price', _item.price);
-                console.log('item.price', _item.distance);
-
                 return (
                   <TouchCus
                     key={index}

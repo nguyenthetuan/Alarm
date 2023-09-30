@@ -16,7 +16,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { InteractionManager, StyleSheet } from 'react-native';
+import { InteractionManager, StyleSheet, Alert } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
 import { formatDistanceKm, formatMoney } from 'utils';
 import { IconName } from 'assets';
@@ -34,7 +34,7 @@ import {
 } from 'hooks';
 import { IRefBottom } from 'types';
 import Icon from 'assets/svg/Icon';
-
+import { useTranslation } from 'react-i18next';
 const Line = () => <ViewCus h-8 bg-greyF5 />;
 const CartOrder: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'CartOrder'>>();
@@ -46,13 +46,15 @@ const CartOrder: React.FC = () => {
     note,
     setNote,
     setOrderRequest,
-    distance,
+    promotions,
     orderRequest,
+    setPromotions,
   } = useCart();
   const { onCalculate } = useOrders();
   const [address, setAddress] = useState('');
   const { onNameByLatLng, searchDetail } = useGeo();
   const { selectedPromos, detailRestaurant, estimatePrices } = useCategories();
+  const { t } = useTranslation();
   const { listData: listShippingType } = useShippingType();
 
   const [totalPrice, setTotalPrice] = useState(price);
@@ -66,6 +68,19 @@ const CartOrder: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (price < promotions[0]?.condition?.condition_value) {
+      setPromotions([]);
+      Alert.alert(t('category.alert'), t('category.alertPromotion'), [
+        {
+          text: t('cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('ok'),
+          onPress: () => {},
+        },
+      ]);
+    }
     onCalculate(
       { shippingTypeId: listShippingType[0]?.id, ...orderRequest },
       rs => {
@@ -73,15 +88,26 @@ const CartOrder: React.FC = () => {
           setPriceDelivery(
             listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
           );
-          setTotalPrice(
-            price +
-              listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
-          );
+          if (
+            promotions.length > 0 &&
+            price > promotions?.[0]?.condition?.condition_value
+          ) {
+            setTotalPrice(
+              price +
+                listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm -
+                promotions?.[0]?.condition?.condition_value,
+            );
+          } else {
+            setTotalPrice(
+              price +
+                listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
+            );
+          }
         }
       },
     );
     // setPriceDelivery(listShippingType[0]?.pricePerKm * distance);
-  }, [listShippingType.length, orderRequest]);
+  }, [listShippingType.length, orderRequest, promotions]);
 
   useEffect(() => {
     if (!cartLocation || !cartLocation.lat || !cartLocation.long) {
@@ -158,6 +184,10 @@ const CartOrder: React.FC = () => {
   const onApplyPromotion = useCallback(() => {
     return NavigationService.navigate(Routes.Promotion, {
       backPath: Routes.CartOrder,
+      params: {
+        distance: route.params?.distance,
+        title: route.params?.title,
+      },
     });
   }, []);
   const renderItem = useCallback(({ item, index }) => {
@@ -218,6 +248,7 @@ const CartOrder: React.FC = () => {
     });
   }, []);
 
+  // eslint-disable-next-line react/no-unstable-nested-components
   const ListComponentFooter = ({ setValue, value }) => {
     return (
       <ViewCus>
@@ -281,8 +312,7 @@ const CartOrder: React.FC = () => {
         <Line />
         <TouchCus
           style={[BaseStyle.wrapperMain]}
-          disabled
-          onPress={() => NavigationService.navigate(Routes.MethodPayment)}>
+          onPress={() => NavigationService.navigate(Routes.BikeMethodPayment)}>
           <TextCus heading5 mb-4 useI18n>
             category.payment
           </TextCus>
@@ -294,15 +324,12 @@ const CartOrder: React.FC = () => {
         <ViewCus style={[BaseStyle.wrapperDisable]}>
           <TextCus>
             <TextCus useI18n>category.agree</TextCus>
-            <TextCus color-blue00 useI18n>
-              category.term
-            </TextCus>
+            <TextCus useI18n>category.term</TextCus>
           </TextCus>
         </ViewCus>
       </ViewCus>
     );
   };
-
   return (
     <HomeLayout
       bgColor={Colors.main}

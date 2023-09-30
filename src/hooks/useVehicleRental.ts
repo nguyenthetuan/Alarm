@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CategoriesSelectors } from 'store/categories';
+import { VehicleRentalSelectors } from 'store/vehicleRental';
 import * as VehicleRentalActions from 'store/vehicleRental';
 import * as CategoriesReducer from 'store/categories/Reducer';
 import {
@@ -23,24 +23,27 @@ export const useVehicleRental = () => {
     OrderVehicleQuery.OrderQuery.useCreateOrderMutation();
   const dispatch = useDispatch();
   const { locationUser } = useLocation();
-  const loading = useSelector(CategoriesSelectors.getLoading);
+  const loading = useSelector(VehicleRentalSelectors.getLoading);
   const listGarages: null | { result: IRestaurantDetail[] } = useSelector(
-    CategoriesSelectors.getAttrByKey('listGarages'),
+    VehicleRentalSelectors.getAttrByKey('listGarages'),
   ) as any;
   const detailGarage = useSelector(
-    CategoriesSelectors.getAttrByKey('detailGarage'),
+    VehicleRentalSelectors.getAttrByKey('detailGarage'),
   ) as IRestaurantDetail;
   const listVehicleCatalog = useSelector(
-    CategoriesSelectors.getAttrByKey('listVehicleCatalog'),
+    VehicleRentalSelectors.getAttrByKey('listVehicleCatalog'),
   ) as IFoodCatalog[];
   const listVehicles = useSelector(
-    CategoriesSelectors.getAttrByKey('listVehicles'),
+    VehicleRentalSelectors.getAttrByKey('listVehicles'),
   ) as IFood[];
   const listExtraVehicle = useSelector(
-    CategoriesSelectors.getAttrByKey('listExtraVehicle'),
+    VehicleRentalSelectors.getAttrByKey('listExtraVehicle'),
   ) as IExtraFood;
   const selectedPromos = useSelector(
-    CategoriesSelectors.getAttrByKey('selectedPromos'),
+    VehicleRentalSelectors.getAttrByKey('selectedPromos'),
+  ) as IPromotion[];
+  const listDiscoutVehicle = useSelector(
+    VehicleRentalSelectors.getAttrByKey('listDiscoutVehicle'),
   ) as IPromotion[];
 
   const [estimatedPrice, setEstimatedPrice] = useState<any>();
@@ -147,6 +150,21 @@ export const useVehicleRental = () => {
     [],
   );
 
+  const getListDiscountVehicle = useCallback((rest, cb) => {
+    dispatch(
+      VehicleRentalActions.getBaseActionsRequest(
+        {
+          endPoint: API_ENDPOINT.RENTAL_VEHICLE.LIST_DISTCOUNT_VEHICLE,
+          params: { ...rest },
+          dataKey: 'listDiscoutVehicle',
+          type: VehicleRentalActions.VehicleRentalActions
+            .GET_LIST_DISCOUNT_VEHICLE,
+        },
+        cb,
+      ),
+    );
+  }, []);
+
   const getExtraVehicle = useCallback((garageId: string) => {
     dispatch(
       VehicleRentalActions.getBaseActionsRequest({
@@ -165,6 +183,8 @@ export const useVehicleRental = () => {
     listGarages: listGarages && listGarages?.result ? listGarages?.result : [],
     selectedPromos,
     loading,
+    estimatedPrice,
+    listDiscoutVehicle,
     getListGarages,
     getDetailGarage,
     getListVehicleCatalog,
@@ -172,8 +192,8 @@ export const useVehicleRental = () => {
     getExtraVehicle,
     setSelectedPromos,
     estimatePrices,
-    estimatedPrice,
     createVehicleOrder: fetchCreateOrder,
     onCalculate,
+    getListDiscountVehicle,
   };
 };

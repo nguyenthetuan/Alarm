@@ -78,7 +78,7 @@ const Delivery = () => {
     return listShippingType.map(item => {
       return {
         ...item,
-        fast: item.name === 'Giao nhanh',
+        fast: item.name,
         price: item.pricePerKm * formatDistanceKm(distance),
         distance: distance,
         orderRequest,

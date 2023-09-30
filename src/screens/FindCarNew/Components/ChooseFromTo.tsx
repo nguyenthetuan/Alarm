@@ -355,7 +355,7 @@ const ChooseFromTo = React.forwardRef<{}, IProps>((props, ref) => {
                       right: 10,
                       marginTop: 14,
                     }}>
-                    <Icon.Voice color={Colors.main} height={20} width={20} />
+                    {/* <Icon.Voice color={Colors.main} height={20} width={20} /> */}
                   </ViewCus>
                 </ViewCus>
               </ViewCus>

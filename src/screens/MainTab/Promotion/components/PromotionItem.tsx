@@ -8,6 +8,8 @@ import { IPromotionListItem } from 'types';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useCart } from 'context/CartContext';
+import { NavigationService, RootStackParamList } from 'navigation';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 interface IProps {
   item: IPromotionListItem;
@@ -17,12 +19,15 @@ interface IProps {
 
 const PromotionItem: React.FC<IProps> = ({ onPress, item, isAppliable }) => {
   const { t } = useTranslation();
+  const route = useRoute<RouteProp<RootStackParamList, 'Promotion'>>();
+
   // const { setSelectedPromos, selectedPromos } = useCategories();
   const { setPromotions, promotions } = useCart();
   const isApplied = promotions[0] && promotions[0]?.id === item?.id;
   const handleApplyPromo = useCallback(() => {
     if (item && !isApplied) {
       setPromotions([item]);
+      NavigationService.navigate(route.params.backPath, route.params.params);
       return;
     } else {
       setPromotions([]);

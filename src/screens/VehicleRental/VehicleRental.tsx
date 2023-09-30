@@ -53,6 +53,7 @@ const VehicleRental: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    onRemoveAll();
     refreshGaraData(searchText);
   }, []);
 
@@ -112,7 +113,7 @@ const VehicleRental: React.FC = () => {
     (item: IRestaurantDetail) => async () => {
       const idGarageSelected = await AsyncStorage.getItem('garageSelected');
       if (carts.length && item.id !== idGarageSelected) {
-        Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
+        Alert.alert(t('category.alert'), t('category.reset_Gara'), [
           {
             text: t('cancel'),
             style: 'cancel',
@@ -152,6 +153,11 @@ const VehicleRental: React.FC = () => {
         iconColor: Colors.white,
         renderRight: renderRight,
         renderCenter: () => renderSearchInput(),
+        onPressLeft: () => {
+          onRemoveAll();
+          setSelectedPromos([]);
+          NavigationService.goBack();
+        },
         style: {
           height: 45,
         },

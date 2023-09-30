@@ -103,7 +103,6 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
     postDeliveryDistance: props.inforOder.postDeliveryDistance,
     deliveryMethod: props.inforOder.deliveryMethod,
   });
-
   const dumpDataHinhThuc =
     listDeliveryMethod?.result?.map(elm => {
       return {
@@ -181,7 +180,7 @@ const SetUpOrder = React.forwardRef<IRefs, IProps>((props, ref) => {
           onChange={(item: any) => {
             setDeliveryMethod(item);
             setFormData;
-            if (item.detail) {
+            if (item?.detail.length > 0) {
               refModalDeliveryMethod.current?.show();
               setFormData(data => {
                 return {

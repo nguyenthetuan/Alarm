@@ -50,18 +50,15 @@ const Home: React.FC = () => {
     // });
   }, [getListCategories]);
   useEffect(() => {
-    getListPromotions();
     getRestaurantNearMe(
       {
         page: 1,
         limit: 1,
         search: '',
       } as IPage,
-      res => {
-        console.log('res', res);
-      },
+      () => {},
     );
-  }, [getListPromotions, getRestaurantNearMe]);
+  }, [getRestaurantNearMe]);
 
   const { categories } = useMemo(() => {
     return {
@@ -132,7 +129,7 @@ const Home: React.FC = () => {
                   bold
                   heading1
                   style={{ lineHeight: 26 }}>
-                  {fullName?.trim()}
+                  {!!fullName?.trim()}
                 </TextCus>
               </ViewCus>
               <ViewCus flex-row items-center>

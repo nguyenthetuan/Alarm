@@ -43,24 +43,41 @@ const RestaurantDetail: React.FC = () => {
     getListFoodCatalog,
     detailRestaurant,
     listFoodCatalog,
+    getListDiscountFood,
+    listDiscoutFood,
   } = useCategories();
+
   const { listPromotions, getListPromotions } = useHome();
   const { listFoodData, refreshFoodData, isLoading, fetchFoodData } =
     useListFood();
-
   useEffect(() => {
-    getDetailRestaurant(route.params?.restaurantId);
+    getListDiscountFood(
+      {
+        page: 1,
+        limit: 10,
+        restaurantId: route.params?.restaurantId,
+      },
+      () => {},
+    );
+    getDetailRestaurant(route.params?.restaurantId, () => {});
     getListFoodCatalog(route.params?.restaurantId);
-  }, [route.params.restaurantId, getListFoodCatalog, getDetailRestaurant]);
+  }, [
+    route.params?.restaurantId,
+    getListFoodCatalog,
+    getDetailRestaurant,
+    getListDiscountFood,
+  ]);
 
   useEffect(() => {
     if (listFoodCatalog?.length === 0) {
       return;
     }
-    fetchFoodData(route.params.restaurantId);
-    refreshFoodData(route.params.restaurantId);
+    // fetchListFood(route.params.restaurantId);
   }, [route.params.restaurantId, listFoodCatalog]);
 
+  useEffect(() => {
+    refreshFoodData(route.params.restaurantId);
+  }, []);
   useEffect(() => {
     if (route.params?.restaurantId && getListPromotions) {
       getListPromotions(route.params.restaurantId);
@@ -176,13 +193,14 @@ const RestaurantDetail: React.FC = () => {
           style={[styles.coverIcon, hideOpacity]}>
           <IconApp name={IconName.ChevronLeft} size={16} color={Colors.white} />
         </AnimatedTouch>
-        <AnimatedTouch
+        {/* <AnimatedTouch
           onPress={onGoBack}
           style={[styles.coverIcon, hideOpacity]}>
           <IconApp name={IconName.Search} size={16} color={Colors.white} />
-        </AnimatedTouch>
+        </AnimatedTouch> */}
       </Animated.View>
-      <Animated.ScrollView
+      <ViewCus
+        f-1
         ref={aref}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
@@ -197,7 +215,7 @@ const RestaurantDetail: React.FC = () => {
           }}
         />
         <ViewCus style={styles.content}>
-          <FoodPromotion foods={listFoodData?.slice(0, 5)} />
+          <FoodPromotion foods={listDiscoutFood?.slice(0, 5)} />
           <TextCus heading5 px-16 useI18n>
             category.for_you
           </TextCus>
@@ -205,33 +223,34 @@ const RestaurantDetail: React.FC = () => {
             data={listFoodCatalogs as IFoodCatalog[]}
             onChooseCatalogFood={onChooseCatalogFood}
           />
-          <RNFlatList
-            data={isLoading ? dataDefaults : listFoodData}
-            renderItem={({ item, index }: { item: IFood; index: number }) => (
-              <CategoryItem
-                onPress={() =>
-                  NavigationService.navigate(Routes.ExtraFood, {
-                    foodId: item?.id,
-                  })
-                }
-                isDetail
-                key={index}
-                {...item}
-                name={item?.food_name ?? ''}
-                avatar={item.images?.[0]}
-                basePrice={item?.base_price}
-                loading={isLoading}
-              />
-            )}
-            onEndReached={() => {
-              if (!isLoading) {
+          <ViewCus style={{ flex: 1, zindex: 1 }}>
+            <RNFlatList
+              data={isLoading ? dataDefaults : listFoodData}
+              renderItem={({ item, index }: { item: IFood; index: number }) => (
+                <CategoryItem
+                  onPress={() =>
+                    NavigationService.navigate(Routes.ExtraFood, {
+                      foodId: item?.id,
+                    })
+                  }
+                  isDetail
+                  key={index}
+                  {...item}
+                  name={item?.food_name ?? ''}
+                  avatar={item.images?.[0]}
+                  basePrice={item?.base_price}
+                  loading={isLoading}
+                />
+              )}
+              onEndReached={() => {
                 fetchFoodData(route.params.restaurantId);
-              }
-            }}
-            onEndReachedThreshold={0.7}
-          />
+              }}
+              onEndReachedThreshold={0.7}
+              scrollEnabled
+            />
+          </ViewCus>
         </ViewCus>
-      </Animated.ScrollView>
+      </ViewCus>
 
       {carts?.length > 0 && (
         <ViewCus

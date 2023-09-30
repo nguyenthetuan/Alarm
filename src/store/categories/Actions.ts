@@ -5,6 +5,7 @@ export const CategoriesActions = {
   GET_DETAIL_RESTAURANT: 'GET_DETAIL_RESTAURANT',
   GET_LIST_FOOD: 'GET_LIST_FOOD',
   GET_LIST_CATALOG_FOOD: 'GET_LIST_CATALOG_FOOD',
+  GET_LIST_DISCOUNT_FOOD: 'GET_LIST_DISCOUNT_FOOD',
 };
 
 export const getBaseActionsRequest = (
