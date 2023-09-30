@@ -54,6 +54,7 @@ const initialState: IVehicleCategoryState = {
     average_rating: 0,
     total_reviews: 0,
   },
+  listDiscoutVehicle: [],
 };
 
 const categoriesVehicleSlice = createSlice({

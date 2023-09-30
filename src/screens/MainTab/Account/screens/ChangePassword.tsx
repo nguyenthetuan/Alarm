@@ -15,7 +15,12 @@ type TFormChangePassword = {
   re_new_password: string;
 };
 const ChangePassword: React.FC<PageProps> = () => {
-  const { userInfo, onChangePassword: changePassword, onLogin } = useAuth();
+  const {
+    userInfo,
+    onChangePassword: changePassword,
+    onLogin,
+    onLogout,
+  } = useAuth();
   const { t } = useTranslation();
   const { danger, success } = useNotify();
   const {
@@ -46,6 +51,7 @@ const ChangePassword: React.FC<PageProps> = () => {
               if (rs.status === 200) {
                 success(t('Thành công'), 'Đổi mật khẩu thành công');
                 control._reset();
+                onLogout();
               } else {
                 danger(t('error'), rs.errorMessage);
               }

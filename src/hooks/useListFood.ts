@@ -9,7 +9,6 @@ export const useListFood = () => {
   const [isLoading, setIsLoading] = useState(false);
   const page = useRef(1);
   const haveMore = useRef(true);
-
   // list food
   const fetchListFood = useCallback(
     (restaurantId?: string, foodId?: string) => {
@@ -79,5 +78,6 @@ export const useListFood = () => {
     fetchFoodData,
     refreshFoodData,
     isLoading,
+    fetchListFood,
   };
 };

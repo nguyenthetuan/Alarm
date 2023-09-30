@@ -44,16 +44,7 @@ export default function RequestDelivery() {
     distance,
     postDelivery,
   } = useRequestDelivery();
-  const {
-    orderItems: carts,
-    price,
-    updateLocationOrder: updateLocation,
-    location: cartLocation,
-    note,
-    setNote,
-    setOrderRequest,
-    setDeliveryFee,
-  } = useCart();
+  const { updateLocationOrder: updateLocation, setDeliveryFee } = useCart();
   const chooseFromToRef = useRef();
   const enterReceiverRef = useRef();
   const setUpOderRef = useRef();

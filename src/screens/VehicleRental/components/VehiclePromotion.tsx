@@ -17,7 +17,7 @@ interface IProps {
 }
 const VehiclePromotion: React.FC<IProps> = ({ foods }) => {
   const onPressItem = useCallback((item: string) => {
-    NavigationService.navigate(Routes.ExtraVehicles, {
+    NavigationService.navigate(Routes.ExtraVehicle, {
       foodId: item,
     });
   }, []);

@@ -32,6 +32,7 @@ const Categories: React.FC = () => {
     selectedRestaurant,
     setSelectedRestaurant,
     setDistance,
+    setPromotions,
   } = useCart();
   const route = useRoute<RouteProp<RootStackParamList, 'Categoires'>>();
   const [searchText, setSearchText] = useState(route.params?.searchText ?? '');
@@ -39,17 +40,6 @@ const Categories: React.FC = () => {
   const [isShowSearch, setIsShowSearch] = useState(
     route.params?.searchText.length ? true : false,
   );
-
-  const renderItem = useCallback(info => {
-    return (
-      <CategoryItem
-        key={info.index}
-        {...info.item}
-        onPress={isLoading ? undefined : handleChooseRestaurant(info.item)}
-        loading={isLoading}
-      />
-    );
-  }, []);
 
   useEffect(() => {
     refreshData(searchText);
@@ -106,34 +96,43 @@ const Categories: React.FC = () => {
       distance: item?.distance,
     });
   }, []);
-
-  const handleChooseRestaurant = useCallback(
-    (item: IRestaurantDetail) => async () => {
-      const idRestaurantSelected = await AsyncStorage.getItem(
-        'restaurantSelected',
+  const handleChooseRestaurant = (item: IRestaurantDetail) => async () => {
+    const idRestaurantSelected = await AsyncStorage.getItem(
+      'restaurantSelected',
+    );
+    if (carts.length && item.id !== idRestaurantSelected) {
+      Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
+        {
+          text: t('cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('ok'),
+          onPress: () => {
+            onRemoveAll();
+            setPromotions([]);
+            setSelectedPromos([]);
+            goToRestaurant(item);
+          },
+        },
+      ]);
+      return;
+    }
+    goToRestaurant(item);
+  };
+  const renderItem = useCallback(
+    info => {
+      return (
+        <CategoryItem
+          key={info.index}
+          {...info.item}
+          onPress={isLoading ? undefined : handleChooseRestaurant(info.item)}
+          loading={isLoading}
+        />
       );
-      if (carts.length && item.id !== idRestaurantSelected) {
-        Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
-          {
-            text: t('cancel'),
-            style: 'cancel',
-          },
-          {
-            text: t('ok'),
-            onPress: () => {
-              onRemoveAll();
-              setSelectedPromos([]);
-              goToRestaurant(item);
-            },
-          },
-        ]);
-        return;
-      }
-      goToRestaurant(item);
     },
-    [carts, selectedRestaurant],
+    [carts],
   );
-
   const renderRight = useCallback(() => {
     if (isShowSearch) {
       return null;

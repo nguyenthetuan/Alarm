@@ -102,6 +102,10 @@ function* watchGetBaseActions() {
     CategoriesActions.GET_LIST_CATALOG_FOOD as any,
     onGetBaseActionsRequested,
   );
+  yield takeEvery(
+    CategoriesActions.GET_LIST_DISCOUNT_FOOD as any,
+    onGetBaseActionsRequested,
+  );
 }
 
 export default function* categoriesSagas() {

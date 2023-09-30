@@ -95,6 +95,10 @@ function* watchGetBaseActions() {
     VehicleRentalActions.GET_LIST_CATALOG_VEHICLE as any,
     onGetBaseActionsRequested,
   );
+  yield takeEvery(
+    VehicleRentalActions.GET_LIST_DISCOUNT_VEHICLE as any,
+    onGetBaseActionsRequested,
+  );
 }
 
 function* onPostBaseActionsRequested(action: IHomeActionPayload) {

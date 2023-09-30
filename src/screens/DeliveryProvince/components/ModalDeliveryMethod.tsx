@@ -63,7 +63,6 @@ const ModalDeliveryMethod = (props: any, ref) => {
           <ImageCus source={Images.typeProduct} size={32} />
           <ViewCus l-5>
             <Text style={styles.txtTitle}>{item.name}</Text>
-            <Text style={styles.textSubtitle}>Giao vào 14:00 - Siêu tốc</Text>
           </ViewCus>
         </ViewCus>
         <Text style={styles.price}>Từ {formatMoney(item.price)}</Text>

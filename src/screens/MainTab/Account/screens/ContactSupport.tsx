@@ -1,4 +1,4 @@
-import { HomeLayout, ViewCus } from 'components';
+import { HomeLayout, TextCus, ViewCus } from 'components';
 import { showCallPhone } from 'components/CallPhone/CallPhone';
 import React from 'react';
 import { StyleSheet } from 'react-native';
@@ -13,7 +13,7 @@ const ContactSupport: React.FC = () => {
         title: 'account.support',
         iconColor: Colors.white,
       }}>
-      <ViewCus px-16>
+      <ViewCus style={{ flex: 1 / 12 }}>
         <ListItem
           name="Hỗ trợ qua chat"
           onPress={() => showCallPhone({ phone: '19008079' })}
@@ -25,6 +25,7 @@ const ContactSupport: React.FC = () => {
           onPress={() => showCallPhone({ phone: '19008079' })}
           style={[styles.clearPadding]}
           styleLine={[styles.line]}
+          isHiden
         />
         <ListItem
           name="Hỗ trợ qua email"
@@ -38,7 +39,8 @@ const ContactSupport: React.FC = () => {
 };
 const styles = StyleSheet.create({
   clearPadding: {
-    paddingHorizontal: 0,
+    paddingHorizontal: 10,
+    flex: 1,
   },
   line: {
     height: 1,

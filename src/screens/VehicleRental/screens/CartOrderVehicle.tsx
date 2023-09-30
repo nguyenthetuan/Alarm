@@ -11,7 +11,7 @@ import {
   ImageCus,
 } from 'components';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { InteractionManager, StyleSheet, Modal } from 'react-native';
+import { InteractionManager, StyleSheet, Modal, Alert } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
 import { formatDistanceKm, formatMoney } from 'utils';
 import { IconName, Images } from 'assets';
@@ -28,6 +28,8 @@ import {
 } from 'hooks';
 import { IRefBottom } from 'types';
 import Icon from 'assets/svg/Icon';
+import { useTranslation } from 'react-i18next';
+
 const Line = () => <ViewCus h-8 bg-greyF5 />;
 const CartOrderVehicle: React.FC = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'CartOrder'>>();
@@ -41,6 +43,7 @@ const CartOrderVehicle: React.FC = () => {
     setOrderRequest,
     promotions,
     orderRequest,
+    setPromotions,
   } = useCart();
   const [address, setAddress] = useState('');
   const { onNameByLatLng, searchDetail } = useGeo();
@@ -58,13 +61,26 @@ const CartOrderVehicle: React.FC = () => {
   const [visiableSuccess, setVisiableSuccess] = useState(false);
   const { locationUser } = useLocation();
   const { user, userInfo } = useAuth();
-
+  const { t } = useTranslation();
   const refBottom = useRef<IRefBottom>(null);
   const showLoginForm = useCallback(() => {
     refBottom.current?.show();
   }, []);
 
   useEffect(() => {
+    if (price < promotions[0]?.condition?.condition_value) {
+      setPromotions([]);
+      Alert.alert(t('category.alert'), t('category.alertPromotion'), [
+        {
+          text: t('cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('ok'),
+          onPress: () => {},
+        },
+      ]);
+    }
     onCalculate(
       { shippingTypeId: listShippingType[0]?.id, ...orderRequest },
       rs => {
@@ -72,15 +88,26 @@ const CartOrderVehicle: React.FC = () => {
           setPriceDelivery(
             listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
           );
-          setTotalPrice(
-            price +
-              listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
-          );
+          if (
+            promotions.length > 0 &&
+            price > promotions?.[0]?.condition?.condition_value
+          ) {
+            setTotalPrice(
+              price +
+                listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm -
+                promotions?.[0]?.condition?.condition_value,
+            );
+          } else {
+            setTotalPrice(
+              price +
+                listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
+            );
+          }
         }
       },
     );
     // setPriceDelivery(listShippingType[0]?.pricePerKm * distance);
-  }, [listShippingType.length, orderRequest]);
+  }, [listShippingType.length, orderRequest, promotions]);
 
   useEffect(() => {
     if (!cartLocation || !cartLocation.lat || !cartLocation.long) {
@@ -129,9 +156,6 @@ const CartOrderVehicle: React.FC = () => {
     // estimate total price
     if (orderInfo.customer?.address) {
       setOrderRequest(orderInfo);
-      if (user) {
-        estimatePrices(orderInfo);
-      }
     }
   }, [selectedPromos, address, detailGarage, carts, user, cartLocation]);
 
@@ -156,7 +180,11 @@ const CartOrderVehicle: React.FC = () => {
   }, []);
   const onApplyPromotion = useCallback(() => {
     return NavigationService.navigate(Routes.Promotion, {
-      backPath: Routes.CartOrder,
+      backPath: Routes.CartOrderVehicle,
+      params: {
+        distance: route.params?.distance,
+        title: route.params?.title,
+      },
     });
   }, []);
   const renderItem = useCallback(({ item, index }) => {
@@ -216,6 +244,7 @@ const CartOrderVehicle: React.FC = () => {
     });
   }, []);
 
+  // eslint-disable-next-line react/no-unstable-nested-components
   const ListComponentFooter = ({ setValue, value }) => {
     return (
       <ViewCus>
@@ -279,8 +308,7 @@ const CartOrderVehicle: React.FC = () => {
         <Line />
         <TouchCus
           style={[BaseStyle.wrapperMain]}
-          disabled
-          onPress={() => NavigationService.navigate(Routes.MethodPayment)}>
+          onPress={() => NavigationService.navigate(Routes.BikeMethodPayment)}>
           <TextCus heading5 mb-4 useI18n>
             category.payment
           </TextCus>
@@ -292,9 +320,7 @@ const CartOrderVehicle: React.FC = () => {
         <ViewCus style={[BaseStyle.wrapperDisable]}>
           <TextCus>
             <TextCus useI18n>category.agree</TextCus>
-            <TextCus color-blue00 useI18n>
-              category.term
-            </TextCus>
+            <TextCus useI18n>category.term</TextCus>
           </TextCus>
         </ViewCus>
       </ViewCus>

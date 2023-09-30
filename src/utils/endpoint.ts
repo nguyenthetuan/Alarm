@@ -48,8 +48,8 @@ export const API_ENDPOINT = {
   HOME: {
     CATELOG: 'customer/customer-catalog/get-all',
     PROMOTION: 'customer/promotion/list-promotion',
-    SUGGEST_RESTAURANTS: 'customer/restaurant/suggest-restaurants',
-    GET_RESTAURANTS_NEAR_ME: 'customer/restaurant/near-me',
+    SUGGEST_RESTAURANTS: 'customer/suggest-restaurants',
+    GET_RESTAURANTS_NEAR_ME: 'customer/restaurant-near-me',
   },
   CATEGORY: {
     RESTAURANT: 'customer/restaurant/list-restaurants',
@@ -59,6 +59,7 @@ export const API_ENDPOINT = {
     LIST_FOOD: 'customer/food/list-food',
     CALCULATE_PRICE: 'customer/order/calculate',
     POST_RATING: 'customer/order',
+    LIST_DISCOUNT_FOOD: 'customer/food/list-food-discount',
   },
   RENTAL_VEHICLE: {
     GARAGE: 'customer/garage/list-garages',
@@ -68,6 +69,7 @@ export const API_ENDPOINT = {
     EXTRA_VEHICLE: 'customer/garage/vehicle-get-detail',
     ODER_VEHICLE: 'customer/order/create-garage',
     CALCULATE_PRICE: 'customer/order/calculate-garage',
+    LIST_DISTCOUNT_VEHICLE: 'customer/garage/vehicle-discount',
   },
   ORDER: {
     CREATE: 'customer/order/create',
