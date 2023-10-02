@@ -1,7 +1,12 @@
 // import Toast from 'react-native-toast-message';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PortalProvider } from '@gorhom/portal';
-import { CallPhone, LocationPermission, SafeAreaStatusBar } from 'components';
+import {
+  CallPhone,
+  LocationPermission,
+  SafeAreaStatusBar,
+  notificationPermisson,
+} from 'components';
 import { CartProvider } from 'context';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -37,6 +42,7 @@ const App = () => {
 
   useEffect(() => {
     LocationPermission();
+    notificationPermisson();
   }, []);
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>

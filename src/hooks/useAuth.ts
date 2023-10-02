@@ -306,7 +306,9 @@ export const useAuth = () => {
     },
     [],
   );
-
+  // const onUploadTokeFCM = useCallback(
+    
+  // )
   const getListMessageHistory = useCallback(
     (sender_user_id: string, receiver_user_id: string, cb?: ICallback) => {
       dispatch(
@@ -321,7 +323,6 @@ export const useAuth = () => {
     },
     [dispatch],
   );
-
   const getInfoUser = useCallback(
     (user_id: string, cb?: ICallback) => {
       dispatch(

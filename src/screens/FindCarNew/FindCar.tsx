@@ -194,7 +194,9 @@ const FindCar = () => {
             },
             res => {
               if (res.data.result?.length > 0) {
-                _rs[i].price = res.data.result[0].price?.toFixed(0);
+                _rs[i].price =
+                  res.data.result[0].price?.toFixed(0) *
+                  res.data.result[0].distanceKm;
                 _rs[i].distance = res.data.result[0].distanceKm;
                 _rs[i].distanceText = res.data.result[0].distanceText;
               }
