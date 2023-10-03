@@ -55,6 +55,7 @@ const Delivery = () => {
     onConnect,
     onConnectError,
     onFoundDriver,
+    onLocationDriver,
     onNotFoundDriver,
     onOrderDelivered,
     onOrderDelivering,
@@ -733,6 +734,16 @@ const Delivery = () => {
       }
     }
   };
+
+  const handleCustomerSocketLocationDriver = args => {
+    console.log('Tom log  => args handleCustomerSocketLocationDriver', args);
+    // const location = args?.result?.[0]?.location;
+    // setDriverLocation({
+    //   lat: location?.lat,
+    //   long: location?.long,
+    // });
+  };
+
   const handleCustomerSocketOrderDelivered = useCallback(
     (args: { order: IOrderDetail }) => {
       if (args.order.order_code === getCurrentOrderCode()) {
@@ -759,6 +770,7 @@ const Delivery = () => {
 
   useEffect(() => {
     onFoundDriver(handleCustomerSocketFoundDriver);
+    onLocationDriver(handleCustomerSocketLocationDriver);
     onNotFoundDriver(() => {
       setStepView(ScreenStepView.CANNOT_FOUND_DRIVER);
     });

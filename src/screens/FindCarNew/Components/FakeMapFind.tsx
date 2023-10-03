@@ -4,7 +4,7 @@ import Icon from 'assets/svg/Icon';
 import { MapViewCus } from 'components';
 import { getGreatCircleBearing } from 'geolib';
 import { useLocation } from 'hooks';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
@@ -22,7 +22,7 @@ export const FakeMapFind = ({
   type?: 'car' | 'bike' | 'truck' | 'taxi' | 'hd' | 'driver';
   startFind?: boolean;
   stepView: FindCarScreenStepView;
-  driverLocation: object;
+  driverLocation?: object;
   fromToData?: {
     from: {
       address?: string;
@@ -77,6 +77,8 @@ export const FakeMapFind = ({
       ![
         FindCarScreenStepView.ON_PROCESS,
         FindCarScreenStepView.DRIVER_ARE_COMING,
+        FindCarScreenStepView.FINDED_DRIVER,
+        FindCarScreenStepView.DRIVER_ARRIVED,
         FindCarScreenStepView.ON_PROCESS,
         FindCarScreenStepView.ORDER_IS_CANCEL,
         FindCarScreenStepView.ORDER_IS_SUCCESS,
@@ -143,8 +145,9 @@ export const FakeMapFind = ({
     if (driverLocation?.lat && driverLocation?.long) {
       return (
         <MarkerBiker
-          latitude={driverLocation?.lat}
-          longitude={driverLocation?.long}
+          latitude={Number(driverLocation?.lat)}
+          longitude={Number(driverLocation?.long)}
+          type={type}
           durationAnimation={0}
           markerProps={{
             rotation: rotationDriverIcon,
@@ -157,11 +160,62 @@ export const FakeMapFind = ({
     // }
     // return <></>;
   }, [stepView, driverLocation, rotationDriverIcon]);
+
+  const getDestination = useCallback(() => {
+    if (
+      fromToData &&
+      ![
+        FindCarScreenStepView.DRIVER_ARE_COMING,
+        FindCarScreenStepView.DRIVER_ARRIVED,
+      ].includes(stepView)
+    ) {
+      return {
+        latitude: fromToData.to.lat,
+        longitude: fromToData.to.long,
+      };
+    }
+    if (
+      driverLocation &&
+      [
+        FindCarScreenStepView.DRIVER_ARE_COMING,
+        FindCarScreenStepView.DRIVER_ARRIVED,
+      ].includes(stepView)
+    ) {
+      return {
+        latitude: driverLocation?.lat,
+        longitude: driverLocation?.long,
+      };
+    }
+  }, [driverLocation, fromToData, stepView]);
+
+  const getFromLocation = useCallback(() => {
+    if (
+      fromToData &&
+      ![FindCarScreenStepView.DRIVER_ARRIVED].includes(stepView)
+    ) {
+      return {
+        latitude: fromToData.from.lat,
+        longitude: fromToData.from.long,
+      };
+    }
+    if (
+      fromToData &&
+      [FindCarScreenStepView.DRIVER_ARRIVED].includes(stepView)
+    ) {
+      return {
+        latitude: fromToData.to.lat,
+        longitude: fromToData.to.long,
+      };
+    }
+  }, [fromToData, stepView]);
+
   return (
     <MapViewCus
       style={[BaseStyle.flex1]}
       provider={PROVIDER_GOOGLE}
-      showsUserLocation={true}
+      showsUserLocation={
+        ![FindCarScreenStepView.DRIVER_ARRIVED].includes(stepView)
+      }
       region={{
         latitude:
           stepView !== FindCarScreenStepView.ORDER_IS_SUCCESS && fromToData
@@ -195,14 +249,8 @@ export const FakeMapFind = ({
       ) : null}
       {/* {directionView} */}
       <MapViewDirections
-        origin={{
-          latitude: fromToData.from.lat,
-          longitude: fromToData.from.long,
-        }}
-        destination={{
-          latitude: fromToData.to.lat,
-          longitude: fromToData.to.long,
-        }}
+        origin={getFromLocation()}
+        destination={getDestination()}
         apikey={GOOGLE_MAPS_API_KEY}
         strokeWidth={5}
         strokeColor={Colors.stroke}

@@ -70,6 +70,7 @@ const FindCar = () => {
     onNotFoundDriver,
     onCompleteMotoTaxi,
     onFoundMotobikeDriver,
+    onLocationDriver,
     onDriverArrived,
   } = useCustomerSocket();
 
@@ -193,26 +194,24 @@ const FindCar = () => {
               hour: `${new Date().getHours()}`,
             },
             res => {
-              try {
-                if (res.data.result?.length > 0) {
-                  _rs[i].price = Number(res.data.result[0].price || 0)?.toFixed(
-                    0,
-                  );
-                  _rs[i].distance = res.data.result[0].distanceKm;
-                  _rs[i].distanceText = res.data.result[0].distanceText;
-                }
-                if (
-                  _rs[0].distance === _rs[1].distance &&
-                  _rs[0].distance === _rs[2].distance &&
-                  _rs[0].distance === _rs[3].distance &&
-                  _rs[0].distance === _rs[4].distance &&
-                  _rs[0].distance === _rs[5].distance &&
-                  parseInt(_rs[0].distance) > 0
-                ) {
-                  setDeliveryOptions(deliveryDriverOptions => _rs);
-                }
-                setRefresh(refresh + 1);
-              } catch (err) {}
+              if (res.data.result?.length > 0) {
+                _rs[i].price = Number(res.data.result[0]?.price || 0)?.toFixed(
+                  0,
+                );
+                _rs[i].distance = res.data.result[0].distanceKm;
+                _rs[i].distanceText = res.data.result[0].distanceText;
+              }
+              if (
+                _rs[0].distance === _rs[1].distance &&
+                _rs[0].distance === _rs[2].distance &&
+                _rs[0].distance === _rs[3].distance &&
+                _rs[0].distance === _rs[4].distance &&
+                _rs[0].distance === _rs[5].distance &&
+                parseInt(_rs[0].distance) > 0
+              ) {
+                setDeliveryOptions(deliveryDriverOptions => _rs);
+              }
+              setRefresh(refresh + 1);
             },
           );
         }
@@ -741,6 +740,7 @@ const FindCar = () => {
   }, []);
   useEffect(() => {
     onFoundMotobikeDriver(handleCustomerSocketFoundDriver);
+    onLocationDriver(handleCustomerSocketLocationDriver);
     onCompleteMotoTaxi(handelOnCompleteMotoTaxi);
     onDriverArrived(handleOnDriverArrived);
   }, []);
@@ -811,6 +811,15 @@ const FindCar = () => {
     setTimeout(() => {
       setStepView(FindCarScreenStepView.DRIVER_ARE_COMING);
     }, 5000);
+  };
+
+  const handleCustomerSocketLocationDriver = args => {
+    console.log('handleCustomerSocketLocationDriver new car')
+    const location = args?.result?.[0]?.location;
+    setDriverLocation({
+      lat: location?.lat,
+      long: location?.long,
+    });
   };
 
   const getInfoDriver = (data: any) => {
@@ -889,6 +898,8 @@ const FindCar = () => {
             ![
               FindCarScreenStepView.CHOOSE_DELIVERY_OPTION,
               FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO,
+              FindCarScreenStepView.DRIVER_ARRIVED,
+              FindCarScreenStepView.FINDED_DRIVER,
               FindCarScreenStepView.CHOOSE_FROM_TO,
               FindCarScreenStepView.DRIVER_ARE_COMING,
               FindCarScreenStepView.ORDER_IS_SUCCESS,
