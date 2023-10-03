@@ -1,2 +1,2 @@
 export * from './LocationPermission';
-// export * from './NotificationPermission';
+export * from './NotificationPermisson';

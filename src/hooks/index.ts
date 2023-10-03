@@ -17,3 +17,4 @@ export * from './userRequestDelivery';
 export * from './useVehicleRental';
 export * from './useListGarage';
 export * from './useDeliveryProvince';
+export * from './useNotification';

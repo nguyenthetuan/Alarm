@@ -1,4 +1,4 @@
-package com.gofast.customerapp;
+package gober.tastvietnam.com;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

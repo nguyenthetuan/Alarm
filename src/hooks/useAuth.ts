@@ -31,7 +31,6 @@ import {
 } from 'components/BottomSheetAlert/BottomSheetAlert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
 export const useAuth = () => {
   const dispatch = useDispatch();
   const { danger } = useNotify();
@@ -321,7 +320,6 @@ export const useAuth = () => {
     },
     [dispatch],
   );
-
   const getInfoUser = useCallback(
     (user_id: string, cb?: ICallback) => {
       dispatch(
@@ -336,6 +334,7 @@ export const useAuth = () => {
     },
     [dispatch],
   );
+
   return {
     user,
     loading,

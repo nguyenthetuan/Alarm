@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "846705050004",
+    "project_id": "gober-enduser",
+    "storage_bucket": "gober-enduser.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846705050004:android:b97111645f7dd4458e4f81",
+        "android_client_info": {
+          "package_name": "gober.tastvietnam.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBETMbA--Ybx036Gq6zNFzADq4RThAQLG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

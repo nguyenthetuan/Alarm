@@ -106,7 +106,38 @@ export const useHome = () => {
     },
     [dispatch, locationUser],
   );
+  const onFCMToken = useCallback(
+    async (formData: any, userId, callback: (error: string) => void) => {
+      dispatch(
+        HomeActions.postBaseActionsRequest(
+          {
+            formData,
+            endPoint: `${API_ENDPOINT.AUTH.ON_FCM_TOKEN}/${userId}`,
+            type: HomeActions.HomeActions.POST_BASE_FCMTOKEN,
+          },
+          () => {},
+        ),
+      );
+    },
+    [dispatch],
+  );
 
+  const getListNotifications = useCallback(
+    ({ ...rest }: any, cb?: IHomeActionPayload['callback']) => {
+      dispatch(
+        HomeActions.getBaseActionsRequest(
+          {
+            endPoint: API_ENDPOINT.HOME.NOTIFICATION_GET_ALL,
+            params: { ...rest },
+            dataKey: 'listNotification',
+            type: HomeActions.HomeActions.NOTIFICATION_GET_ALL,
+          },
+          cb,
+        ),
+      );
+    },
+    [],
+  );
   return {
     loading,
     listCategories,
@@ -119,5 +150,7 @@ export const useHome = () => {
     getListPromotions,
     getListSuggests,
     getRestaurantNearMe,
+    onFCMToken,
+    getListNotifications,
   };
 };

@@ -1,12 +1,16 @@
 import { RNFlatList, HomeLayout } from 'components';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { NotificationItem } from './components';
 import { Colors } from 'theme';
-
+import { useNotification } from 'hooks';
 const Notification: React.FC = () => {
-  const renderItem = useCallback(() => {
-    return <NotificationItem />;
+  const renderItem = useCallback(({ item }) => {
+    return <NotificationItem item={item} />;
   }, []);
+  const { fetchNotificaitonData, listNotificationData } = useNotification();
+  useEffect(() => {
+    fetchNotificaitonData();
+  }, [fetchNotificaitonData]);
   return (
     <HomeLayout
       bgColor={Colors.main}
@@ -15,9 +19,12 @@ const Notification: React.FC = () => {
         iconColor: Colors.white,
       }}>
       <RNFlatList
-        data={[...Array(10).keys()]}
+        data={listNotificationData}
         renderItem={renderItem}
         contentContainerStyle={{ padding: 16 }}
+        onEndReached={() => {
+          fetchNotificaitonData();
+        }}
       />
     </HomeLayout>
   );

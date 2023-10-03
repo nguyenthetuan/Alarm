@@ -9,6 +9,7 @@ export const UserActions = {
   POST_BASE_ACTIONS: 'POST_BASE_ACTIONS_USER',
   LOGOUT: 'LOGOUT',
   FORCE_LOGIN: 'FORCE_LOGIN',
+  POST_BASE_FCMTOKEN: 'POST_BASE_FCMTOKEN',
 };
 
 export const getBaseActionsRequest = (

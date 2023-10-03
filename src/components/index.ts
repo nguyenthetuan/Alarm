@@ -23,7 +23,7 @@ import { ScrollViewCus } from './ScrollViewCus';
 import { Card } from './Card';
 import { IconApp } from './IconApp';
 import { MapViewCus } from './MapViewCus';
-import { LocationPermission } from './Permissions';
+import { LocationPermission, notificationPermisson } from './Permissions';
 import {
   BottomSheetCommon,
   BottomSheetModalContainer,
@@ -69,6 +69,7 @@ export {
   BottomSheetCommon,
   ScrollViewCus,
   LocationPermission,
+  notificationPermisson,
   RNFlatList,
   CarouselHorizontal,
   StarsRating,

@@ -20,7 +20,6 @@ import { Provider } from 'react-redux';
 import { configStore } from 'store/createStore';
 import { BaseStyle } from 'theme';
 import { momentConfig } from 'utils';
-
 const { store } = configStore();
 moment.updateLocale('vi', momentConfig);
 const theme = {
@@ -34,7 +33,6 @@ const theme = {
 
 const App = () => {
   const modalCallPhone = useRef(null);
-
   useEffect(() => {
     LocationPermission();
   }, []);
