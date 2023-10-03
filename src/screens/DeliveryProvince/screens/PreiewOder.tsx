@@ -546,12 +546,12 @@ const PreviewOder = React.forwardRef<IRefs, IProps>((props, ref) => {
         </TextCus>
         {renderStandard()}
       </ViewCus>
-      <ViewCus mt-16>
-        <TextCus px-16 mb-8 color-black style={styles.text}>
-          Dịch vụ thêm
-        </TextCus>
-        {renderAddon()}
-      </ViewCus>
+      {/*<ViewCus mt-16>*/}
+      {/*  <TextCus px-16 mb-8 color-black style={styles.text}>*/}
+      {/*    Dịch vụ thêm*/}
+      {/*  </TextCus>*/}
+      {/*  {renderAddon()}*/}
+      {/*</ViewCus>*/}
       {/* END Dịch vụ thêm */}
       <Modal
         visible={showInputPriceModal}

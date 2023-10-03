@@ -19,6 +19,14 @@ export const useCustomerSocket = () => {
     [socket],
   );
 
+  const onLocationDriver = useCallback(
+    (callback: (data: any) => void) => {
+      socket.removeListener('customer:location-driver');
+      socket.on('customer:location-driver', callback);
+    },
+    [socket],
+  );
+
   const onFoundMotobikeDriver = useCallback(
     (callback: (data: any) => void) => {
       // socket.removeListener('customer:found-driver');
@@ -151,6 +159,7 @@ export const useCustomerSocket = () => {
   return {
     onOrderDelivered,
     onFoundDriver,
+    onLocationDriver,
     onOrderDelivering,
     onConnect,
     onConnectError,
