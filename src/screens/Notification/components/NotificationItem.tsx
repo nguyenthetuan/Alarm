@@ -20,7 +20,7 @@ const NotificationItem: React.FC<IProps> = (Props: IProps) => {
           {item.title}
         </TextCus>
         <ViewCus style={styles.coverRead}>
-          <ViewCus style={styles.circleRead} />
+          {item.active && <ViewCus style={styles.circleRead} />}
         </ViewCus>
       </ViewCus>
       <ViewCus px-10>
