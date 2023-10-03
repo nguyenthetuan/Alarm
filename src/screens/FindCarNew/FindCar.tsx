@@ -195,9 +195,9 @@ const FindCar = () => {
             },
             res => {
               if (res.data.result?.length > 0) {
-                _rs[i].price = Number(res.data.result[0]?.price || 0)?.toFixed(
-                  0,
-                );
+                _rs[i].price =
+                  Number(res.data.result[0]?.price || 0)?.toFixed(0) *
+                  res.data.result[0].distanceKm;
                 _rs[i].distance = res.data.result[0].distanceKm;
                 _rs[i].distanceText = res.data.result[0].distanceText;
               }
@@ -814,7 +814,7 @@ const FindCar = () => {
   };
 
   const handleCustomerSocketLocationDriver = args => {
-    console.log('handleCustomerSocketLocationDriver new car')
+    console.log('handleCustomerSocketLocationDriver new car');
     const location = args?.result?.[0]?.location;
     setDriverLocation({
       lat: location?.lat,
