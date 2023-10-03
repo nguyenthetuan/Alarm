@@ -9,7 +9,7 @@ import {
   IconApp,
 } from 'components';
 import { useAuth, useHome } from 'hooks';
-import React, { useEffect, useMemo, useCallback, useState } from 'react';
+import React, { useEffect, useMemo, useCallback, useState, useId } from 'react';
 import { Alert, Image, StatusBar } from 'react-native';
 import { Colors } from 'theme';
 import { DATA_CATEGORY, IPage } from 'types';
@@ -21,6 +21,7 @@ import {
   SuggestionForYou,
 } from './Components';
 import styles from './styles';
+import { setFCMTokenUser } from 'components/Permissions';
 const Home: React.FC = () => {
   const {
     getListCategories,
@@ -28,6 +29,7 @@ const Home: React.FC = () => {
     getListPromotions,
     getRestaurantNearMe,
     listRestaurantNearMe,
+    onFCMToken,
   } = useHome();
   const { userInfo } = useAuth();
   const [isShowSearch, setIsShowSearch] = useState(false);
@@ -59,7 +61,14 @@ const Home: React.FC = () => {
       () => {},
     );
   }, [getRestaurantNearMe]);
-
+  useEffect(() => {
+    setFCMTokenUser(token => {
+      const data = {
+        token: token,
+      };
+      onFCMToken(data, userInfo?.id, () => {});
+    });
+  }, [userInfo?.useId]);
   const { categories } = useMemo(() => {
     return {
       categories: [

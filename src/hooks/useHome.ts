@@ -106,7 +106,33 @@ export const useHome = () => {
     },
     [dispatch, locationUser],
   );
+  const onFCMToken = useCallback(
+    async (formData: any, userId, callback: (error: string) => void) => {
+      dispatch(
+        HomeActions.postBaseActionsRequest(
+          {
+            formData,
+            endPoint: `${API_ENDPOINT.AUTH.ON_FCM_TOKEN}/${userId}`,
+            type: HomeActions.HomeActions.POST_BASE_FCMTOKEN,
+          },
+          async res => {
+            console.log('res', res);
 
+            if (res?.status === 200) {
+              const data = res.data.result[0] || {};
+              // NavigationService.navigate(Routes.ResetPassword, {
+              //   ...data,
+              //   ...formData,
+              // });
+            } else {
+              callback?.(res?.data?.message ?? '');
+            }
+          },
+        ),
+      );
+    },
+    [dispatch],
+  );
   return {
     loading,
     listCategories,
@@ -119,5 +145,6 @@ export const useHome = () => {
     getListPromotions,
     getListSuggests,
     getRestaurantNearMe,
+    onFCMToken,
   };
 };

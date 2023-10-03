@@ -37,6 +37,7 @@ export const API_ENDPOINT = {
     UPLOAD_IMAGE: 'user/upload-image-message',
     MESSAGE_HISTORY: 'user/message/history',
     INFO_USER: 'user',
+    ON_FCM_TOKEN: 'user/update',
   },
   GOONG: {
     GEO_CODE: 'Geocode',

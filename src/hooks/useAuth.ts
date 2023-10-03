@@ -31,7 +31,6 @@ import {
 } from 'components/BottomSheetAlert/BottomSheetAlert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
 export const useAuth = () => {
   const dispatch = useDispatch();
   const { danger } = useNotify();
@@ -306,9 +305,7 @@ export const useAuth = () => {
     },
     [],
   );
-  // const onUploadTokeFCM = useCallback(
-    
-  // )
+
   const getListMessageHistory = useCallback(
     (sender_user_id: string, receiver_user_id: string, cb?: ICallback) => {
       dispatch(
@@ -337,6 +334,7 @@ export const useAuth = () => {
     },
     [dispatch],
   );
+
   return {
     user,
     loading,

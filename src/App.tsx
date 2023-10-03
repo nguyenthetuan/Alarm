@@ -1,12 +1,7 @@
 // import Toast from 'react-native-toast-message';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PortalProvider } from '@gorhom/portal';
-import {
-  CallPhone,
-  LocationPermission,
-  SafeAreaStatusBar,
-  notificationPermisson,
-} from 'components';
+import { CallPhone, LocationPermission, SafeAreaStatusBar } from 'components';
 import { CartProvider } from 'context';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -25,7 +20,6 @@ import { Provider } from 'react-redux';
 import { configStore } from 'store/createStore';
 import { BaseStyle } from 'theme';
 import { momentConfig } from 'utils';
-
 const { store } = configStore();
 moment.updateLocale('vi', momentConfig);
 const theme = {
@@ -39,10 +33,8 @@ const theme = {
 
 const App = () => {
   const modalCallPhone = useRef(null);
-
   useEffect(() => {
     LocationPermission();
-    notificationPermisson();
   }, []);
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>

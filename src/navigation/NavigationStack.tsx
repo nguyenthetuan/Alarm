@@ -23,7 +23,7 @@ import { navigationRef } from './NavigationService';
 import { Routes } from './Routes';
 import { RootStackParamList } from './types';
 import Geolocation from '@react-native-community/geolocation';
-import { BottomSheetAlert } from 'components';
+import { BottomSheetAlert, notificationPermisson } from 'components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ViewCus } from 'components';
@@ -269,7 +269,9 @@ export const Navigator = () => {
   const watchPositionRef = useRef<ReturnType<
     typeof Geolocation.watchPosition
   > | null>(null);
+
   useLayoutEffect(() => {
+    notificationPermisson();
     (async () => {
       const isCheckIntro = await AsyncStorage.getItem('Intro');
       if (isCheckIntro === 'Y') {

@@ -1,7 +1,7 @@
 /** @format */
 
 import { API_ENDPOINT, axiosClient } from 'utils';
-import { takeLatest, put, all } from 'redux-saga/effects';
+import { takeLatest, put, all, takeEvery } from 'redux-saga/effects';
 import { IHomeActionPayload, INofifyState } from 'types';
 import { UserActions } from './Actions';
 import {
@@ -96,6 +96,7 @@ function* onPostBaseAction(action: IHomeActionPayload) {
 
 function* watchPostBaseActions() {
   yield takeLatest(UserActions.POST_BASE_ACTIONS as any, onPostBaseAction);
+  yield takeEvery(UserActions.POST_BASE_FCMTOKEN as any, onPostBaseAction);
 }
 
 function* onLogoutAction(action: IHomeActionPayload) {

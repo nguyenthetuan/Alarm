@@ -1,6 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
 import { Platform, PermissionsAndroid } from 'react-native';
 import { requestNotifications } from 'react-native-permissions';
+
 export async function notificationPermisson() {
   if (Platform.OS === 'ios') {
     const authStatus = await messaging().requestPermission();
@@ -8,7 +9,7 @@ export async function notificationPermisson() {
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
-      setFCMTokenUser();
+      setFCMTokenUser(() => {});
     }
   } else {
     try {
@@ -16,20 +17,20 @@ export async function notificationPermisson() {
       if (OsVer >= 13) {
         requestNotifications(['alert', 'sound']).then(
           ({ status, settings }) => {
-            setFCMTokenUser();
+            setFCMTokenUser(() => {});
           },
         );
       } else {
         await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
         );
-        setFCMTokenUser();
+        setFCMTokenUser(() => {});
       }
     } catch (error) {}
   }
 }
 
-const setFCMTokenUser = async () => {
+export async function setFCMTokenUser(cb) {
   if (true) {
     try {
       await messaging().registerDeviceForRemoteMessages();
@@ -42,14 +43,14 @@ const setFCMTokenUser = async () => {
             // if (response?.data === 'SUCCESS') {
             //   dispatch(updateSetFCM())
             // }
+            cb(token);
             console.log('token', token);
+            // onFCMToken(data, () => {});
           }
         }
       }
     } catch (err) {
       console.log('errrrr', err);
-
-      //
     }
   }
-};
+}
