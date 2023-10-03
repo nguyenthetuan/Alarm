@@ -34,22 +34,8 @@ const Home: React.FC = () => {
   const { userInfo } = useAuth();
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [textSearch, setTextSearch] = useState('');
-  const onHandleSearch = useCallback(() => {
-    setIsShowSearch(true);
-  }, []);
   useEffect(() => {
     getListCategories();
-    // BottomSheetController.showModal({
-    //   type: 'errors',
-    //   title: 'Đăng nhập hết hạn',
-    //   subtitle:
-    //     'Tài khoản của bạn đã được đăng nhập ở một thiết bị khác. Vui lòng đăng nhập lại',
-    //   onOk: () => {
-    //     BottomSheetController.hideModal();
-    //     // store.dispatch(logoutRequest({ redirect: true }));
-    //   },
-    //   textOk: 'Đăng nhập',
-    // });
   }, [getListCategories]);
   useEffect(() => {
     getRestaurantNearMe(
@@ -66,7 +52,7 @@ const Home: React.FC = () => {
       const data = {
         token: token,
       };
-      onFCMToken(data, userInfo?.id, () => {});
+      userInfo?.id && onFCMToken(data, userInfo?.id, () => {});
     });
   }, [userInfo?.useId]);
   const { categories } = useMemo(() => {
@@ -101,7 +87,6 @@ const Home: React.FC = () => {
       </TouchCus>
     );
   }, [isShowSearch]);
-
   const length = userInfo?.full_name?.split(' ').length;
   const fullName =
     `${
@@ -129,7 +114,7 @@ const Home: React.FC = () => {
                   bold
                   heading1
                   style={{ lineHeight: 26 }}>
-                  hi
+                  {fullName.trim() !== 'undefined' ? 'hello' : 'hi'}
                 </TextCus>
                 <TextCus
                   numberOfLines={1}
@@ -138,7 +123,7 @@ const Home: React.FC = () => {
                   bold
                   heading1
                   style={{ lineHeight: 26 }}>
-                  {!!fullName?.trim()}
+                  {fullName.trim() !== 'undefined' ? fullName?.trim() : ''}
                 </TextCus>
               </ViewCus>
               <ViewCus flex-row items-center>

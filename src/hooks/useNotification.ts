@@ -45,8 +45,6 @@ export const useNotification = () => {
   }, [fetchListNotification, isLoading]);
 
   const handleFetchFoodDataSuccess = (result: IResponse) => {
-    console.log('result', result);
-
     setIsLoading(false);
     switch (result.status) {
       case 200:

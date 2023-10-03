@@ -17,24 +17,21 @@ interface IProps {
   onPress?: () => void | undefined;
 }
 
-const PromotionItem: React.FC<IProps> = ({ onPress, item, isAppliable }) => {
+const PromotionItemDetail: React.FC<IProps> = ({
+  onPress,
+  item,
+  isAppliable,
+}) => {
   const { t } = useTranslation();
-  const route = useRoute<any>();
-  // const { setSelectedPromos, selectedPromos } = useCategories();
   const { setPromotions, promotions } = useCart();
   const isApplied = promotions[0] && promotions[0]?.id === item?.id;
   const handleApplyPromo = useCallback(() => {
     if (item && !isApplied) {
       setPromotions([item]);
-      NavigationService.navigate(
-        route?.params?.backPath,
-        route?.params?.params,
-      );
       return;
     } else {
       setPromotions([]);
     }
-    // setSelectedPromos([]);
   }, [item, isApplied]);
 
   if (!item) {
@@ -129,4 +126,4 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
 });
-export default PromotionItem;
+export default PromotionItemDetail;

@@ -8,7 +8,7 @@ import {
   ViewCus,
 } from 'components';
 import React, { forwardRef } from 'react';
-import PromotionItem from './PromotionItem';
+import PromotionItemDetail from './PromotionItemDetail';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { StyleSheet } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
@@ -19,8 +19,12 @@ import WebView from 'react-native-webview';
 interface PageProps {
   onCloseModal: () => void;
   promotion?: IPromotionListItem;
+  isAppliable: any;
 }
-const PromotionDetail = ({ onCloseModal, promotion }: PageProps, ref) => {
+const PromotionDetail = (
+  { onCloseModal, promotion, isAppliable }: PageProps,
+  ref,
+) => {
   return (
     <BottomSheetModalContainer
       ref={ref}
@@ -34,7 +38,9 @@ const PromotionDetail = ({ onCloseModal, promotion }: PageProps, ref) => {
           <IconApp name={IconName.Remove} size={20} />
         </TouchCus>
       </ViewCus>
-      {promotion && <PromotionItem item={promotion} />}
+      {promotion && (
+        <PromotionItemDetail item={promotion} isAppliable={isAppliable} />
+      )}
 
       <BottomSheetScrollView contentContainerStyle={styles.container}>
         <ViewCus style={[BaseStyle.flexRowSpaceBetwwen]} mb-8>
@@ -49,7 +55,7 @@ const PromotionDetail = ({ onCloseModal, promotion }: PageProps, ref) => {
         </ViewCus>
         <Divider small style={styles.line} />
         {promotion?.description && (
-          <WebView source={{ html: promotion.description }} />
+          <WebView source={{ html: promotion?.description }} />
         )}
       </BottomSheetScrollView>
     </BottomSheetModalContainer>
