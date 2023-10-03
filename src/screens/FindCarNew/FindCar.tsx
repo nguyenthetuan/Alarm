@@ -70,6 +70,7 @@ const FindCar = () => {
     onNotFoundDriver,
     onCompleteMotoTaxi,
     onFoundMotobikeDriver,
+    onLocationDriver,
     onDriverArrived,
   } = useCustomerSocket();
 
@@ -194,7 +195,9 @@ const FindCar = () => {
             },
             res => {
               if (res.data.result?.length > 0) {
-                _rs[i].price = res.data.result[0].price?.toFixed(0);
+                _rs[i].price = Number(res.data.result[0]?.price || 0)?.toFixed(
+                  0,
+                );
                 _rs[i].distance = res.data.result[0].distanceKm;
                 _rs[i].distanceText = res.data.result[0].distanceText;
               }
@@ -737,6 +740,7 @@ const FindCar = () => {
   }, []);
   useEffect(() => {
     onFoundMotobikeDriver(handleCustomerSocketFoundDriver);
+    onLocationDriver(handleCustomerSocketLocationDriver);
     onCompleteMotoTaxi(handelOnCompleteMotoTaxi);
     onDriverArrived(handleOnDriverArrived);
   }, []);
@@ -807,6 +811,15 @@ const FindCar = () => {
     setTimeout(() => {
       setStepView(FindCarScreenStepView.DRIVER_ARE_COMING);
     }, 5000);
+  };
+
+  const handleCustomerSocketLocationDriver = args => {
+    console.log('handleCustomerSocketLocationDriver new car')
+    const location = args?.result?.[0]?.location;
+    setDriverLocation({
+      lat: location?.lat,
+      long: location?.long,
+    });
   };
 
   const getInfoDriver = (data: any) => {
@@ -885,6 +898,8 @@ const FindCar = () => {
             ![
               FindCarScreenStepView.CHOOSE_DELIVERY_OPTION,
               FindCarScreenStepView.QUESTION_CHOOSE_FROM_TO,
+              FindCarScreenStepView.DRIVER_ARRIVED,
+              FindCarScreenStepView.FINDED_DRIVER,
               FindCarScreenStepView.CHOOSE_FROM_TO,
               FindCarScreenStepView.DRIVER_ARE_COMING,
               FindCarScreenStepView.ORDER_IS_SUCCESS,

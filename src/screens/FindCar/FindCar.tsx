@@ -519,6 +519,13 @@ const FindCar = () => {
     [customerSocket],
   );
 
+  const handleCustomerSocketLocationDriver = useCallback(
+    args => {
+      console.log('customer:location-driver:', args);
+    },
+    [customerSocket],
+  );
+
   const handleCustomerSocketOrderDelivering = useCallback(
     args => {
       console.log('customer:order-delivering:', args);
@@ -530,6 +537,10 @@ const FindCar = () => {
     setStepView(ScreenStepView.CHOOSE_DELIVERY_OPTION);
     customerSocket.removeAllListeners();
     customerSocket.on('customer:found-driver', handleCustomerSocketFoundDriver);
+    customerSocket.on(
+      'customer:location-driver',
+      handleCustomerSocketLocationDriver,
+    );
     customerSocket.on(
       'customer:order-delivered',
       handleCustomerSocketOrderDelivered,
