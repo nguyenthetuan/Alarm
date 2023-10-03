@@ -193,24 +193,26 @@ const FindCar = () => {
               hour: `${new Date().getHours()}`,
             },
             res => {
-              if (res.data.result?.length > 0) {
-                _rs[i].price =
-                  res.data.result[0].price?.toFixed(0) *
-                  res.data.result[0].distanceKm;
-                _rs[i].distance = res.data.result[0].distanceKm;
-                _rs[i].distanceText = res.data.result[0].distanceText;
-              }
-              if (
-                _rs[0].distance === _rs[1].distance &&
-                _rs[0].distance === _rs[2].distance &&
-                _rs[0].distance === _rs[3].distance &&
-                _rs[0].distance === _rs[4].distance &&
-                _rs[0].distance === _rs[5].distance &&
-                parseInt(_rs[0].distance) > 0
-              ) {
-                setDeliveryOptions(deliveryDriverOptions => _rs);
-              }
-              setRefresh(refresh + 1);
+              try {
+                if (res.data.result?.length > 0) {
+                  _rs[i].price = Number(res.data.result[0].price || 0)?.toFixed(
+                    0,
+                  );
+                  _rs[i].distance = res.data.result[0].distanceKm;
+                  _rs[i].distanceText = res.data.result[0].distanceText;
+                }
+                if (
+                  _rs[0].distance === _rs[1].distance &&
+                  _rs[0].distance === _rs[2].distance &&
+                  _rs[0].distance === _rs[3].distance &&
+                  _rs[0].distance === _rs[4].distance &&
+                  _rs[0].distance === _rs[5].distance &&
+                  parseInt(_rs[0].distance) > 0
+                ) {
+                  setDeliveryOptions(deliveryDriverOptions => _rs);
+                }
+                setRefresh(refresh + 1);
+              } catch (err) {}
             },
           );
         }

@@ -45,6 +45,10 @@ function* watchGetBaseActions() {
     HomeActions.GET_LIST_RESTAURANT_NEAR_ME as any,
     onGetBaseActionsRequested,
   );
+  yield takeEvery(
+    HomeActions.NOTIFICATION_GET_ALL as any,
+    onGetBaseActionsRequested,
+  );
 }
 
 function* onPostBaseActionsRequested(action: IRequestActionPayload) {

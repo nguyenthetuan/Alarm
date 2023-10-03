@@ -8,24 +8,27 @@ interface IProps {
   title?: string;
   content?: string;
   createdAt?: string;
+  item: {};
 }
 
-const NotificationItem: React.FC<IProps> = ({}) => {
+const NotificationItem: React.FC<IProps> = (Props: IProps) => {
+  const { item } = Props;
   return (
     <ViewCus style={styles.container}>
       <ViewCus style={[BaseStyle.flexRowSpaceBetwwen]} mb-6>
         <TextCus color={Colors.orangeFF} bold>
-          Đã tìm được tài xế cho đơn hàng #50880901
+          {item.title}
         </TextCus>
         <ViewCus style={styles.coverRead}>
           <ViewCus style={styles.circleRead} />
         </ViewCus>
       </ViewCus>
       <ViewCus px-10>
-        <TextCus>
-          Tài xế đang trên đường lấy món và sẽ giao cho bạn trong thời gian sớm
-          nhất
-        </TextCus>
+        {item?.desc ? (
+          <TextCus>{item?.desc}</TextCus>
+        ) : (
+          <TextCus>Tài xê: {item?.content?.name}</TextCus>
+        )}
         <TextCus subhead color={Colors.grey85}>
           1h trước
         </TextCus>

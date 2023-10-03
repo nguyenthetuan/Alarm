@@ -108,6 +108,12 @@ export interface IListVehicleParams {
   vehicleCatalogId?: string;
   garagetId: string;
 }
+
+export interface IListNotificationParams {
+  page: number;
+  limit: number;
+  user_id?: string;
+}
 export interface IExtraFood {
   desc: string;
   extra_option_group_id: any;

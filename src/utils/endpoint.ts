@@ -51,6 +51,7 @@ export const API_ENDPOINT = {
     PROMOTION: 'customer/promotion/list-promotion',
     SUGGEST_RESTAURANTS: 'customer/suggest-restaurants',
     GET_RESTAURANTS_NEAR_ME: 'customer/restaurant-near-me',
+    NOTIFICATION_GET_ALL: 'notification/get-all',
   },
   CATEGORY: {
     RESTAURANT: 'customer/restaurant/list-restaurants',
