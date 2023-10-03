@@ -22,6 +22,11 @@ const FoodInfo: React.FC<IProps> = props => {
       params: { restaurantId: detailRestaurant.id },
     });
   }, [detailRestaurant]);
+  console.log(
+    'props?.detailRestaurant?.distance',
+    props?.detailRestaurant?.distance,
+  );
+
   return (
     <ViewCus style={styles.wrapperContent}>
       <TouchCus
@@ -44,7 +49,7 @@ const FoodInfo: React.FC<IProps> = props => {
           <TextCus color-grey82>
             ({`${props.detailRestaurant.total_reviews}`} đánh giá)
           </TextCus>
-          {props.detailRestaurant.distance && (
+          {!!props?.detailRestaurant?.distance && (
             <ViewCus style={[BaseStyle.flexRowCenter, { flex: 1 }]}>
               <TextCus color-grey82 px-5>
                 |
@@ -52,7 +57,7 @@ const FoodInfo: React.FC<IProps> = props => {
               <TextCus color-grey82 numberOfLines={1} ellipsizeMode="tail">
                 {' '}
                 Trong bán kính{' '}
-                {formatDistanceKm(props.detailRestaurant.distance)} km gần bạn
+                {formatDistanceKm(props?.detailRestaurant?.distance)} km gần bạn
               </TextCus>
             </ViewCus>
           )}

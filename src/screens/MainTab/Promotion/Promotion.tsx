@@ -34,8 +34,8 @@ const Promotion = () => {
             isAppliable={isBackable}
             item={item}
             key={item.id}
-            onPress={() =>{
-              onPressItem(item)
+            onPress={() => {
+              onPressItem(item);
             }}
           />
         );
@@ -95,6 +95,7 @@ const Promotion = () => {
         contentContainerStyle={BaseStyle.pd16}
       />
       <PromotionDetail
+        isAppliable={isBackable}
         promotion={selected}
         ref={refModal}
         onCloseModal={() => {
