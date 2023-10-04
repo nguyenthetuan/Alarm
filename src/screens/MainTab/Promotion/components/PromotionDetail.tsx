@@ -16,15 +16,26 @@ import { width } from 'utils';
 import { IPromotionListItem } from 'types';
 import moment from 'moment';
 import WebView from 'react-native-webview';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { NavigationService, RootStackParamList } from 'navigation';
 interface PageProps {
   onCloseModal: () => void;
   promotion?: IPromotionListItem;
   isAppliable: any;
+  handleApplyPromo: (value) => void | undefined;
+  listPromotion: any;
 }
 const PromotionDetail = (
-  { onCloseModal, promotion, isAppliable }: PageProps,
+  {
+    onCloseModal,
+    promotion,
+    isAppliable,
+    handleApplyPromo,
+    listPromotion,
+  }: PageProps,
   ref,
 ) => {
+  const route = useRoute<RouteProp<RootStackParamList, 'Promotion'>>();
   return (
     <BottomSheetModalContainer
       ref={ref}
@@ -39,9 +50,16 @@ const PromotionDetail = (
         </TouchCus>
       </ViewCus>
       {promotion && (
-        <PromotionItemDetail item={promotion} isAppliable={isAppliable} />
+        <PromotionItemDetail
+          item={promotion}
+          isAppliable={isAppliable}
+          onPress={item => {
+            handleApplyPromo(item);
+            onCloseModal();
+          }}
+          listPromotion={listPromotion}
+        />
       )}
-
       <BottomSheetScrollView contentContainerStyle={styles.container}>
         <ViewCus style={[BaseStyle.flexRowSpaceBetwwen]} mb-8>
           <TextCus color-grey85>Mã</TextCus>

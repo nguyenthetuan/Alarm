@@ -76,6 +76,18 @@ const Promotion = () => {
   //   }
   // }, [listDataTable]);
   //#endregion
+  const handleApplyPromo = useCallback(item => {
+    if (item) {
+      setPromotions([item]);
+      NavigationService.navigate(
+        route?.params?.backPath,
+        route?.params?.params,
+      );
+      return;
+    } else {
+      setPromotions([]);
+    }
+  }, []);
 
   return (
     <HomeLayout
@@ -102,6 +114,8 @@ const Promotion = () => {
           refModal.current?.close();
           setSelected(undefined);
         }}
+        handleApplyPromo={handleApplyPromo}
+        listPromotion={promotions}
       />
     </HomeLayout>
   );
