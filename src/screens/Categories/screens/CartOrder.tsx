@@ -56,12 +56,8 @@ const CartOrder: React.FC = () => {
   const { selectedPromos, detailRestaurant, estimatePrices } = useCategories();
   const { t } = useTranslation();
   const { listData: listShippingType } = useShippingType();
-
   const [totalPrice, setTotalPrice] = useState(price);
-  console.log('totalPrice', totalPrice);
-
   const [priceDelivery, setPriceDelivery] = useState(0);
-
   const { locationUser } = useLocation();
   const { user, userInfo } = useAuth();
   const refBottom = useRef<IRefBottom>(null);
