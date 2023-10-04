@@ -47,7 +47,6 @@ const ChooseWayToDelivery: React.FC<IProps> = props => {
           }),
         );
       }
-
       Promise.all(listFunc).then(rs => {
         if (rs && rs.length > 0) {
           for (let i = 0; i < rs.length; i++) {
