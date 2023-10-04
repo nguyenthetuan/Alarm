@@ -14,18 +14,21 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 interface IProps {
   item: IPromotionListItem;
   isAppliable?: boolean;
-  onPress?: () => void | undefined;
+  onPress?: (value) => void | undefined;
+  listPromotion: any;
 }
 
 const PromotionItemDetail: React.FC<IProps> = ({
   onPress,
   item,
   isAppliable,
+  listPromotion,
 }) => {
   const { t } = useTranslation();
   const { setPromotions, promotions } = useCart();
-  const isApplied = promotions[0] && promotions[0]?.id === item?.id;
+  const isApplied = listPromotion[0] && listPromotion[0]?.id === item?.id;
   const handleApplyPromo = useCallback(() => {
+    onPress(item);
     if (item && !isApplied) {
       setPromotions([item]);
       return;
