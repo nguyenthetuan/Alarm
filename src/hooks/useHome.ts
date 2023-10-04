@@ -35,20 +35,14 @@ export const useHome = () => {
       }),
     );
   }, [dispatch]);
-  const getListPromotions = useCallback(
-    (restaurantId?: string) => {
-      dispatch(
-        HomeActions.getBaseActionsRequest({
-          dataKey: 'listPromotions',
-          endPoint: API_ENDPOINT.HOME.PROMOTION,
-          params: {
-            restaurantId,
-          },
-        }),
-      );
-    },
-    [dispatch],
-  );
+  const getListPromotions = useCallback(() => {
+    dispatch(
+      HomeActions.getBaseActionsRequest({
+        dataKey: 'listPromotions',
+        endPoint: API_ENDPOINT.HOME.PROMOTION,
+      }),
+    );
+  }, [dispatch]);
   const reloadSuggestHome = useCallback(
     (limit = 4) => {
       dispatch(
