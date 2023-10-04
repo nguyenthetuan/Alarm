@@ -56,10 +56,8 @@ const CartOrder: React.FC = () => {
   const { selectedPromos, detailRestaurant, estimatePrices } = useCategories();
   const { t } = useTranslation();
   const { listData: listShippingType } = useShippingType();
-
   const [totalPrice, setTotalPrice] = useState(price);
   const [priceDelivery, setPriceDelivery] = useState(0);
-
   const { locationUser } = useLocation();
   const { user, userInfo } = useAuth();
   const refBottom = useRef<IRefBottom>(null);
@@ -98,10 +96,12 @@ const CartOrder: React.FC = () => {
                 promotions?.[0]?.condition?.condition_value,
             );
           } else {
-            setTotalPrice(
-              price +
-                listShippingType[0]?.pricePerKm * rs.data.result[0].distanceKm,
-            );
+            listShippingType.length > 0 &&
+              setTotalPrice(
+                price +
+                  listShippingType[0]?.pricePerKm *
+                    rs.data.result[0].distanceKm,
+              );
           }
         }
       },
