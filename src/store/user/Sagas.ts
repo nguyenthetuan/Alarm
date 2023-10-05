@@ -64,7 +64,6 @@ function* onPostBaseAction(action: IHomeActionPayload) {
         headers: { ...action.payload?.headers },
       },
     );
-
     const dataKey = action?.payload?.dataKey;
     const payload = dataKey
       ? {
