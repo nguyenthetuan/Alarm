@@ -8,12 +8,12 @@ import {
   ViewCus,
   IconApp,
 } from 'components';
-import { useAuth, useHome, useLocation, useGeo } from 'hooks';
+import { useAuth, useHome, useLocation, useGeo, useKey } from 'hooks';
 import React, { useEffect, useMemo, useCallback, useState, useId } from 'react';
 import { Alert, Image, StatusBar } from 'react-native';
 import { Colors } from 'theme';
 import { DATA_CATEGORY, IPage } from 'types';
-import { getImage, isIos } from 'utils';
+import { getImage, isIos, KEY_CONTEXT } from 'utils';
 import {
   AttractiveOffers,
   InputSearch,
@@ -33,8 +33,9 @@ const Home: React.FC = () => {
   } = useHome();
   const { locationUser } = useLocation();
   const { onNameByLatLng } = useGeo();
-
+  const { getKeyStore } = useKey();
   const { userInfo } = useAuth();
+
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [textSearch, setTextSearch] = useState('');
   const [addess, setAddress] = useState('');
@@ -58,11 +59,12 @@ const Home: React.FC = () => {
     );
   }, [getRestaurantNearMe]);
   useEffect(() => {
-    setFCMTokenUser(token => {
+    setFCMTokenUser(async token => {
       const data = {
         token: token,
       };
-      userInfo?.id && onFCMToken(data, userInfo?.id, () => {});
+      const accept = await getKeyStore(KEY_CONTEXT.ACCESS_TOKEN);
+      accept !== 'undefined' && onFCMToken(data, userInfo?.id, () => {});
     });
   }, [userInfo?.useId]);
   const { categories } = useMemo(() => {
