@@ -8,7 +8,7 @@ import {
   ViewCus,
   IconApp,
 } from 'components';
-import { useAuth, useHome } from 'hooks';
+import { useAuth, useHome, useLocation, useGeo } from 'hooks';
 import React, { useEffect, useMemo, useCallback, useState, useId } from 'react';
 import { Alert, Image, StatusBar } from 'react-native';
 import { Colors } from 'theme';
@@ -31,10 +31,20 @@ const Home: React.FC = () => {
     listRestaurantNearMe,
     onFCMToken,
   } = useHome();
+  const { locationUser } = useLocation();
+  const { onNameByLatLng } = useGeo();
+
   const { userInfo } = useAuth();
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [textSearch, setTextSearch] = useState('');
+  const [addess, setAddress] = useState('');
   useEffect(() => {
+    onNameByLatLng(
+      { latitude: locationUser.lat, longitude: locationUser.long },
+      res => {
+        setAddress(res);
+      },
+    );
     getListCategories();
   }, [getListCategories]);
   useEffect(() => {
@@ -129,7 +139,7 @@ const Home: React.FC = () => {
               <ViewCus flex-row items-center>
                 <Image source={Images.location} />
                 <TextCus l-10 color-white bold f-1 numberOfLines={1}>
-                  {userInfo?.address}
+                  {addess}
                 </TextCus>
               </ViewCus>
             </ViewCus>
