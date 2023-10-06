@@ -58,7 +58,7 @@ const InputPassword: React.FC = () => {
   const onForgotPassword = () => {
     onForgotPasswordOTP({
       phoneNumber: route.params?.phone_number,
-      typeCheck: EnumOTP.FORGOT,
+      type_check: EnumOTP.FORGOT,
     });
   };
   return (

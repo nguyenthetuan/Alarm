@@ -40,11 +40,11 @@ const OTP: React.FC = () => {
 
   const onHanleCheckOtp = useCallback(
     (value: TFormOtp) => {
-      const { phoneNumber, typeCheck } = route.params;
+      const { phoneNumber, type_check } = route.params;
       onVerifyOTP(
         {
           phoneNumber,
-          typeCheck,
+          type_check,
           otpCode: value.otp,
         },
         err => {
@@ -62,7 +62,7 @@ const OTP: React.FC = () => {
     setTimeUp(false);
     setReset(!reset);
     refCountDown.current?.setStart();
-    if (route.params.typeCheck === EnumOTP.REGISTER) {
+    if (route.params.type_check === EnumOTP.REGISTER) {
       onRequestOTP({
         ...route.params,
       });

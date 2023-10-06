@@ -55,11 +55,11 @@ export type RootStackParamList = {
   };
   OTP: {
     phoneNumber: string;
-    typeCheck: EnumOTP.FORGOT | EnumOTP.REGISTER;
+    type_check: EnumOTP.FORGOT | EnumOTP.REGISTER;
   };
   Register: {
     phoneNumber: string;
-    typeCheck: EnumOTP.FORGOT | EnumOTP.REGISTER;
+    type_check: EnumOTP.FORGOT | EnumOTP.REGISTER;
   };
   InputPassword: {
     phone_number: string;

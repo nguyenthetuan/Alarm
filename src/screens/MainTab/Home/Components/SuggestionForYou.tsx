@@ -8,28 +8,68 @@ import {
   ViewCus,
 } from 'components';
 import { useCart } from 'context/CartContext';
-import { useHome, useLocation } from 'hooks';
+import { useHome, useLocation, useCategories } from 'hooks';
 import { NavigationService, Routes } from 'navigation';
 import React, { useCallback, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { BaseStyle, Colors } from 'theme';
-import { IRestaurant, ISuggestRestaurant } from 'types';
+import { IRestaurant, ISuggestRestaurant, IRestaurantDetail } from 'types';
 import { formatDistanceKm, getImage, width } from 'utils';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IProps {}
 const SuggestionForYou: React.FC<IProps> = () => {
   const { t } = useTranslation();
   const { locationUser } = useLocation();
   const { listSuggests, reloadSuggestHome } = useHome();
-  const { setSelectedRestaurant } = useCart();
-  const onPressItem = useCallback((item: IRestaurant) => {
+  const {
+    setSelectedRestaurant,
+    removeAll: onRemoveAll,
+    orderItems: carts,
+    setDistance,
+    setPromotions,
+  } = useCart();
+  const { setSelectedPromos } = useCategories();
+  const goToRestaurant = useCallback((item: IRestaurantDetail) => {
     setSelectedRestaurant(item.id);
+    AsyncStorage.setItem('restaurantSelected', item.id);
+    setDistance(item.distance ?? 0);
     NavigationService.navigate(Routes.RestaurantDetail, {
       restaurantId: item.id,
       distance: item?.distance,
     });
   }, []);
+
+  const handleChooseRestaurant = useCallback(
+    async (item: IRestaurantDetail) => {
+      const idRestaurantSelected = await AsyncStorage.getItem(
+        'restaurantSelected',
+      );
+
+      if (carts.length && item.id !== idRestaurantSelected) {
+        Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
+          {
+            text: t('cancel'),
+            style: 'cancel',
+          },
+          {
+            text: t('ok'),
+            onPress: () => {
+              onRemoveAll();
+              setPromotions([]);
+              setSelectedPromos([]);
+              goToRestaurant(item);
+            },
+          },
+        ]);
+        return;
+      }
+      goToRestaurant(item);
+    },
+    [carts.length],
+  );
+
   const renderItem = useCallback(({ item, index }) => {
     const {
       id,
@@ -41,7 +81,7 @@ const SuggestionForYou: React.FC<IProps> = () => {
     }: ISuggestRestaurant = item;
     return (
       <TouchCus
-        onPress={() => onPressItem(item)}
+        onPress={() => handleChooseRestaurant(item)}
         key={`${id}_${index}`}
         style={styles.itemImage}>
         <ImageCus
