@@ -96,30 +96,33 @@ const Categories: React.FC = () => {
       distance: item?.distance,
     });
   }, []);
-  const handleChooseRestaurant = (item: IRestaurantDetail) => async () => {
-    const idRestaurantSelected = await AsyncStorage.getItem(
-      'restaurantSelected',
-    );
-    if (carts.length && item.id !== idRestaurantSelected) {
-      Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
-        {
-          text: t('cancel'),
-          style: 'cancel',
-        },
-        {
-          text: t('ok'),
-          onPress: () => {
-            onRemoveAll();
-            setPromotions([]);
-            setSelectedPromos([]);
-            goToRestaurant(item);
+  const handleChooseRestaurant = useCallback(
+    (item: IRestaurantDetail) => async () => {
+      const idRestaurantSelected = await AsyncStorage.getItem(
+        'restaurantSelected',
+      );
+      if (carts.length && item.id !== idRestaurantSelected) {
+        Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
+          {
+            text: t('cancel'),
+            style: 'cancel',
           },
-        },
-      ]);
-      return;
-    }
-    goToRestaurant(item);
-  };
+          {
+            text: t('ok'),
+            onPress: () => {
+              onRemoveAll();
+              setPromotions([]);
+              setSelectedPromos([]);
+              goToRestaurant(item);
+            },
+          },
+        ]);
+        return;
+      }
+      goToRestaurant(item);
+    },
+    [carts.length],
+  );
   const renderItem = useCallback(
     info => {
       return (

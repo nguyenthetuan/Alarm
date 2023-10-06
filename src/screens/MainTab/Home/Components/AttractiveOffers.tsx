@@ -8,25 +8,75 @@ import {
 } from 'components';
 import { NavigationService, Routes } from 'navigation';
 import React, { useCallback } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Alert } from 'react-native';
 import { Colors } from 'theme';
 import { getImage, width } from 'utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ENodata, IRestaurantDetail } from 'types';
+import { useCart } from 'context/CartContext';
+import { useTranslation } from 'react-i18next';
+import { useCategories } from 'hooks';
+
 interface IProps {
   promotions: [];
   title: string;
 }
 const AttractiveOffers: React.FC<IProps> = ({ promotions, title }) => {
-  const onPressItem = useCallback(item => {
+  const {
+    removeAll: onRemoveAll,
+    orderItems: carts,
+    setSelectedRestaurant,
+    setDistance,
+    setPromotions,
+  } = useCart();
+  const { t } = useTranslation();
+  const { setSelectedPromos } = useCategories();
+  const goToRestaurant = useCallback((item: IRestaurantDetail) => {
+    setSelectedRestaurant(item.id);
+    AsyncStorage.setItem('restaurantSelected', item.id);
+    setDistance(item.distance ?? 0);
     NavigationService.navigate(Routes.RestaurantDetail, {
       restaurantId: item.id,
       distance: item?.distance,
     });
   }, []);
 
+  const handleChooseRestaurant = useCallback(
+    async (item: IRestaurantDetail) => {
+      const idRestaurantSelected = await AsyncStorage.getItem(
+        'restaurantSelected',
+      );
+
+      if (carts.length && item.id !== idRestaurantSelected) {
+        Alert.alert(t('category.alert'), t('category.reset_wishlist'), [
+          {
+            text: t('cancel'),
+            style: 'cancel',
+          },
+          {
+            text: t('ok'),
+            onPress: () => {
+              onRemoveAll();
+              setPromotions([]);
+              setSelectedPromos([]);
+              goToRestaurant(item);
+            },
+          },
+        ]);
+        return;
+      }
+      goToRestaurant(item);
+    },
+    [],
+  );
+
   const renderItem = useCallback(
     ({ item }) => {
       return (
-        <TouchCus onPress={() => onPressItem(item)} style={[styles.mr5]} b-5>
+        <TouchCus
+          onPress={() => handleChooseRestaurant(item)}
+          style={[styles.mr5]}
+          b-5>
           <ViewCus style={styles.container}>
             <ImageCus
               source={{ uri: getImage({ image: `${item.avatar}` }) }}

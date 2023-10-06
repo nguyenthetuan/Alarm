@@ -98,7 +98,7 @@ export const useAuth = () => {
   );
 
   const onForgotPasswordOTP = (formData: IFormVerifyOTP) => {
-    const { phoneNumber, typeCheck } = formData;
+    const { phoneNumber, type_check } = formData;
     dispatch(
       UserActions.postBaseActionsRequest(
         {
@@ -111,7 +111,7 @@ export const useAuth = () => {
             NavigationService.navigate(Routes.OTP, {
               ...data,
               ...formData,
-              typeCheck,
+              type_check,
             });
           } else {
             danger(t('error'), `${res?.data?.message}`);

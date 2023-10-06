@@ -99,7 +99,7 @@ export interface IFormDataLogin {
 export interface IFormVerifyOTP {
   phoneNumber: string;
   otpCode?: string;
-  typeCheck: EnumOTP.FORGOT | EnumOTP.REGISTER;
+  type_check: EnumOTP.FORGOT | EnumOTP.REGISTER;
 }
 export interface IUserKYC {
   name: string;
