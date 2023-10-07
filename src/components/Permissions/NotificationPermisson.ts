@@ -15,18 +15,14 @@ export async function notificationPermisson() {
     try {
       const OsVer = Platform.constants.Release;
       if (OsVer >= 13) {
-        requestNotifications(['alert', 'sound']).then(
-          ({ status, settings }) => {
-            setFCMTokenUser(() => {});
-          },
-        );
-      } else {
-        await PermissionsAndroid.request(
+        PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
         );
-        setFCMTokenUser(() => {});
       }
-    } catch (error) {}
+      setFCMTokenUser(() => {});
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 }
 
