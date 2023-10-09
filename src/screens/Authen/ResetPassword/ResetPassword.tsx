@@ -44,11 +44,11 @@ export default function ResetPassword() {
   const onHandleRegister = useCallback(
     (value: TFormPassword) => {
       const { password } = value;
-      if (route?.params.typeCheck === EnumOTP.REGISTER) {
+      if (route?.params.type_check === EnumOTP.REGISTER) {
         NavigationService.navigate(Routes.KYC, {
           password,
           phoneNumber: route?.params.phoneNumber,
-          typeCheck: route?.params.typeCheck,
+          typeCheck: route?.params.type_check,
         });
         return true;
       }
@@ -56,7 +56,7 @@ export default function ResetPassword() {
         {
           password,
           phoneNumber: route?.params.phoneNumber,
-          typeCheck: route?.params.typeCheck,
+          typeCheck: route?.params.type_check,
         },
         rs => {
           if (rs.status === 200) {
