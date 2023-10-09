@@ -19,6 +19,7 @@ export const useListRestaurant = () => {
             page: page.current,
             limit: PAGING.LIMIT,
             search: newSearch,
+            distance: 100000000,
           } as IPage,
           handleFetchDataSuccess,
         );
