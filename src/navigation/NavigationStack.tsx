@@ -284,8 +284,8 @@ export const Navigator = () => {
     })();
   }, [user?.accessToken]);
 
-  const startWatchPosition = useCallback(() => {
-    Geolocation.getCurrentPosition(
+  const startWatchPosition = useCallback(async () => {
+    await Geolocation.getCurrentPosition(
       //Will give you the current location
       position => {
         const { latitude, longitude } = position.coords;
@@ -309,9 +309,7 @@ export const Navigator = () => {
           long: longitude,
         });
       },
-      error => {
-        console.log('Error:', error.message);
-      },
+      error => {},
       {
         enableHighAccuracy: true,
         maximumAge: 5_000,
