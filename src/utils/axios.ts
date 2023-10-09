@@ -44,7 +44,10 @@ axiosClient.interceptors.response.use(
           store.dispatch(logoutRequest({ redirect: true }));
         },
       });
-    } else if (err.response.status === 500) {
+    } else if (
+      err.response.status === 500 &&
+      err.response?.data?.message === 'Token is expired'
+    ) {
       Toast.show({
         text1: 'Có người lạ đăng nhập vào tài khoản.',
         position: 'top',
