@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">GoBer</string>
+  <string moduleConfig="true" name="CodePushDeploymentKey">kfKcW6gHwz9Z-oNNOpJJf9S4_fgYMnAKVuGdC</string>
 </resources>

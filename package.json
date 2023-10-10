@@ -15,7 +15,9 @@
     "test": "jest",
     "postinstall": "react-native setup-ios-permissions && patch-package && yarn run pod",
     "apk": "cd android && NODE_ENV=production &&./gradlew clean && ./gradlew assembleRelease && cd ..",
-    "aab": "cd android && NODE_ENV=production &&./gradlew clean && ./gradlew bundleRelease && cd .."
+    "aab": "cd android && NODE_ENV=production &&./gradlew clean && ./gradlew bundleRelease && cd ..",
+    "push:pro:android": "appcenter codepush release-react -a nphuocnguyen.dev-gmail.com/Gober-1 -d Production",
+    "push:pro:ios": "appcenter codepush release-react -a nphuocnguyen.dev-gmail.com/Gober -d Production"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.4.7",
@@ -46,6 +48,7 @@
     "react-i18next": "^13.0.1",
     "react-native": "0.72.3",
     "react-native-app-intro-slider": "^4.0.4",
+    "react-native-code-push": "^8.1.0",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.12.0",
     "react-native-gradle-plugin": "^0.71.19",

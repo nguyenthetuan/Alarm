@@ -69,6 +69,8 @@
 	<string>$(PRODUCT_NAME) requires it to siri</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires it to speech recognition</string>
+	<key>CodePushDeploymentKey</key>
+	<string>ufrGIfRBcWoBQVfsSAG0fbHcJN__iW6ZFcrxC</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/AntDesign.ttf</string>

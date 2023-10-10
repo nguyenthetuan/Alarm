@@ -11,6 +11,7 @@ import React, { Suspense, useEffect, useRef } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import codePush from 'react-native-code-push';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
@@ -30,7 +31,10 @@ const theme = {
     accent: 'yellow',
   },
 };
-
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME,
+};
 const App = () => {
   const modalCallPhone = useRef(null);
   useEffect(() => {
@@ -64,4 +68,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default codePush(codePushOptions)(App);
