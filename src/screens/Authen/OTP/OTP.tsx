@@ -48,7 +48,6 @@ const OTP: React.FC = () => {
           otpCode: value.otp,
         },
         err => {
-          console.log('errrrr', err);
           setMsgErr(err);
         },
       );
