@@ -113,6 +113,14 @@ export const useAuth = () => {
               ...formData,
               type_check,
             });
+          } else if (
+            res?.message.includes('Bạn đã xác thực OTP thành công rồi')
+          ) {
+            NavigationService.navigate(Routes.ResetPassword, {
+              ...formData,
+              type_check: 'FORGOT',
+            });
+            danger(t('Thông báo'), `${res?.message}`);
           } else {
             danger(t('error'), `${res?.data?.message}`);
           }
